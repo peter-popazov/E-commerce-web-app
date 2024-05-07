@@ -1,5 +1,6 @@
 package com.movie.app.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -11,7 +12,7 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
-    private long id;
+    private Long id;
 
     @Column(name = "address_line_1", nullable = false)
     private String addressLine1;
