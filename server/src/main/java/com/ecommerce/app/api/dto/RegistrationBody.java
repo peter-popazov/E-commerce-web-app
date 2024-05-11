@@ -1,5 +1,6 @@
 package com.ecommerce.app.api.dto;
 
+import com.ecommerce.app.api.config.Role;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -32,4 +33,6 @@ public class RegistrationBody {
     @NotBlank
     private String lastName;
 
+//    @NotBlank
+//    private Role role;
 }
