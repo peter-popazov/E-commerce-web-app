@@ -1,9 +1,11 @@
 package com.ecommerce.app.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class LoginResponse {
 
     @JsonProperty("access_token")

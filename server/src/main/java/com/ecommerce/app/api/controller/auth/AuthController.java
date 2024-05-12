@@ -1,5 +1,7 @@
 package com.ecommerce.app.api.controller.auth;
 
+import com.ecommerce.app.api.dto.LoginBody;
+import com.ecommerce.app.api.dto.LoginResponse;
 import com.ecommerce.app.api.dto.RegisterResponse;
 import com.ecommerce.app.api.dto.RegistrationBody;
 import com.ecommerce.app.api.config.AuthService;
@@ -7,6 +9,7 @@ import com.ecommerce.app.exception.DuplicateEmail;
 import com.ecommerce.app.exception.DuplicateUsername;
 import com.ecommerce.app.exception.NotMatchingPasswords;
 import com.ecommerce.app.model.AppUser;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,7 +25,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody RegistrationBody registrationBody) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody RegistrationBody registrationBody) throws MessagingException {
         try {
             RegisterResponse response = authService.register(registrationBody);
             return ResponseEntity.ok().body(response);
@@ -33,8 +36,8 @@ public class AuthController {
         }
     }
 
-//    @PostMapping("/login")
-//    public ResponseEntity<LoginResponse> loginUser(@Valid @RequestBody LoginBody loginBody) {
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> loginUser(@Valid @RequestBody LoginBody loginBody) {
 //        String jwt = userService.loginUser(loginBody);
 //        if (jwt != null) {
 //            LoginResponse loginResponse = new LoginResponse();
@@ -43,7 +46,9 @@ public class AuthController {
 //        } else {
 //            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 //        }
-//    }
+
+        return ResponseEntity.ok(authService.authenticate(loginBody));
+    }
 
     @GetMapping("/me")
     public ResponseEntity<?> getUser(@AuthenticationPrincipal AppUser user) {

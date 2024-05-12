@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Activation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+
+        .button:hover {
+            background-color: #48a54b;
+            transition: background-color .3s;
+        }
+
+        .user-name {
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Welcome to Our Website!</h2>
+    <p>To activate your account, <span class="user-name" th:text="${username}"> </span> , please click the button below:</p>
+    <p th:text="'Your activation code is ' + ${activationCode}"></p>
+    <form th:action="${activationCode}" method="post" style="display: inline;">
+        <input type="hidden" name="userId" value="USER_ID_HERE">
+        <button type="submit" class="button">Activate Account</button>
+    </form>
+   <p>If you're having trouble activating your account, please contact support.</p>
+</div>
+</body>
+</html>

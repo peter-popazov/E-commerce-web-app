@@ -1,38 +1,34 @@
 package com.ecommerce.app.api.dto;
 
-import com.ecommerce.app.api.config.Role;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
 @Data
 public class RegistrationBody {
 
-    @NotBlank
-    @Email
+    @NotBlank(message = "Email field is mandatory")
+    @Email(message = "Email is not well formatted")
     private String email;
 
-    @NotBlank
-    @Size(min = 3, max = 255)
+    @NotBlank(message = "Username field is mandatory")
+    @Size(min = 3, max = 255, message = "Username should be from 8 to 255 symbols")
     private String username;
 
-    @NotBlank
-    @Size(min = 8, max = 255)
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")
-    // Minimum eight characters, at least one uppercase letter,
-    // one lowercase letter, one number and one special character:
+    @NotBlank(message = "Password field is mandatory")
+    @Size(min = 8, max = 255, message = "Password should be from 8 to 255 symbols")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
+            message = "Required min. 8 characters, including one uppercase, one lower, one number or special symbol")
     private String password;
 
-    @NotBlank
-    @Size(min = 8, max = 255)
+    @NotBlank(message = "Confirm password field is mandatory")
+    @Size(min = 8, max = 255, message = "Password should be from 8 to 255 symbols")
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")
     private String confirmPassword;
 
-    @NotBlank
+    @NotBlank(message = "Firstname field is mandatory")
     private String firstName;
 
-    @NotBlank
+    @NotBlank(message = "Lastname field is mandatory")
     private String lastName;
 
-//    @NotBlank
-//    private Role role;
 }

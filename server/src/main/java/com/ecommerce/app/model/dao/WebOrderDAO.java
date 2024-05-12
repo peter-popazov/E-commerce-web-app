@@ -7,14 +7,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-//public interface WebOrderDAO extends ListCrudRepository<WebOrder, Long> {
-//
-//    List<WebOrder> findByAppUser(AppUser user);
-//
-//}
-
 @Repository
-public class WebOrderDAO  {
+public class WebOrderDAO {
 
     private EntityManager entityManager;
 
