@@ -1,4 +1,4 @@
-package com.ecommerce.app.api.email;
+package com.ecommerce.app.email;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

@@ -1,4 +1,4 @@
-package com.ecommerce.app.api.config;
+package com.ecommerce.app.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -25,7 +25,7 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> {
                     authorize
-                            .requestMatchers("/products/**", "/register", "/login")
+                            .requestMatchers("/products/**", "/register", "/login", "/activate-account")
                             .permitAll()
                             .anyRequest()
                             .authenticated();

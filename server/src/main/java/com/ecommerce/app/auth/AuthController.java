@@ -1,14 +1,13 @@
-package com.ecommerce.app.api.controller.auth;
+package com.ecommerce.app.auth;
 
-import com.ecommerce.app.api.dto.LoginBody;
-import com.ecommerce.app.api.dto.LoginResponse;
-import com.ecommerce.app.api.dto.RegisterResponse;
-import com.ecommerce.app.api.dto.RegistrationBody;
-import com.ecommerce.app.api.config.AuthService;
+import com.ecommerce.app.auth.dto.LoginBody;
+import com.ecommerce.app.auth.dto.LoginResponse;
+import com.ecommerce.app.auth.dto.RegisterResponse;
+import com.ecommerce.app.auth.dto.RegistrationBody;
 import com.ecommerce.app.exception.DuplicateEmail;
 import com.ecommerce.app.exception.DuplicateUsername;
 import com.ecommerce.app.exception.NotMatchingPasswords;
-import com.ecommerce.app.model.AppUser;
+import com.ecommerce.app.user.AppUser;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -38,21 +37,16 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> loginUser(@Valid @RequestBody LoginBody loginBody) {
-//        String jwt = userService.loginUser(loginBody);
-//        if (jwt != null) {
-//            LoginResponse loginResponse = new LoginResponse();
-//            loginResponse.setToken(jwt);
-//            return ResponseEntity.ok().body(loginResponse);
-//        } else {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-//        }
-
         return ResponseEntity.ok(authService.authenticate(loginBody));
+    }
+
+    @GetMapping("/activate-account")
+    public void activateAccount(@RequestParam String token) throws MessagingException {
+        authService.activateAccount(token);
     }
 
     @GetMapping("/me")
     public ResponseEntity<?> getUser(@AuthenticationPrincipal AppUser user) {
-
         System.out.println(SecurityContextHolder.getContext().getAuthentication());
         return ResponseEntity.ok(user);
     }

@@ -1,4 +1,4 @@
-package com.ecommerce.app.api.dto;
+package com.ecommerce.app.auth.dto;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;

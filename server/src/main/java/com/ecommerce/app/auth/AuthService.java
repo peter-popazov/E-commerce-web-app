@@ -1,17 +1,18 @@
-package com.ecommerce.app.api.config;
+package com.ecommerce.app.auth;
 
-import com.ecommerce.app.api.dto.LoginBody;
-import com.ecommerce.app.api.dto.LoginResponse;
-import com.ecommerce.app.api.dto.RegisterResponse;
-import com.ecommerce.app.api.dto.RegistrationBody;
-import com.ecommerce.app.api.email.EmailService;
-import com.ecommerce.app.api.email.EmailTemplateName;
+import com.ecommerce.app.auth.dto.LoginBody;
+import com.ecommerce.app.auth.dto.LoginResponse;
+import com.ecommerce.app.auth.dto.RegisterResponse;
+import com.ecommerce.app.auth.dto.RegistrationBody;
+import com.ecommerce.app.email.EmailService;
+import com.ecommerce.app.email.EmailTemplateName;
 import com.ecommerce.app.exception.DuplicateEmail;
 import com.ecommerce.app.exception.DuplicateUsername;
 import com.ecommerce.app.exception.NotMatchingPasswords;
-import com.ecommerce.app.model.AppUser;
+import com.ecommerce.app.security.JWTService;
+import com.ecommerce.app.user.AppUser;
 import com.ecommerce.app.model.Token;
-import com.ecommerce.app.model.dao.AppUserDAO;
+import com.ecommerce.app.user.AppUserDAO;
 import com.ecommerce.app.model.dao.RoleDAO;
 import com.ecommerce.app.model.dao.TokenDAO;
 import jakarta.mail.MessagingException;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -126,13 +128,33 @@ public class AuthService {
                 )
         );
 
+        var claims = new HashMap<String, Object>();
         var user = appUserDAO.findByUsernameIgnoreCase(loginBody.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
 
-        var jwtToken = jwtService.generateToken(user);
+        claims.put("username", user.getUsername());
+
+        var jwtToken = jwtService.generateToken(claims, user);
 //        var refreshToken = jwtService.generateRefreshToken(user);
         return LoginResponse.builder()
                 .accessToken(jwtToken)
                 .build();
+    }
+
+    public void activateAccount(String token) throws MessagingException {
+        Token foundToken = tokenDAO.findByToken(token).orElseThrow(() -> new IllegalStateException("Token not found"));
+
+        if (LocalDateTime.now().isAfter(foundToken.getExpiresAt())) {
+            sendValidationEmail(foundToken.getUser());
+            throw new RuntimeException("Activation token has expired. A new one has been sent, check your email");
+        }
+
+        AppUser user = appUserDAO.findById(foundToken.getUser().getId())
+                .orElseThrow(() -> new UsernameNotFoundException("User [%s] not found" + foundToken.getUser().getUsername()));
+
+        user.setEnabled(true);
+        appUserDAO.save(user);
+        foundToken.setValidatedAt(LocalDateTime.now());
+        tokenDAO.save(foundToken);
     }
 }

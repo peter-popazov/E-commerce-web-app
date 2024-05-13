@@ -1,6 +1,5 @@
-package com.ecommerce.app.model.role;
+package com.ecommerce.app.user;
 
-import com.ecommerce.app.model.AppUser;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

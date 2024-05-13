@@ -1,8 +1,8 @@
-package com.ecommerce.app.service;
+package com.ecommerce.app.order;
 
 import com.ecommerce.app.model.WebOrder;
 import com.ecommerce.app.model.dao.WebOrderDAO;
-import com.ecommerce.app.model.AppUser;
+import com.ecommerce.app.user.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

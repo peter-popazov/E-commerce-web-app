@@ -1,4 +1,4 @@
-package com.ecommerce.app.service;
+package com.ecommerce.app.product;
 
 import com.ecommerce.app.model.Product;
 import com.ecommerce.app.model.dao.ProductDAO;

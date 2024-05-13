@@ -1,4 +1,4 @@
-package com.ecommerce.app.api.config;
+package com.ecommerce.app.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -79,7 +79,7 @@ public class JWTService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public boolean isTokenValid(String token) {
+    public boolean isTokenValid(String token, UserDetails userDetails) {
         String username = getUsername(token);
         return (username.equals(getUsername(token)) && !isTokenExpired(token));
     }

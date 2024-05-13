@@ -1,7 +1,7 @@
 package com.ecommerce.app.model.dao;
 
 import com.ecommerce.app.model.WebOrder;
-import com.ecommerce.app.model.AppUser;
+import com.ecommerce.app.user.AppUser;
 import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 

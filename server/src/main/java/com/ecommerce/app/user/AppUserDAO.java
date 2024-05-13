@@ -1,6 +1,5 @@
-package com.ecommerce.app.model.dao;
+package com.ecommerce.app.user;
 
-import com.ecommerce.app.model.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

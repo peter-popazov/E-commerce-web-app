@@ -1,6 +1,6 @@
-package com.ecommerce.app.api.config;
+package com.ecommerce.app.config;
 
-import com.ecommerce.app.model.dao.AppUserDAO;
+import com.ecommerce.app.user.AppUserDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,5 +1,6 @@
 package com.ecommerce.app.model;
 
+import com.ecommerce.app.user.AppUser;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
