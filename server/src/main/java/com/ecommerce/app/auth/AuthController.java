@@ -4,17 +4,12 @@ import com.ecommerce.app.auth.dto.LoginBody;
 import com.ecommerce.app.auth.dto.LoginResponse;
 import com.ecommerce.app.auth.dto.RegisterResponse;
 import com.ecommerce.app.auth.dto.RegistrationBody;
-import com.ecommerce.app.exception.DuplicateEmail;
-import com.ecommerce.app.exception.DuplicateUsername;
-import com.ecommerce.app.exception.NotMatchingPasswords;
 import com.ecommerce.app.user.AppUser;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,14 +20,8 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegistrationBody registrationBody) throws MessagingException {
-        try {
-            RegisterResponse response = authService.register(registrationBody);
-            return ResponseEntity.ok().body(response);
-        } catch (DuplicateUsername | DuplicateEmail e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-        } catch (NotMatchingPasswords e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+        RegisterResponse response = authService.register(registrationBody);
+        return ResponseEntity.accepted().body(response);
     }
 
     @PostMapping("/login")
@@ -47,7 +36,6 @@ public class AuthController {
 
     @GetMapping("/me")
     public ResponseEntity<?> getUser(@AuthenticationPrincipal AppUser user) {
-        System.out.println(SecurityContextHolder.getContext().getAuthentication());
         return ResponseEntity.ok(user);
     }
 }

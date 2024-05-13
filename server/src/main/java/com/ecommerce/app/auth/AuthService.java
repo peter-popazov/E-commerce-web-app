@@ -6,9 +6,7 @@ import com.ecommerce.app.auth.dto.RegisterResponse;
 import com.ecommerce.app.auth.dto.RegistrationBody;
 import com.ecommerce.app.email.EmailService;
 import com.ecommerce.app.email.EmailTemplateName;
-import com.ecommerce.app.exception.DuplicateEmail;
-import com.ecommerce.app.exception.DuplicateUsername;
-import com.ecommerce.app.exception.NotMatchingPasswords;
+import com.ecommerce.app.handler.InvalidToken;
 import com.ecommerce.app.security.JWTService;
 import com.ecommerce.app.user.AppUser;
 import com.ecommerce.app.model.Token;
@@ -47,20 +45,7 @@ public class AuthService {
     @Value("${activation-code-length}")
     private int activationCodeLength;
 
-    public RegisterResponse register(RegistrationBody registrationBody) throws
-            DuplicateUsername, NotMatchingPasswords, DuplicateEmail, MessagingException {
-        if (appUserDAO.findByEmailIgnoreCase(registrationBody.getEmail()).isPresent()) {
-            throw new DuplicateEmail("Email already used");
-        }
-
-        if (appUserDAO.findByUsernameIgnoreCase(registrationBody.getUsername()).isPresent()) {
-            throw new DuplicateUsername("Username already used");
-        }
-
-        if (!registrationBody.getPassword().equals(registrationBody.getConfirmPassword())) {
-            throw new NotMatchingPasswords("Passwords do not match");
-        }
-
+    public RegisterResponse register(RegistrationBody registrationBody) throws MessagingException {
         var userRole = roleDAO.findByName("USER")
                 .orElseThrow(() -> new IllegalStateException("Role [USER] not found"));
 
@@ -146,7 +131,7 @@ public class AuthService {
 
         if (LocalDateTime.now().isAfter(foundToken.getExpiresAt())) {
             sendValidationEmail(foundToken.getUser());
-            throw new RuntimeException("Activation token has expired. A new one has been sent, check your email");
+            throw new InvalidToken("Activation token has expired. A new one has been sent, check your email");
         }
 
         AppUser user = appUserDAO.findById(foundToken.getUser().getId())
