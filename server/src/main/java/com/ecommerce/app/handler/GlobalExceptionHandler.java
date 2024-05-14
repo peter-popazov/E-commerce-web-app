@@ -1,5 +1,8 @@
 package com.ecommerce.app.handler;
 
+import com.ecommerce.app.handler.exceptions.InvalidTokenException;
+import com.ecommerce.app.handler.exceptions.NotMatchingPasswordsException;
+import com.ecommerce.app.handler.exceptions.WrongOldPasswordException;
 import jakarta.mail.MessagingException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -93,8 +96,8 @@ public class GlobalExceptionHandler {
                         .build());
     }
 
-    @ExceptionHandler(InvalidToken.class)
-    public ResponseEntity<ExceptionResponse> handleException(InvalidToken e) {
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<ExceptionResponse> handleException(InvalidTokenException e) {
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(ExceptionResponse.builder()
@@ -123,6 +126,30 @@ public class GlobalExceptionHandler {
                 .body(ExceptionResponse.builder()
                         .error(e.getMessage())
                         .errorMessage("Internal error message. Contact someone :)")
+                        .timestamp(LocalDateTime.now())
+                        .build());
+    }
+
+    @ExceptionHandler(NotMatchingPasswordsException.class)
+    public ResponseEntity<ExceptionResponse> handleException(NotMatchingPasswordsException e) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(ExceptionResponse.builder()
+                        .internalErrorCode(ErrorCodes.NOT_MATCHING_PASSWORDS.getCode())
+                        .errorMessage(ErrorCodes.NOT_MATCHING_PASSWORDS.getDescription())
+                        .error(e.getMessage())
+                        .timestamp(LocalDateTime.now())
+                        .build());
+    }
+
+    @ExceptionHandler(WrongOldPasswordException.class)
+    public ResponseEntity<ExceptionResponse> handleException(WrongOldPasswordException e) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(ExceptionResponse.builder()
+                        .internalErrorCode(ErrorCodes.WRONG_OLD_PASSWORD.getCode())
+                        .errorMessage(ErrorCodes.WRONG_OLD_PASSWORD.getDescription())
+                        .error(e.getMessage())
                         .timestamp(LocalDateTime.now())
                         .build());
     }

@@ -1,12 +1,11 @@
 package com.ecommerce.app.auth;
 
-import com.ecommerce.app.auth.dto.LoginBody;
-import com.ecommerce.app.auth.dto.LoginResponse;
-import com.ecommerce.app.auth.dto.RegisterResponse;
-import com.ecommerce.app.auth.dto.RegistrationBody;
+import com.ecommerce.app.auth.dto.*;
 import com.ecommerce.app.email.EmailService;
 import com.ecommerce.app.email.EmailTemplateName;
-import com.ecommerce.app.handler.InvalidToken;
+import com.ecommerce.app.handler.exceptions.InvalidTokenException;
+import com.ecommerce.app.handler.exceptions.NotMatchingPasswordsException;
+import com.ecommerce.app.handler.exceptions.WrongOldPasswordException;
 import com.ecommerce.app.security.JWTService;
 import com.ecommerce.app.user.AppUser;
 import com.ecommerce.app.model.Token;
@@ -131,7 +130,7 @@ public class AuthService {
 
         if (LocalDateTime.now().isAfter(foundToken.getExpiresAt())) {
             sendValidationEmail(foundToken.getUser());
-            throw new InvalidToken("Activation token has expired. A new one has been sent, check your email");
+            throw new InvalidTokenException("Activation token has expired. A new one has been sent, check your email");
         }
 
         AppUser user = appUserDAO.findById(foundToken.getUser().getId())
@@ -141,5 +140,21 @@ public class AuthService {
         appUserDAO.save(user);
         foundToken.setValidatedAt(LocalDateTime.now());
         tokenDAO.save(foundToken);
+    }
+
+    public void changePassword(AppUser user, ChangePasswordBody changePasswordBody) throws MessagingException {
+        if (!passwordEncoder.matches(changePasswordBody.getOldPassword(), user.getPassword())) {
+            throw new WrongOldPasswordException("Old password is not correct");
+        }
+
+        if (!changePasswordBody.getNewPassword().equals(changePasswordBody.getConfirmNewPassword())){
+            throw new NotMatchingPasswordsException("Provided passwords do not match.");
+        }
+
+        user.setEnabled(false);
+        user.setPassword(passwordEncoder.encode(changePasswordBody.getNewPassword()));
+        appUserDAO.save(user);
+
+        sendValidationEmail(user);
     }
 }

@@ -1,14 +1,13 @@
 package com.ecommerce.app.auth;
 
-import com.ecommerce.app.auth.dto.LoginBody;
-import com.ecommerce.app.auth.dto.LoginResponse;
-import com.ecommerce.app.auth.dto.RegisterResponse;
-import com.ecommerce.app.auth.dto.RegistrationBody;
+import com.ecommerce.app.auth.dto.*;
 import com.ecommerce.app.user.AppUser;
+import com.ecommerce.app.user.AppUserDAO;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,5 +36,12 @@ public class AuthController {
     @GetMapping("/me")
     public ResponseEntity<?> getUser(@AuthenticationPrincipal AppUser user) {
         return ResponseEntity.ok(user);
+    }
+
+    @PatchMapping("/change-password")
+    public ResponseEntity<String> updatePassword(@AuthenticationPrincipal AppUser user,
+                                            @RequestBody ChangePasswordBody changePasswordBody) throws MessagingException {
+        authService.changePassword(user, changePasswordBody);
+        return ResponseEntity.ok().body("Password was changed successfully. Confirmation email has been sent to your email.");
     }
 }
