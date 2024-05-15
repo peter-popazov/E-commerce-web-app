@@ -22,7 +22,7 @@ function DarkMode() {
 
   return (
     <div className="relative flex items-center">
-      <button onClick={() => handleToggle} className="group">
+      <button onClick={handleToggle} className="group">
         {darkMode ? (
           <MdOutlineDarkMode
             className="text-xl text-gray-600 group-hover:text-primary dark:text-gray-400

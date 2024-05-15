@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { IoMdSearch } from "react-icons/io";
 import { FaShoppingCart } from "react-icons/fa";
-import DarkMode from "./NavBar/DarkMode";
+import DarkMode from "./DarkMode";
+import DropDownMenu from "./DropDownMenu";
 
 const navLinks = [
   {
@@ -37,9 +38,9 @@ function Navbar() {
   const [cartItems] = useState(3);
 
   return (
-    <div
+    <header
       className="bg-white dark:bg-gray-900 dark:text-white
-    duration-200 relative z-40"
+    duration-200 relative z-40 mb-8"
     >
       <div className="py-4">
         <div className="container flex justify-between items-center">
@@ -51,13 +52,14 @@ function Navbar() {
             >
               ESHOP
             </a>
-            <div className="hidden md:block">
+            <nav className="hidden md:block">
               <ul className="flex items-center gap-4">
                 {navLinks.map((data, i) => (
                   <NavLink key={i} info={data} />
                 ))}
+                <DropDownMenu />
               </ul>
-            </div>
+            </nav>
           </div>
           <div className="flex justify-between items-center gap-4">
             <div className="flex group justify-between items-center gap-4">
@@ -84,7 +86,7 @@ function Navbar() {
           </div>
         </div>
       </div>
-    </div>
+    </header>
   );
 }
 
