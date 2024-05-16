@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { FaCaretDown } from "react-icons/fa";
 
 const quickLinks = [
@@ -17,8 +18,6 @@ const quickLinks = [
     link: "/#",
   },
 ];
-
-DropDownMenuLinks.propTypes = quickLinks;
 
 export function DropDownMenu() {
   return (

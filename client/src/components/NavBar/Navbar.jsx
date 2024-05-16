@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import { IoMdSearch } from "react-icons/io";
 import { FaShoppingCart } from "react-icons/fa";
@@ -32,8 +33,6 @@ const navLinks = [
   },
 ];
 
-NavLink.propTypes = navLinks;
-
 function Navbar() {
   const [cartItems] = useState(3);
 
@@ -42,7 +41,7 @@ function Navbar() {
       className="bg-white dark:bg-gray-900 dark:text-white
     duration-200 relative z-40 mb-8"
     >
-      <div className="py-4">
+      <div className="py-4 mx-4">
         <div className="container flex justify-between items-center">
           <div className="flex items-center gap-4">
             <a

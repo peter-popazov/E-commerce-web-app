@@ -1,8 +1,9 @@
+/* eslint-disable react/prop-types */
 import Slider from "react-slick";
 import Button from "../shared/Button";
-import AppleVision from "/img/appleVisionPro.png";
-import iPhone from "/img/iPhone.jpg";
-import AirPodsMax from "/img/AirPodsMax.png";
+import AppleVision from "/img/hero/appleVisionPro.png";
+import iPhone from "/img/hero/iPhone.jpg";
+import AirPodsMax from "/img/hero/AirPodsMax.png";
 
 const heroSlide = [
   {
@@ -33,7 +34,6 @@ const heroSlide = [
       "Immerse yourself in high-fidelity audio with the AirPods Max, combining exceptional sound quality with industry-leading noise cancellation.",
   },
 ];
-Slide.propTypes = heroSlide;
 
 function Hero() {
   const settings = {
@@ -48,9 +48,8 @@ function Hero() {
     pauseOnHover: false,
     pauseOnFocus: true,
   };
-
   return (
-    <section className="container">
+    <section className="container px-4">
       <div
         className="overflow-hidden rounded-3xl min-h-[550px]
           sm:min-h-[650px] hero-bg-color flex justify-center 
