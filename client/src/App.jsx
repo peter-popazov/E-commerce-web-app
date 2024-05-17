@@ -3,6 +3,8 @@ import Navbar from "./components/NavBar/Navbar";
 import Hero from "./components/Hero/Hero";
 import Cards from "./components/Cards/Cards";
 import Features from "./components/Features/Features";
+import Footer from "./components/Footer/Footer";
+import CTA from "./components/CTA";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -16,6 +18,8 @@ function App() {
       <Hero />
       <Cards />
       <Features />
+      <CTA />
+      <Footer />
     </div>
   );
 }

@@ -1,23 +1,6 @@
 /* eslint-disable react/prop-types */
 import { FaCaretDown } from "react-icons/fa";
-
-const quickLinks = [
-  {
-    id: 1,
-    name: "Top Rated",
-    link: "/#",
-  },
-  {
-    id: 2,
-    name: "Bestsellers",
-    link: "/#",
-  },
-  {
-    id: 3,
-    name: "Trending products",
-    link: "/#",
-  },
-];
+import { quickLinks } from "../shared/links";
 
 export function DropDownMenu() {
   return (

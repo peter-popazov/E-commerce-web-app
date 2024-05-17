@@ -52,7 +52,7 @@ function Feature({ feature }) {
       {feature.icon}
       <div>
         <h3 className="lg:text-xl font-bold mb-2">{feature.title}</h3>
-        <p className="text-gray-400 text-sm">{feature.descriprion}</p>
+        <p className="text-gray-500 text-sm">{feature.descriprion}</p>
       </div>
     </li>
   );
