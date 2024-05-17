@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import Slider from "react-slick";
-import Button from "../shared/Button";
 import AppleVision from "/img/hero/appleVisionPro.png";
 import iPhone from "/img/hero/iPhone.jpg";
 import AirPodsMax from "/img/hero/AirPodsMax.png";
@@ -87,11 +86,6 @@ function Slide({ product }) {
         >
           {product.feature}
         </h2>
-        <div>
-          <Button bgColor="bg-primary" textColor="text-white">
-            Shop Now
-          </Button>
-        </div>
       </div>
       <div className="order-1 sm:order-2">
         <div>

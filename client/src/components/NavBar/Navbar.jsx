@@ -6,8 +6,9 @@ import DarkMode from "./DarkMode";
 import DropDownMenu from "./DropDownMenu";
 import Logo from "./Logo";
 import { links } from "../shared/links";
+import Button from "../shared/Button";
 
-function Navbar() {
+function Navbar({ isAuthenticated, showRegister, onShowRegister }) {
   const [cartItems] = useState(3);
 
   return (
@@ -36,19 +37,27 @@ function Navbar() {
               right-3 duration-200"
               />
             </div>
+            {isAuthenticated ? (
+              <button className="relative p-3">
+                <FaShoppingCart className="text-xl text-gray-600 dark:text-gray-400" />
 
-            <button className="relative p-3">
-              <FaShoppingCart className="text-xl text-gray-600 dark:text-gray-400" />
+                {cartItems != 0 && (
+                  <span
+                    className="w-4 h-4 bg-red-500 text-white font-medium rounded-full
+                absolute top-0 right-0 flex items-center justify-center text-xs"
+                  >
+                    {cartItems}
+                  </span>
+                )}
+              </button>
+            ) : (
+              <button onClick={() => onShowRegister(showRegister)}>
+                <Button textColor="text-white" bgColor="bg-primary">
+                  Register
+                </Button>
+              </button>
+            )}
 
-              {cartItems != 0 && (
-                <span
-                  className="w-4 h-4 bg-red-500 text-white font-medium rounded-full
-              absolute top-0 right-0 flex items-center justify-center text-xs"
-                >
-                  {cartItems}
-                </span>
-              )}
-            </button>
             <DarkMode />
           </div>
         </div>
@@ -60,11 +69,7 @@ function Navbar() {
 function NavLink({ info }) {
   return (
     <li>
-      <a
-        href={info.link}
-        className="inline-block px-4 font-semibold
-        text-gray-700 hover:text-black dark:hover:text-white duration-200"
-      >
+      <a href={info.link} className="link">
         {info.name}
       </a>
     </li>
