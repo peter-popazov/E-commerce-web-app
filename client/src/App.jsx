@@ -1,20 +1,19 @@
 import { useState } from "react";
 import Navbar from "./components/NavBar/Navbar";
-import Hero from "./components/Hero/Hero";
-import Cards from "./components/Cards/Cards";
-import Features from "./components/Features/Features";
-import Footer from "./components/Footer/Footer";
+import Hero from "./components/Hero";
+import Cards from "./components/Cards";
+import Features from "./components/Features";
+import Footer from "./components/Footer";
 import CTA from "./components/CTA";
+import LoginForm from "./components/LoginForm";
+import RegisterForm from "./components/RegisterForm";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import RegisterForm from "./components/Register/RegisterForm";
-import LoginForm from "./components/Login/LoginForm";
-
-const isAuthenticated = false;
 
 function App() {
   const [showRegister, setShowRegister] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   function handleShowRegister(showRegister) {
     setShowRegister(!showRegister);
@@ -47,6 +46,7 @@ function App() {
           onShowRegister={handleShowRegister}
           showLogin={showLogin}
           onShowLogin={handleShowLogin}
+          onSetAuthenticated={setIsAuthenticated}
         />
       )}
 
@@ -56,6 +56,7 @@ function App() {
           onShowRegister={handleShowRegister}
           showLogin={showLogin}
           onShowLogin={handleShowLogin}
+          onSetAuthenticated={setIsAuthenticated}
         />
       )}
     </div>

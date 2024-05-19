@@ -23,7 +23,7 @@
   }
 
   .link {
-    @apply inline-block sm:px-4 font-semibold
+    @apply inline-block md:px-4 font-semibold
     text-gray-700 hover:text-black dark:hover:text-white duration-200;
   }
 }

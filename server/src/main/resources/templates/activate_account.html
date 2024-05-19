@@ -46,7 +46,7 @@
 <body>
 <div class="container">
     <h2>Welcome to Our Website!</h2>
-    <p>To activate your account, <span class="user-name" th:text="${username}"> </span> , please click the button below:</p>
+    <p>To activate your account, <span class="user-name" th:text="${username}"></span> , please click the button below:</p>
     <p>Your activation code is <span class="code" th:text="${activationCode}"></span> </p>
     <a th:href="@{http://localhost:8080/activate-account(token=${activationCode})}" class="button">Activate Account</a>
     <p>If you're having trouble activating your account, please contact support.</p>

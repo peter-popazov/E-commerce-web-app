@@ -42,11 +42,11 @@ public class AppUser implements UserDetails {
     private String password;
 
     @Getter
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name")
     private String firstName;
 
     @Getter
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "last_name")
     private String lastName;
 
     @Getter

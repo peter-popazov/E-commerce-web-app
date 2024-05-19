@@ -11,7 +11,7 @@ public class RegistrationBody {
     private String email;
 
     @NotBlank(message = "Username field is mandatory")
-    @Size(min = 3, max = 255, message = "Username should be from 8 to 255 symbols")
+    @Size(min = 3, max = 255, message = "Username should be from 3 to 255 symbols")
     private String username;
 
     @NotBlank(message = "Password field is mandatory")
@@ -25,10 +25,10 @@ public class RegistrationBody {
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")
     private String confirmPassword;
 
-    @NotBlank(message = "Firstname field is mandatory")
-    private String firstName;
-
-    @NotBlank(message = "Lastname field is mandatory")
-    private String lastName;
+//    @NotBlank(message = "Firstname field is mandatory")
+//    private String firstName;
+//
+//    @NotBlank(message = "Lastname field is mandatory")
+//    private String lastName;
 
 }

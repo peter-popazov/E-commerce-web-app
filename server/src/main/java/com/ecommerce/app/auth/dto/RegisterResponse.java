@@ -12,8 +12,4 @@ public class RegisterResponse {
     @JsonProperty("access_token")
     private String accessToken;
 
-    @JsonProperty("expires_in")
-    @Value("${jwt.expiration}")
-    private String expiresIn;
-
 }

@@ -52,8 +52,8 @@ public class AuthService {
                 .username(registrationBody.getUsername())
                 .password(passwordEncoder.encode(registrationBody.getPassword()))
                 .email(registrationBody.getEmail())
-                .firstName(registrationBody.getFirstName())
-                .lastName(registrationBody.getLastName())
+//                .firstName(registrationBody.getFirstName())
+//                .lastName(registrationBody.getLastName())
                 .roles(List.of(userRole))
                 .build();
 
@@ -69,7 +69,7 @@ public class AuthService {
 
         emailService.sendEmail(
                 appUser.getEmail(),
-                appUser.getFullName(),
+                appUser.getUsername(),
                 EmailTemplateName.ACTIVATE_ACCOUNT,
                 activationUrl,
                 newToken,

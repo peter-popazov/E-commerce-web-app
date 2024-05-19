@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import Button from "../shared/Button";
+import Button from "./shared/Button";
 import AirPodsPro from "/img/cards/airPodsPro.jpg";
 import AppleWatch from "/img/cards/appleWatch.jpeg";
 import HomePod from "/img/cards/homePod.jpg";

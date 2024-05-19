@@ -4,7 +4,7 @@ import { IoMdSearch } from "react-icons/io";
 import { FaShoppingCart } from "react-icons/fa";
 import DarkMode from "./DarkMode";
 import DropDownMenu from "./DropDownMenu";
-import Logo from "./Logo";
+import Logo from "../shared/Logo";
 import { links } from "../shared/links";
 import Button from "../shared/Button";
 
@@ -51,13 +51,14 @@ function Navbar({ isAuthenticated, showRegister, onShowRegister }) {
                 )}
               </button>
             ) : (
-              <button onClick={() => onShowRegister(showRegister)}>
-                <Button textColor="text-white" bgColor="bg-primary">
-                  Register
-                </Button>
-              </button>
+              <Button
+                textColor="text-white"
+                bgColor="bg-primary"
+                onButtonClick={() => onShowRegister(showRegister)}
+              >
+                Register
+              </Button>
             )}
-
             <DarkMode />
           </div>
         </div>
