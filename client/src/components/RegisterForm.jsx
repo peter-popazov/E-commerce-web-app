@@ -1,10 +1,10 @@
-import axios from "axios";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useForm, FormProvider } from "react-hook-form";
-import { API_BASE_URL, ACCESS_TOKEN_NAME } from "../utils/constants";
 import { IoMdClose } from "react-icons/io";
 import Input from "./shared/Input";
 import Button from "./shared/Button";
+import { sendDetailsToServer } from "../utils/sendDataToServer";
 
 const registerFormInputs = [
   {
@@ -34,13 +34,7 @@ const registerFormInputs = [
 ];
 
 /* eslint-disable react/prop-types */
-function RegisterForm({
-  showRegister,
-  onShowRegister,
-  showLogin,
-  onShowLogin,
-  onSetAuthenticated,
-}) {
+function RegisterForm({ onSetAuthenticated }) {
   return (
     <div>
       <div className="h-screen w-screen fixed top-0 left-0 bg-black/50 z-[9999] backdrop-blur-md">
@@ -58,32 +52,19 @@ function RegisterForm({
               off
             </h2>
             <div>
-              <IoMdClose
-                className="text-2xl cursor-pointer"
-                onClick={() => onShowRegister(showRegister)}
-              />
+              <Link to={"/"}>
+                <IoMdClose className="text-2xl cursor-pointer" />
+              </Link>
             </div>
           </div>
-          <Form
-            onShowLogin={onShowLogin}
-            showLogin={showLogin}
-            showRegister={showRegister}
-            onShowRegister={onShowRegister}
-            onSetAuthenticated={onSetAuthenticated}
-          />
+          <Form onSetAuthenticated={onSetAuthenticated} />
         </div>
       </div>
     </div>
   );
 }
 
-function Form({
-  onShowLogin,
-  showLogin,
-  showRegister,
-  onShowRegister,
-  onSetAuthenticated,
-}) {
+function Form({ onSetAuthenticated }) {
   const [errors, setErrors] = useState("");
 
   const methods = useForm();
@@ -98,42 +79,19 @@ function Form({
     confirmPassword: "",
   });
 
-  const sendDetailsToServer = () => {
-    const payload = {
-      email: registerData.userEmailRegister,
-      username: registerData.username,
-      password: registerData.password,
-      confirmPassword: registerData.confirmPassword,
-    };
-    axios
-      .post(API_BASE_URL + "/register", payload)
-      .then((response) => {
-        if (response.status === 200) {
-          localStorage.setItem(ACCESS_TOKEN_NAME, response.data.access_token);
-          redirectToHome();
-        } else {
-          console.log("Some error occurred");
-        }
-      })
-      .catch((error) => {
-        if (error.response) {
-          setErrors(error.response.data.errorMessage || "An error occurred");
-        } else if (error.request) {
-          setErrors("No response received from the server");
-        } else {
-          setErrors(error.message);
-        }
-      });
+  const payload = {
+    email: registerData.userEmailRegister,
+    username: registerData.username,
+    password: registerData.password,
+    confirmPassword: registerData.confirmPassword,
   };
 
   const redirectToHome = () => {
-    onShowRegister(showRegister);
     onSetAuthenticated(true);
   };
 
   const handleSubmitClick = () => {
-    // methods.handleSubmit();
-    sendDetailsToServer();
+    sendDetailsToServer(payload, redirectToHome, setErrors, "/register");
   };
 
   return (
@@ -144,7 +102,12 @@ function Form({
         </p>
       )}
       <FormProvider {...methods}>
-        <form method="POST" className="mt-4" onSubmit={handleSubmitClick} noValidate>
+        <form
+          method="POST"
+          className="mt-4"
+          onSubmit={handleSubmitClick}
+          noValidate
+        >
           {registerFormInputs.map((inputsData) => (
             <Input
               key={inputsData.id}
@@ -173,13 +136,9 @@ function Form({
             <div className="lg:text-md text-sm">
               <p>
                 Already have an account?
-                <button
-                  className="link ml-2"
-                  type="button"
-                  onClick={() => onShowLogin(showLogin)}
-                >
+                <Link className="link ml-2" to={"/login"}>
                   Login
-                </button>
+                </Link>
               </p>
             </div>
           </div>

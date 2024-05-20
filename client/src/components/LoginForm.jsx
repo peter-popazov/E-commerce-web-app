@@ -1,10 +1,10 @@
-import axios from "axios";
 import { useState } from "react";
-import { API_BASE_URL, ACCESS_TOKEN_NAME } from "../utils/constants";
-import { IoMdClose } from "react-icons/io";
-import Button from "./shared/Button";
-import Input from "./shared/Input";
+import { Link } from "react-router-dom";
 import { useForm, FormProvider } from "react-hook-form";
+import { IoMdClose } from "react-icons/io";
+import Input from "./shared/Input";
+import Button from "./shared/Button";
+import { sendDetailsToServer } from "../utils/sendDataToServer";
 
 const loginFormInputs = [
   {
@@ -22,13 +22,7 @@ const loginFormInputs = [
 ];
 
 /* eslint-disable react/prop-types */
-function LoginForm({
-  showRegister,
-  onShowRegister,
-  showLogin,
-  onShowLogin,
-  onSetAuthenticated,
-}) {
+function LoginForm({ onSetAuthenticated }) {
   return (
     <div>
       <div className="h-screen w-screen fixed top-0 left-0 bg-black/50 z-[9999] backdrop-blur-md">
@@ -39,24 +33,19 @@ function LoginForm({
           <div className="flex items-center justify-between">
             <h2 className="md:text-2xl text-lg font-bold">Login</h2>
             <div>
-              <IoMdClose
-                className="text-2xl cursor-pointer"
-                onClick={() => onShowLogin(showLogin)}
-              />
+              <Link to={"/"}>
+                <IoMdClose className="text-2xl cursor-pointer" />
+              </Link>
             </div>
           </div>
-          <Form
-            showRegister={showRegister}
-            onShowRegister={onShowRegister}
-            onSetAuthenticated={onSetAuthenticated}
-          />
+          <Form onSetAuthenticated={onSetAuthenticated} />
         </div>
       </div>
     </div>
   );
 }
 
-function Form({ showRegister, onShowRegister, onSetAuthenticated }) {
+function Form({ onSetAuthenticated }) {
   const [errors, setErrors] = useState("");
 
   const methods = useForm();
@@ -69,40 +58,17 @@ function Form({ showRegister, onShowRegister, onSetAuthenticated }) {
     password: "",
   });
 
-  const sendDetailsToServer = () => {
-    const payload = {
-      username: loginData.username,
-      password: loginData.password,
-    };
-    axios
-      .post(API_BASE_URL + "/login", payload)
-      .then((response) => {
-        if (response.status === 200) {
-          localStorage.setItem(ACCESS_TOKEN_NAME, response.data.access_token);
-          redirectToHome();
-        } else {
-          console.log("Some error occurred");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response) {
-          setErrors(error.response.data.errorMessage || "An error occurred");
-        } else if (error.request) {
-          setErrors("No response received from the server");
-        } else {
-          setErrors(error.message);
-        }
-      });
+  const payload = {
+    username: loginData.username,
+    password: loginData.password,
   };
 
   const redirectToHome = () => {
-    onShowRegister(showRegister);
     onSetAuthenticated(true);
   };
 
   const handleSubmitClick = () => {
-    sendDetailsToServer();
+    sendDetailsToServer(payload, redirectToHome, setErrors, "/login");
   };
 
   return (
@@ -141,12 +107,9 @@ function Form({ showRegister, onShowRegister, onSetAuthenticated }) {
             <div className="lg:text-md text-sm">
               <p>
                 Don{"'"}t have an account?
-                <button
-                  className="link ml-2"
-                  onClick={() => onShowRegister(showRegister)}
-                >
+                <Link className="link ml-2" to={"/register"}>
                   Register
-                </button>
+                </Link>
               </p>
             </div>
           </div>

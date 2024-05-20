@@ -52,8 +52,6 @@ public class AuthService {
                 .username(registrationBody.getUsername())
                 .password(passwordEncoder.encode(registrationBody.getPassword()))
                 .email(registrationBody.getEmail())
-//                .firstName(registrationBody.getFirstName())
-//                .lastName(registrationBody.getLastName())
                 .roles(List.of(userRole))
                 .build();
 

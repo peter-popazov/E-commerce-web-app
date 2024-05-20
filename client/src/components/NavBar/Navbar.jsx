@@ -1,14 +1,15 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { IoMdSearch } from "react-icons/io";
 import { FaShoppingCart } from "react-icons/fa";
 import DarkMode from "./DarkMode";
 import DropDownMenu from "./DropDownMenu";
-import Logo from "../shared/Logo";
 import { links } from "../shared/links";
+import Logo from "../shared/Logo";
 import Button from "../shared/Button";
 
-function Navbar({ isAuthenticated, showRegister, onShowRegister }) {
+function Navbar({ isAuthenticated }) {
   const [cartItems] = useState(3);
 
   return (
@@ -51,13 +52,11 @@ function Navbar({ isAuthenticated, showRegister, onShowRegister }) {
                 )}
               </button>
             ) : (
-              <Button
-                textColor="text-white"
-                bgColor="bg-primary"
-                onButtonClick={() => onShowRegister(showRegister)}
-              >
-                Register
-              </Button>
+              <Link to={"/register"}>
+                <Button textColor="text-white" bgColor="bg-primary">
+                  Register
+                </Button>
+              </Link>
             )}
             <DarkMode />
           </div>
