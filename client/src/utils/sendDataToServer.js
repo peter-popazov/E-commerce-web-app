@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_BASE_URL, ACCESS_TOKEN_NAME } from "../utils/constants";
+import { API_BASE_URL, ACCESS_TOKEN_NAME } from "../constants/constants";
 
 export const sendDetailsToServer = (
   payload,

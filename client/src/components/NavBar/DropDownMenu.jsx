@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { FaCaretDown } from "react-icons/fa";
-import { quickLinks } from "../shared/links";
+import { quickLinks } from "../../constants/links";
 
 export function DropDownMenu() {
   return (

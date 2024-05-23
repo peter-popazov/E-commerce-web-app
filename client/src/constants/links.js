@@ -1,23 +1,18 @@
 export const links = [
   {
     id: 1,
-    name: "Home",
-    link: "/#",
+    name: "Buy",
+    to: "/products",
   },
   {
     id: 2,
-    name: "Buy",
-    link: "/#",
+    name: "Sale",
+    to: "/",
   },
   {
     id: 3,
-    name: "Sale",
-    link: "/#",
-  },
-  {
-    id: 4,
     name: "Blog",
-    link: "/#",
+    to: "/",
   },
 ];
 
@@ -25,16 +20,16 @@ export const quickLinks = [
   {
     id: 1,
     name: "Top Rated",
-    link: "/#",
+    to: "/",
   },
   {
     id: 2,
     name: "Bestsellers",
-    link: "/#",
+    to: "/",
   },
   {
     id: 3,
     name: "Trending products",
-    link: "/#",
+    to: "/",
   },
 ];

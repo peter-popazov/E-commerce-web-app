@@ -17,7 +17,6 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @CrossOrigin
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegistrationBody registrationBody) throws MessagingException {
         RegisterResponse response = authService.register(registrationBody);

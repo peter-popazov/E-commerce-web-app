@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import AppleVision from "/img/hero/appleVisionPro.png";
 import iPhone from "/img/hero/iPhone.jpg";
 import AirPodsMax from "/img/hero/AirPodsMax.png";
+import { Link } from "react-router-dom";
 
 const heroSlide = [
   {
@@ -41,8 +42,8 @@ function Hero() {
     infinite: true,
     speed: 800,
     slidesToScroll: 1,
-    // autoPlay: true,
-    autoplaySpeed: 4000,
+    autoPlay: true,
+    autoplaySpeed: 400,
     cssEase: "ease-in-out",
     pauseOnHover: false,
     pauseOnFocus: true,
@@ -68,37 +69,39 @@ function Hero() {
 
 function Slide({ product }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2">
-      <div
-        className="flex flex-col justify-center gap-4 sm:pl-3
+    <Link to={"/products"}>
+      <div className="grid grid-cols-1 sm:grid-cols-2">
+        <div
+          className="flex flex-col justify-center gap-4 sm:pl-3
       pt-12 sm:pt-0 text-center sm:text-left order-2 sm:order-1
       relative z-10"
-      >
-        <h2 className="text-gray-700 text-2xl sm:text-6xl lg:text-2xl font-bold">
-          {product.brand}
-        </h2>
-        <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold">
-          {product.title}
-        </h2>
-        <h2
-          className="text-5xl uppercase text-white dark:text-white/5
-        sm:text-[80px] md:text-[100px] xl:text-[150px] font-bold"
         >
-          {product.feature}
-        </h2>
-      </div>
-      <div className="order-1 sm:order-2">
-        <div>
-          <img
-            src={product.img}
-            alt=""
-            className="w-[300px] sm:w-[300px] h-[300px] sm:h-[450px] children
-                sm:scale-105 lg:scale-110 object-contain mx-auto 
-                drop-shadow-[-8px_4px_6px_rgba(0,0,0,0.4)] relative z-40"
-          />
+          <h2 className="text-gray-700 text-2xl sm:text-6xl lg:text-2xl font-bold">
+            {product.brand}
+          </h2>
+          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold">
+            {product.title}
+          </h2>
+          <h2
+            className="text-5xl uppercase text-white dark:text-white/5
+        sm:text-[80px] md:text-[100px] xl:text-[150px] font-bold"
+          >
+            {product.feature}
+          </h2>
+        </div>
+        <div className="order-1 sm:order-2">
+          <div>
+            <img
+              src={product.img}
+              alt=""
+              className="w-[300px] sm:w-[300px] h-[300px] sm:h-[450px] children
+            sm:scale-105 lg:scale-110 object-contain mx-auto 
+            drop-shadow-[-8px_4px_6px_rgba(0,0,0,0.4)] relative z-40"
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 

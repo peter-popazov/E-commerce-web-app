@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import Logo from "./shared/Logo";
-import { links } from "./shared/links";
-import { quickLinks } from "./shared/links";
+import { links } from "../constants/links";
+import { quickLinks } from "../constants/links";
 
 const currentYear = new Date(Date.now()).getFullYear();
 
