@@ -4,11 +4,13 @@ import { FaSearch, FaUser, FaCaretDown, FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { BsSuitHeartFill } from "react-icons/bs";
 import { useState, useContext } from "react";
-import { SearchContext } from "./SearchProvider";
+import { SearchContext } from "./providers/SearchProvider";
+import { useAuth } from "./providers/AuthContext";
 
 function HeaderBottom() {
   const [show, setShow] = useState(false);
   const [showUser, setShowUser] = useState(false);
+  const { isLoggedIn, logout } = useAuth();
 
   const { searchQuery, setSearchQuery } = useContext(SearchContext);
 
@@ -60,7 +62,7 @@ function HeaderBottom() {
           <div className="relative z-[9999] w-full lg:w-[600px] h-[50px] text-base text-primeColor bg-white flex items-center gap-2 justify-between px-6 rounded-xl">
             <Link to="/products">
               <input
-                className="flex-1 h-full outline-none placeholder:text-[#C4C4C4] dark:text-gray-700 placeholder:text-[14px]"
+                className="flex-1 lg:w-96 md:w-64 w-38 h-full outline-none placeholder:text-[#C4C4C4] dark:text-gray-700 placeholder:text-[14px]"
                 type="text"
                 onChange={handleSearch}
                 value={searchQuery}
@@ -81,26 +83,39 @@ function HeaderBottom() {
                 transition={{ duration: 0.5 }}
                 className="absolute top-6 left-0 z-50 bg-primeColor w-44 text-gray-800 h-auto p-4 pb-6"
               >
-                <Link to="/login">
-                  <li className="text-gray-800 dark:text-white dark:bord-white px-4 py-1 border-b-[1px] border-b-gray-800 hover:border-b-primary/90 hover:text-primary/90 duration-300 cursor-pointer">
-                    Login
-                  </li>
-                </Link>
-                <Link onClick={() => setShowUser(false)} to="/register">
-                  <li className="text-gray-800 dark:text-white dark:bord-white px-4 py-1 border-b-[1px] border-b-gray-800 hover:border-b-primary/90 hover:text-primary/90 duration-300 cursor-pointer">
-                    Sign Up
-                  </li>
-                </Link>
-                <Link to="/">
-                  <li className="text-gray-800 dark:text-white dark:bord-white px-4 py-1 border-b-[1px] border-b-gray-800 hover:border-b-primary/90 hover:text-primary/90 duration-300 cursor-pointer">
-                    Change Password
-                  </li>
-                </Link>
-                <li className="text-gray-800 dark:text-white dark:bord-white px-4 py-1 border-b-[1px] border-b-gray-800  hover:border-b-primary/90 hover:text-primary/90 duration-300 cursor-pointer">
-                  Others
-                </li>
+                {!isLoggedIn ? (
+                  <>
+                    <Link to="/login">
+                      <li className="text-gray-800 dark:text-white dark:bord-white px-4 py-1 border-b-[1px] border-b-gray-800 hover:border-b-primary/90 hover:text-primary/90 duration-300 cursor-pointer">
+                        Login
+                      </li>
+                    </Link>
+                    <Link onClick={() => setShowUser(false)} to="/register">
+                      <li className="text-gray-800 dark:text-white dark:bord-white px-4 py-1 border-b-[1px] border-b-gray-800 hover:border-b-primary/90 hover:text-primary/90 duration-300 cursor-pointer">
+                        Sign Up
+                      </li>
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/">
+                      <li className="text-gray-800 dark:text-white dark:bord-white px-4 py-1 border-b-[1px] border-b-gray-800 hover:border-b-primary/90 hover:text-primary/90 duration-300 cursor-pointer">
+                        Change Password
+                      </li>
+                    </Link>
+                    <Link to="/">
+                      <li
+                        onClick={logout}
+                        className="text-gray-800 dark:text-white dark:bord-white px-4 py-1 border-b-[1px] border-b-gray-800  hover:border-b-primary/90 hover:text-primary/90 duration-300 cursor-pointer"
+                      >
+                        Log Out
+                      </li>
+                    </Link>
+                  </>
+                )}
               </motion.ul>
             )}
+
             <Link to="/cart">
               <div className="relative">
                 <FaShoppingCart />

@@ -1,13 +1,24 @@
 /* eslint-disable no-undef */
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import Product from "../components/Product";
 import SideBar from "../components/SideBar/SideBar";
 import Card from "../components/Card";
 import Recommended from "../components/Recommended";
-import products from "../data/data";
-import { SearchContext } from "../components/SearchProvider";
+import { SearchContext } from "../components/providers/SearchProvider";
+import { getDataFromServer } from "../utils/getDataFromServer";
 
 function ProductsPage() {
+  const [dataServer, setDataServer] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getDataFromServer("/products");
+      setDataServer(data);
+    };
+
+    fetchData();
+  }, []);
+
   const { searchQuery } = useContext(SearchContext);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedPrices, setSelectedPrices] = useState([]);
@@ -38,7 +49,7 @@ function ProductsPage() {
 
   const filterByCategory = (products, categories) => {
     if (categories.length === 0) return products;
-    return products.filter((product) => categories.includes(product.category));
+    return products.filter((product) => categories.includes(product.category.name));
   };
 
   const filterByPrice = (products, prices) => {
@@ -46,7 +57,7 @@ function ProductsPage() {
     return products.filter((product) => {
       return prices.some((priceRange) => {
         const [min, max] = priceRange.split("-").map(Number);
-        return product.newPrice >= min && product.newPrice <= max;
+        return product.price >= min && product.price <= max;
       });
     });
   };
@@ -81,24 +92,25 @@ function ProductsPage() {
       filteredProducts = filterByBrand(filteredProducts, selectedBrand);
     }
 
-    return filteredProducts.map(
-      ({ img, title, star, reviews, prevPrice, newPrice }) => (
-        <div className="w-full" key={Math.random()}>
-          <Card
-            img={img}
-            title={title}
-            star={star}
-            reviews={reviews}
-            prevPrice={prevPrice}
-            newPrice={newPrice}
-          />
-        </div>
-      )
-    );
+    if (!Array.isArray(filteredProducts)) {
+      return [];
+    }
+
+    return filteredProducts.map(({ filePath, name, star, reviews, price }) => (
+      <div className="w-full" key={Math.random()}>
+        <Card
+          img={filePath}
+          title={name}
+          star={star}
+          reviews={reviews}
+          newPrice={price}
+        />
+      </div>
+    ));
   }
 
   const result = filteredData(
-    products,
+    dataServer,
     selectedCategories,
     selectedPrices,
     selectedBrand,

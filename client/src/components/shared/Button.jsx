@@ -12,7 +12,9 @@ function Button({
     <button
       type={buttonType}
       value={value}
-      onClick={() => onButtonClick(value)}
+      onClick={
+        buttonType === "submit" ? onButtonClick : () => onButtonClick(value)
+      }
       className={`${bgColor} ${textColor} cursor-pointer
         hover:scale-105 duration-300 my-2 py-2 px-8 ${
           rounded ? rounded : "rounded-full"

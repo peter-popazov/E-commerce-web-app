@@ -9,7 +9,9 @@ import RegisterForm from "./components/RegisterForm.jsx";
 import ProductsPage from "./pages/ProductsPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
 import MainLayout from "./components/shared/MainLayout.jsx";
-import SearchProvider from "./components/SearchProvider.jsx";
+import AuthProvider from "./components/providers/AuthContext.jsx";
+import SearchProvider from "./components/providers/SearchProvider.jsx";
+import CartPage from "./pages/CartPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +34,10 @@ const router = createBrowserRouter([
         path: "/products",
         element: <ProductsPage />,
       },
+      {
+        path: "/cart",
+        element: <CartPage />,
+      },
     ],
   },
   {
@@ -42,8 +48,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <SearchProvider>
-      <RouterProvider router={router} />
-    </SearchProvider>
+    <AuthProvider>
+      <SearchProvider>
+        <RouterProvider router={router} />
+      </SearchProvider>
+    </AuthProvider>
   </React.StrictMode>
 );

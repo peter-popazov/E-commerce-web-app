@@ -5,6 +5,8 @@ import { IoMdClose } from "react-icons/io";
 import Input from "./shared/Input";
 import Button from "./shared/Button";
 import { sendDetailsToServer } from "../utils/sendDataToServer";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "./providers/AuthContext";
 
 const loginFormInputs = [
   {
@@ -22,7 +24,7 @@ const loginFormInputs = [
 ];
 
 /* eslint-disable react/prop-types */
-function LoginForm({ onSetAuthenticated }) {
+function LoginForm() {
   return (
     <div>
       <div className="h-screen w-screen fixed top-0 left-0 bg-black/50 z-[9999] backdrop-blur-md">
@@ -38,15 +40,17 @@ function LoginForm({ onSetAuthenticated }) {
               </Link>
             </div>
           </div>
-          <Form onSetAuthenticated={onSetAuthenticated} />
+          <Form />
         </div>
       </div>
     </div>
   );
 }
 
-function Form({ onSetAuthenticated }) {
+function Form() {
+  const { login } = useAuth();
   const [errors, setErrors] = useState("");
+  const navigateTo = useNavigate();
 
   const methods = useForm();
   const onSubmit = methods.handleSubmit(() => {
@@ -64,7 +68,8 @@ function Form({ onSetAuthenticated }) {
   };
 
   const redirectToHome = () => {
-    onSetAuthenticated(true);
+    navigateTo("/");
+    login(true);
   };
 
   const handleSubmitClick = () => {
@@ -97,6 +102,7 @@ function Form({ onSetAuthenticated }) {
             <Button
               bgColor="bg-primary"
               textColor="text-white"
+              buttonType="submit"
               onButtonClick={(e) => {
                 e.preventDefault;
                 onSubmit(e);

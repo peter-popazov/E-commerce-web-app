@@ -1,24 +1,23 @@
 /* eslint-disable react/prop-types */
-const category = [
-  {
-    _id: 9006,
-    title: "sneakers",
-  },
-  {
-    _id: 9007,
-    title: "heels",
-  },
-  {
-    _id: 9008,
-    title: "sandals",
-  },
-  {
-    _id: 9009,
-    title: "else",
-  },
-];
+import { useEffect, useState } from "react";
+import { getDataFromServer } from "../../utils/getDataFromServer";
 
 function Category({ onFilterChange }) {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getDataFromServer("/categories");
+        setCategories(data);
+      } catch (error) {
+        alert("Error occured", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const handleCheckboxChange = (event) => {
     const { value, checked } = event.target;
     onFilterChange(value, checked, "category");
@@ -29,18 +28,18 @@ function Category({ onFilterChange }) {
       <h2 className="text-xl font-bold mb-3">Shop by category</h2>
       <div className="mt-4">
         <ul className="flex flex-col gap-2.5 text-sm lg:text-base text-gray-750">
-          {category.map((item) => (
+          {categories.map((item) => (
             <li
-              key={item._id}
+              key={item.id}
               className="border-b-[1px] pb-2 flex items-center gap-2 hover:text-secondary hover:border-secondary duration-300"
             >
               <input
                 type="checkbox"
-                id={item._id}
-                value={item.title}
+                id={item.id}
+                value={item.name}
                 onChange={handleCheckboxChange}
               />
-              <label htmlFor={item._id}>{item.title}</label>
+              <label htmlFor={item.id}>{item.name}</label>
             </li>
           ))}
         </ul>

@@ -36,6 +36,7 @@ public class Role {
     @CreatedDate
     @Column(name = "created_date", nullable = false, updatable = false)
     private LocalDateTime createdDate;
+
     @LastModifiedDate
     @Column(name = "updated_date", insertable = false)
     private LocalDateTime lastModifiedDate;

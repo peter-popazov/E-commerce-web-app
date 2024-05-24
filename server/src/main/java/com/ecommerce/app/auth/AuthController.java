@@ -2,12 +2,10 @@ package com.ecommerce.app.auth;
 
 import com.ecommerce.app.auth.dto.*;
 import com.ecommerce.app.user.AppUser;
-import com.ecommerce.app.user.AppUserDAO;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,8 +27,9 @@ public class AuthController {
     }
 
     @GetMapping("/activate-account")
-    public void activateAccount(@RequestParam String token) throws MessagingException {
+    public ResponseEntity<String> activateAccount(@RequestParam String token) throws MessagingException {
         authService.activateAccount(token);
+        return ResponseEntity.ok().body("Account activated successfully");
     }
 
     @GetMapping("/me")

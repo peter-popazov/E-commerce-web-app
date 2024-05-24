@@ -5,6 +5,8 @@ import { IoMdClose } from "react-icons/io";
 import Input from "./shared/Input";
 import Button from "./shared/Button";
 import { sendDetailsToServer } from "../utils/sendDataToServer";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "./providers/AuthContext";
 
 const registerFormInputs = [
   {
@@ -34,7 +36,7 @@ const registerFormInputs = [
 ];
 
 /* eslint-disable react/prop-types */
-function RegisterForm({ onSetAuthenticated }) {
+function RegisterForm() {
   return (
     <div>
       <div className="h-screen w-screen fixed top-0 left-0 bg-black/50 z-[9999] backdrop-blur-md">
@@ -57,14 +59,16 @@ function RegisterForm({ onSetAuthenticated }) {
               </Link>
             </div>
           </div>
-          <Form onSetAuthenticated={onSetAuthenticated} />
+          <Form />
         </div>
       </div>
     </div>
   );
 }
 
-function Form({ onSetAuthenticated }) {
+function Form() {
+  const { login } = useAuth();
+  const navigateTo = useNavigate();
   const [errors, setErrors] = useState("");
 
   const methods = useForm();
@@ -87,7 +91,8 @@ function Form({ onSetAuthenticated }) {
   };
 
   const redirectToHome = () => {
-    onSetAuthenticated(true);
+    login(true);
+    navigateTo("/");
   };
 
   const handleSubmitClick = () => {

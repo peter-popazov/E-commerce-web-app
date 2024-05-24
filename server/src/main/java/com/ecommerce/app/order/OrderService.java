@@ -19,6 +19,7 @@ public class OrderService {
     }
 
     public List<WebOrder> getOrders(AppUser user) {
-        return webOrderDAO.findByAppUser(user);
+        Long userId = user.getId();
+        return webOrderDAO.findByAppUser(userId);
     }
 }

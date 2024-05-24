@@ -16,6 +16,9 @@ public class Product {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
+    @Column(name = "file_path", nullable = false, unique = true)
+    private String filePath;
+
     @Column(name = "short_description", nullable = false)
     private String shortDescription;
 
@@ -23,8 +26,12 @@ public class Product {
     private String longDescription;
 
     @Column(name = "price", precision = 2, nullable = false)
-    private Double price;
+    private Integer price;
 
     @OneToOne(mappedBy = "product", cascade = CascadeType.REMOVE, optional = false, orphanRemoval = true)
     private Inventory inventory;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
+    private Category category;
 }
