@@ -1,7 +1,5 @@
-package com.ecommerce.app.model;
+package com.ecommerce.app.category;
 
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -21,4 +21,13 @@ public class Inventory {
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
+
+    @Override
+    public String toString() {
+        return "Inventory{" +
+                "id=" + id +
+                ", product=" + product +
+                ", quantity=" + quantity +
+                '}';
+    }
 }

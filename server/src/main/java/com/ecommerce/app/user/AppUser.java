@@ -1,6 +1,6 @@
 package com.ecommerce.app.user;
 
-import com.ecommerce.app.model.Address;
+import com.ecommerce.app.address.Address;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,12 +1,19 @@
-package com.ecommerce.app.model;
+package com.ecommerce.app.order;
 
+import com.ecommerce.app.model.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "web_order_quantity")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "web_order_content")
 public class WebOrderContent {
 
     @Id
@@ -14,7 +21,7 @@ public class WebOrderContent {
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
-    @ManyToOne(optional=false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
@@ -22,7 +29,15 @@ public class WebOrderContent {
     private Integer quantity;
 
     @JsonIgnore
-    @ManyToOne(optional=false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "order_id", nullable = false)
     private WebOrder webOrder;
+
+    @Override
+    public String toString() {
+        return "WebOrderContent{" +
+                "id=" + id +
+                ", quantity=" + quantity +
+                '}';
+    }
 }

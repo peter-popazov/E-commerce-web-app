@@ -1,17 +1,15 @@
 package com.ecommerce.app.order;
 
 import com.ecommerce.app.user.AppUser;
-import com.ecommerce.app.model.WebOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/order")
 public class OrderController {
 
     private final OrderService orderService;
@@ -21,8 +19,25 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping
-    public List<WebOrder> getOrders(@AuthenticationPrincipal AppUser appUser) {
-        return orderService.getOrders(appUser);
+    @GetMapping("/all")
+    public ResponseEntity<List<WebOrder>> getOrders(@AuthenticationPrincipal AppUser appUser) {
+        return ResponseEntity.ok(orderService.getOrders(appUser));
+    }
+
+    @GetMapping("/{orderId}")
+    public ResponseEntity<WebOrder> getOrder(@PathVariable Long orderId) {
+        return ResponseEntity.ok(orderService.getOrder(orderId));
+    }
+
+    @PostMapping("/{addressId}")
+    public ResponseEntity<WebOrder> addOrder(@AuthenticationPrincipal AppUser appUser,
+                                             @RequestBody List<WebOrderContentDTO> dto, @PathVariable Long addressId) {
+        return ResponseEntity.ok(orderService.addOrder(appUser, dto, addressId));
+    }
+
+    @DeleteMapping("/{orderId}")
+    public ResponseEntity<?> deleteOrder(@PathVariable Long orderId) {
+        orderService.deleteOrder(orderId);
+        return ResponseEntity.ok("Order deleted successfully");
     }
 }

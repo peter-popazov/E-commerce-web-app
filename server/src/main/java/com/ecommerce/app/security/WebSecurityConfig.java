@@ -25,7 +25,21 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> {
                     authorize
-                            .requestMatchers("/products/**", "/register", "/login", "/activate-account", "/categories")
+                            .requestMatchers("/products/**",
+                                    "/register",
+                                    "/login",
+                                    "/activate-account",
+                                    "/categories",
+                                    "/v3/api-docs",
+                                    "/v3/api-docs/**",
+                                    "swagger-ui/**",
+                                    "swagger-ui.html",
+                                    "/webjars/**",
+                                    "/swagger-ui/index.html/**",
+                                    "/swagger-resources",
+                                    "/swagger-resources/**",
+                                    "configuration/ui",
+                                    "configuration/security")
                             .permitAll()
                             .anyRequest()
                             .authenticated();

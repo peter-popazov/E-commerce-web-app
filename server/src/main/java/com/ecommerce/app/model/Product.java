@@ -1,5 +1,6 @@
 package com.ecommerce.app.model;
 
+import com.ecommerce.app.category.Category;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -34,4 +35,16 @@ public class Product {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", filePath='" + filePath + '\'' +
+                ", shortDescription='" + shortDescription + '\'' +
+                ", longDescription='" + longDescription + '\'' +
+                ", price=" + price +
+                '}';
+    }
 }

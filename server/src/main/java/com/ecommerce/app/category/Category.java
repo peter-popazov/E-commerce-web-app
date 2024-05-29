@@ -1,4 +1,4 @@
-package com.ecommerce.app.model;
+package com.ecommerce.app.category;
 
 import jakarta.persistence.*;
 import lombok.Data;

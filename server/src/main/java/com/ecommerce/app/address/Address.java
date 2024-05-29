@@ -1,12 +1,18 @@
-package com.ecommerce.app.model;
+package com.ecommerce.app.address;
 
 import com.ecommerce.app.user.AppUser;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "address")
 public class Address {
 
