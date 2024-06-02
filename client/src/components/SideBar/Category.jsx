@@ -2,20 +2,22 @@
 import { useEffect, useState } from "react";
 import { getDataFromServer } from "../../utils/getDataFromServer";
 
-function Category({ onFilterChange }) {
+function Category({ onFilterChange, categoriesServer }) {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getDataFromServer("/categories");
-        setCategories(data);
-      } catch (error) {
-        alert("Error occured", error);
-      }
-    };
+    // const fetchData = async () => {
+    //   try {
+    //     const data = await getDataFromServer("/categories");
+    //     setCategories(data);
+    //   } catch (error) {
+    //     alert("Error occured", error);
+    //   }
+    // };
 
-    fetchData();
+    setCategories(categoriesServer);
+
+    // fetchData();
   }, []);
 
   const handleCheckboxChange = (event) => {

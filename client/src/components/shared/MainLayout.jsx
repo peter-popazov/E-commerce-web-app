@@ -4,11 +4,11 @@ import { Outlet } from "react-router";
 import HeaderBottom from "../HeaderBottom";
 
 /* eslint-disable react/prop-types */
-function MainLayout() {
+function MainLayout({ categoriesServer }) {
   return (
     <div className="bg-white dark:bg-gray-900 dark:text-white duration-200 overflow-hidden">
       <Navbar />
-      <HeaderBottom />
+      <HeaderBottom categoriesServer={categoriesServer} />
       <Outlet />
       <Footer />
     </div>

@@ -1,24 +1,12 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-undef */
-import { useState, useContext, useEffect } from "react";
-import Product from "../components/Product";
+import { useState, useContext } from "react";
 import SideBar from "../components/SideBar/SideBar";
 import Card from "../components/Card";
 import Recommended from "../components/Recommended";
 import { SearchContext } from "../components/providers/SearchProvider";
-import { getDataFromServer } from "../utils/getDataFromServer";
 
-function ProductsPage() {
-  const [dataServer, setDataServer] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await getDataFromServer("/products");
-      setDataServer(data);
-    };
-
-    fetchData();
-  }, []);
-
+function ProductsPage({ productsServer, categoriesServer }) {
   const { searchQuery } = useContext(SearchContext);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedPrices, setSelectedPrices] = useState([]);
@@ -49,7 +37,9 @@ function ProductsPage() {
 
   const filterByCategory = (products, categories) => {
     if (categories.length === 0) return products;
-    return products.filter((product) => categories.includes(product.category.name));
+    return products.filter((product) =>
+      categories.includes(product.category.name)
+    );
   };
 
   const filterByPrice = (products, prices) => {
@@ -68,13 +58,13 @@ function ProductsPage() {
   };
 
   function filteredData(
-    products,
+    productsServer,
     selectedCategories,
     selectedPrices,
     selectedBrand,
     query
   ) {
-    let filteredProducts = products;
+    let filteredProducts = productsServer;
 
     if (query) {
       filteredProducts = filterByQuery(filteredProducts, query);
@@ -96,21 +86,23 @@ function ProductsPage() {
       return [];
     }
 
-    return filteredProducts.map(({ filePath, name, star, reviews, price }) => (
-      <div className="w-full" key={Math.random()}>
+    return filteredProducts.map(
+      ({ id, filePath, name, star, reviews, price }) => (
         <Card
+          key={id}
+          id={id}
           img={filePath}
           title={name}
           star={star}
           reviews={reviews}
-          newPrice={price}
+          price={price}
         />
-      </div>
-    ));
+      )
+    );
   }
 
   const result = filteredData(
-    dataServer,
+    productsServer,
     selectedCategories,
     selectedPrices,
     selectedBrand,
@@ -120,12 +112,17 @@ function ProductsPage() {
   return (
     <div className="container mx-auto px-6">
       <div className="w-full h-full flex pb-20 gap-10 mt-16">
-        <div className="container w-[30%] lg:w-[20%] hidden md:inline-flex h-full">
-          <SideBar onFilterChange={handleFilterChange} />
+        <div className="w-[30%] lg:w-[20%] hidden sm:inline-flex h-full">
+          <SideBar
+            onFilterChange={handleFilterChange}
+            categoriesServer={categoriesServer}
+          />
         </div>
-        <div className="container w-full md:w-[70%] lg:w-[80%] h-full flex flex-col gap-2">
+        <div className="w-full md:w-[70%] items-center md:items-start lg:w-[80%] h-full flex flex-col gap-2">
           <Recommended onButtonClick={handleClickButton} />
-          <Product result={result} onButtonClick={handleClickButton} />
+          <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 md:gap-4 lg:gap-10 dark:bg-gray-900">
+            {result}
+          </section>
         </div>
       </div>
     </div>

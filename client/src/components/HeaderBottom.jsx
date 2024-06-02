@@ -1,13 +1,16 @@
+/* eslint-disable react/prop-types */
+import { useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+
 import { HiOutlineMenuAlt4 } from "react-icons/hi";
 import { FaSearch, FaUser, FaCaretDown, FaShoppingCart } from "react-icons/fa";
-import { Link } from "react-router-dom";
 import { BsSuitHeartFill } from "react-icons/bs";
-import { useState, useContext } from "react";
+
 import { SearchContext } from "./providers/SearchProvider";
 import { useAuth } from "./providers/AuthContext";
 
-function HeaderBottom() {
+function HeaderBottom({ categoriesServer }) {
   const [show, setShow] = useState(false);
   const [showUser, setShowUser] = useState(false);
   const { isLoggedIn, logout } = useAuth();
@@ -24,7 +27,7 @@ function HeaderBottom() {
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between w-full px-4 pb-4 lg:pb-0 h-full lg:h-24">
           <div
             onClick={() => setShow(!show)}
-            className="flex h-14 cursor-pointer items-center gap-2 text-primeColor"
+            className="flex h-14 cursor-pointer items-center gap-2 text-gray-800 dark:text-gray-200"
           >
             <HiOutlineMenuAlt4 className="w-5 h-5" />
             <p className="text-[14px] font-normal">Shop by Category</p>
@@ -34,44 +37,29 @@ function HeaderBottom() {
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5 }}
-                className="absolute top-36 z-100 bg-primeColor w-auto text-gray-800 dark:hover:text-primary/90 h-auto p-4 pb-6 bg-white z-[9999]"
+                className="absolute top-36 z-100 bg-primeColor w-auto text-gray-80 h-auto p-4 pb-6 bg-white z-[9999] dark:bg-gray-900 dark:text-gray-300"
               >
-                <Link to={"category/category1"}>
-                  <li className="px-4 py-1 border-b-[1px] border-b-gray-400 hover:border-b-primary/90 hover:text-primary/90 duration-300 cursor-pointer">
-                    Category1
-                  </li>
-                </Link>
-                <Link to={"category/category2"}>
-                  <li className="px-4 py-1 border-b-[1px] bg-white border-b-gray-400 hover:border-b-primary/90 hover:text-primary/90 duration-300 cursor-pointer">
-                    Category2
-                  </li>
-                </Link>
-                <Link to={"category/category3"}>
-                  <li className="px-4 py-1 border-b-[1px] border-b-gray-400 hover:border-b-primary/90 hover:text-primary/90 duration-300 cursor-pointer">
-                    Category3
-                  </li>
-                </Link>
-                <Link to={"category/category4"}>
-                  <li className="px-4 py-1 border-b-[1px] border-b-gray-400 hover:border-b-primary/90 hover:text-primary/90 duration-300 cursor-pointer">
-                    Category4
-                  </li>
-                </Link>
+                <ul>
+                  {categoriesServer.map((category) => (
+                    <CategoryLink category={category} key={category.id} />
+                  ))}
+                </ul>
               </motion.ul>
             )}
           </div>
-          <div className="relative z-[9999] w-full lg:w-[600px] h-[50px] text-base text-primeColor bg-white flex items-center gap-2 justify-between px-6 rounded-xl">
+          <div className="relative z-[9999] w-full lg:w-[600px] h-[50px] text-base text-primeColor bg-white dark:bg-gray-600 flex items-center gap-2 justify-between px-6 rounded-xl">
             <Link to="/products">
               <input
-                className="flex-1 lg:w-96 md:w-64 w-38 h-full outline-none placeholder:text-[#C4C4C4] dark:text-gray-700 placeholder:text-[14px]"
+                className="flex-1 lg:w-96 md:w-64 w-38 h-full outline-none placeholder:text-[#C4C4C4] dark:text-gray-200 dark:bg-gray-600 placeholder:text-[14px]"
                 type="text"
                 onChange={handleSearch}
                 value={searchQuery}
                 placeholder="Search for your products here"
               />
             </Link>
-            <FaSearch className="w-5 h-5" />
+            <FaSearch className="w-5 h-5 dark:text-gray-200" />
           </div>
-          <div className="flex gap-4 mt-2 lg:mt-0 items-center pr-6 cursor-pointer relative">
+          <div className="flex gap-4 mt-4 lg:mt-0 items-center pr-6 cursor-pointer relative dark:text-gray-200">
             <div onClick={() => setShowUser(!showUser)} className="flex">
               <FaUser />
               <FaCaretDown />
@@ -115,9 +103,8 @@ function HeaderBottom() {
                 )}
               </motion.ul>
             )}
-
             <Link to="/cart">
-              <div className="relative">
+              <div className="relative mr-2">
                 <FaShoppingCart />
                 <span className="absolute font-titleFont top-3 -right-2 text-xs w-4 h-4 flex items-center justify-center rounded-full bg-primeColor text-white"></span>
               </div>
@@ -127,6 +114,16 @@ function HeaderBottom() {
         </div>
       </div>
     </div>
+  );
+}
+
+function CategoryLink({ category }) {
+  return (
+    <Link to={`category/${category.name}`}>
+      <li className="px-4 py-1 border-b-[1px] border-b-gray-400 hover:border-b-primary/90 hover:text-primary/90 duration-300 cursor-pointer">
+        {category.name}
+      </li>
+    </Link>
   );
 }
 
