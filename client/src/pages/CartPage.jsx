@@ -5,22 +5,19 @@ import EmptyCart from "../components/EmptyCart";
 import { CartContext } from "../components/providers/CartProvider";
 
 function CartPage({ productsServer }) {
-  const { cartItems } = useContext(CartContext);
+  const { cartItems, clearCart, getItemDetils, calcDeliveryCost } =
+    useContext(CartContext);
 
-  const cartItemDetails = cartItems.map((cartItem) => {
-    const product = productsServer.find(
-      (product) => product.id === cartItem.id
-    );
-    return {
-      ...product,
-      quantity: cartItem.quantity,
-    };
-  });
+  const cartItemDetails = getItemDetils(productsServer, cartItems);
 
   return (
     <div className="max-w-container mx-auto px-4">
       {cartItemDetails.length > 0 ? (
-        <Cart cartDetails={cartItemDetails} />
+        <Cart
+          cartItemDetails={cartItemDetails}
+          clearCart={clearCart}
+          calcDeliveryCost={calcDeliveryCost}
+        />
       ) : (
         <EmptyCart />
       )}

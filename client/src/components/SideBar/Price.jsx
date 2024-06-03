@@ -35,7 +35,7 @@ const priceList = [
 function Price({ onFilterChange }) {
   const handleCheckboxChange = (event) => {
     const { value, checked } = event.target;
-    onFilterChange(value, checked, 'price');
+    onFilterChange(value, checked, "price");
   };
 
   return (
@@ -44,8 +44,12 @@ function Price({ onFilterChange }) {
       <div className="font-titleFont">
         <ul className="flex flex-col gap-4 text-sm lg:text-base">
           {priceList.map((item) => (
-            <li key={item._id} className="flex items-center gap-2 hover:text-secondary hover:border-secondary duration-300">
+            <li
+              key={item._id}
+              className="flex items-center gap-2 hover:text-secondary hover:border-secondary duration-300"
+            >
               <input
+                id={item._id}
                 type="checkbox"
                 value={`${item.priceOne}-${item.priceTwo}`}
                 onChange={handleCheckboxChange}

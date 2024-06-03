@@ -2,6 +2,7 @@ package com.ecommerce.app.address;
 
 import com.ecommerce.app.order.repos.AddressRepository;
 import com.ecommerce.app.user.AppUser;
+import com.ecommerce.app.user.AppUserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,13 +14,18 @@ import java.util.List;
 public class AddressService {
 
     private final AddressRepository addressRepository;
+    private final AppUserRepository appUserRepository;
 
     public List<Address> getUserAddress(AppUser user) {
         return addressRepository.findByAppUser(user);
     }
 
     @Transactional
-    public void saveAddress(AppUser user, AddressDTO addressDTO) {
+    public Long saveAddress(AppUser user, AddressDTO addressDTO) {
+
+        user.setFirstName(addressDTO.getFirstName());
+        user.setLastName(addressDTO.getLastName());
+        appUserRepository.save(user);
 
         var address = Address.builder()
                 .addressLine1(addressDTO.getAddressLine1())
@@ -29,7 +35,7 @@ public class AddressService {
                 .appUser(user)
                 .build();
 
-        addressRepository.save(address);
+        return addressRepository.save(address).getId();
     }
 
     @Transactional

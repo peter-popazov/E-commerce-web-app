@@ -31,7 +31,7 @@ function ProductsPage({ productsServer, categoriesServer }) {
   const filterByQuery = (products, query) => {
     return products.filter(
       (product) =>
-        product.title.toLowerCase().indexOf(query.toLowerCase()) !== -1
+        product.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   };
 

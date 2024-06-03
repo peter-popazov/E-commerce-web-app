@@ -7,7 +7,7 @@ const currentYear = new Date(Date.now()).getFullYear();
 
 function Footer() {
   return (
-    <footer className="mt-20 mb-16 px-8 sm:px-16 bg-gray-100 py-8 dark:bg-gray-800">
+    <footer className="mt-20 px-8 sm:px-16 bg-gray-100 py-16 sm:py-22 dark:bg-gray-800">
       <nav className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center sm:text-start">
         <div>
           <Logo />

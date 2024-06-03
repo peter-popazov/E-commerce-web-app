@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { getDataFromServer } from "../../utils/getDataFromServer";
+import noAuthDataFromServer from "../../utils/noAuthDataFromServer";
 
 function Category({ onFilterChange, categoriesServer }) {
   const [categories, setCategories] = useState([]);
@@ -8,7 +8,7 @@ function Category({ onFilterChange, categoriesServer }) {
   useEffect(() => {
     // const fetchData = async () => {
     //   try {
-    //     const data = await getDataFromServer("/categories");
+    //     const data = await noAuthDataFromServer("/categories");
     //     setCategories(data);
     //   } catch (error) {
     //     alert("Error occured", error);

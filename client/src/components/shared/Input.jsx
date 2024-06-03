@@ -5,14 +5,7 @@ import { findInputError } from "../../utils/findInputError";
 import { isFormInvalid } from "../../utils/isFormInvalid";
 
 /* eslint-disable react/prop-types */
-function Input({
-  children,
-  type,
-  id,
-  placeholder,
-  data,
-  onDataChange,
-}) {
+function Input({ children, type, id, placeholder, data, onDataChange }) {
   const {
     register,
     formState: { errors },
@@ -94,7 +87,7 @@ function Input({
 function InputError({ message }) {
   return (
     <motion.p
-      className="flex items-center gap-2 text-red-600 px-2 py-1 bg-red-100 rounded-md"
+      className="flex items-center gap-2 text-red-600 px-2 py-1 bg-red-100 rounded-sm"
       {...framer_error}
     >
       <MdError />

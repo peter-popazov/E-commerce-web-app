@@ -7,13 +7,13 @@ function ItemCart({ item }) {
   const { addToCart, decreaseQuantity, removeFromCart } =
     useContext(CartContext);
   return (
-    <div className="w-full grid grid-cols-5 mb-4 border py-2">
+    <div className="w-full grid grid-cols-5 mb-4 border py-2 text-gray-800">
       <div className="flex col-span-5 md:col-span-2 items-center gap-4 ml-4">
         <ImCross
-          className="text-primeColor hover:text-red-500 duration-300 cursor-pointer"
+          className="hover:text-red-500 duration-300 cursor-pointer"
           onClick={() => removeFromCart(item.id)}
         />
-        <img className="w-32 h-32" src={item.filePath} alt="" />
+        <img className="w-28 h-32" src={item.filePath} alt="" />
         <h1 className="font-titleFont font-semibold">{item.name}</h1>
       </div>
       <div className="col-span-5 md:col-span-3 flex items-center justify-between py-4 md:py-0 px-4 md:px-0 gap-6 md:gap-0">

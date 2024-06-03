@@ -11,6 +11,14 @@ public class AddressDTO {
 
     @NotNull
     @NotBlank
+    private String firstName;
+
+    @NotNull
+    @NotBlank
+    private String lastName;
+
+    @NotNull
+    @NotBlank
     private String addressLine1;
 
     private String addressLine2;

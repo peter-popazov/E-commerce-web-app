@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { useForm, FormProvider } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
+import { useForm, FormProvider } from "react-hook-form";
 import Input from "./shared/Input";
 import Button from "./shared/Button";
-import { sendDetailsToServer } from "../utils/sendDataToServer";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "./providers/AuthContext";
+import { authSendDetailsToServer } from "../utils/authSendDetailsToServer";
 
 const registerFormInputs = [
   {
@@ -83,20 +82,20 @@ function Form() {
     confirmPassword: "",
   });
 
-  const payload = {
-    email: registerData.userEmailRegister,
-    username: registerData.username,
-    password: registerData.password,
-    confirmPassword: registerData.confirmPassword,
-  };
-
-  const redirectToHome = () => {
-    login(true);
-    navigateTo("/");
-  };
-
   const handleSubmitClick = () => {
-    sendDetailsToServer(payload, redirectToHome, setErrors, "/register");
+    const payload = {
+      email: registerData.userEmailRegister,
+      username: registerData.username,
+      password: registerData.password,
+      confirmPassword: registerData.confirmPassword,
+    };
+
+    const redirectToHome = () => {
+      navigateTo(-1);
+      login(true);
+    };
+
+    authSendDetailsToServer(payload, redirectToHome, setErrors, "/register");
   };
 
   return (

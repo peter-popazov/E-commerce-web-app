@@ -3,8 +3,10 @@ import ItemCart from "../components/ItemCart";
 import { Link } from "react-router-dom";
 import Button from "../components/shared/Button";
 import { useState, useEffect } from "react";
+import { useAuth } from "./providers/AuthContext";
 
-function Cart({ cartItemDetails }) {
+function Cart({ cartItemDetails, clearCart, calcDeliveryCost }) {
+  const { isLoggedIn } = useAuth();
   const [totalAmount, setTotalAmount] = useState(0);
   const [shippingCharge, setShippingCharge] = useState(0);
 
@@ -17,17 +19,11 @@ function Cart({ cartItemDetails }) {
   }, [cartItemDetails]);
 
   useEffect(() => {
-    if (totalAmount <= 200) {
-      setShippingCharge(30);
-    } else if (totalAmount <= 400) {
-      setShippingCharge(25);
-    } else if (totalAmount > 400) {
-      setShippingCharge(20);
-    }
-  }, [totalAmount]);
+    setShippingCharge(calcDeliveryCost(totalAmount));
+  }, [totalAmount, calcDeliveryCost]);
 
   return (
-    <div className="pb-10">
+    <div className="container pb-10">
       <div className="w-full h-20 bg-[#F5F7F7] text-gray-900 sm:grid grid-cols-5 hidden place-content-center px-6 text-lg font-semibold">
         <h2 className="col-span-2">Product</h2>
         <h2>Price</h2>
@@ -45,6 +41,7 @@ function Cart({ cartItemDetails }) {
         bgColor={"bg-primary"}
         textColor={"text-white"}
         rounded={"rounded-md"}
+        onButtonClick={clearCart}
       >
         Clear Cart
       </Button>
@@ -59,12 +56,13 @@ function Cart({ cartItemDetails }) {
             bgColor={"bg-brandYellow"}
             textColor={"text-white"}
             rounded={"rounded-md"}
+            onButtonClick={() => {}}
           >
             Apply Coupon
           </Button>
         </div>
       </div>
-      <div className="max-w-7xl gap-4 flex justify-end mt-4">
+      <div className="gap-4 flex justify-end mt-4">
         <div className="w-96 flex flex-col gap-4">
           <h1 className="text-2xl font-semibold text-right">Cart totals</h1>
           <div>
@@ -75,7 +73,7 @@ function Cart({ cartItemDetails }) {
               </span>
             </p>
             <p className="flex items-center justify-between border-[1px] border-gray-400 border-b-0 py-1.5 text-lg px-4 font-medium">
-              Shipping ChcartItemDetailsarge
+              Shipping
               <span className="font-semibold tracking-wide font-titleFont">
                 ${shippingCharge}
               </span>
@@ -87,16 +85,24 @@ function Cart({ cartItemDetails }) {
               </span>
             </p>
           </div>
-          <div className="mt-2 flex justify-end">
-            <Link to="/checkout">
+          <div className="flex flex-col items-end">
+            <div className="mt-2 flex justify-end">
               <Button
                 bgColor={"bg-primary"}
                 textColor={"text-white"}
                 rounded={"rounded-xl"}
+                onButtonClick={() => {}}
               >
-                Proceed to Checkout
+                {isLoggedIn ? (
+                  <Link to="/checkout">Check out</Link>
+                ) : (
+                  <Link to="/login">Login</Link>
+                )}
               </Button>
-            </Link>
+            </div>
+            {isLoggedIn || (
+              <p className="text-sm mt-1">* To checkout login first</p>
+            )}
           </div>
         </div>
       </div>

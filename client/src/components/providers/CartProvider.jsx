@@ -42,6 +42,36 @@ export function CartProvider({ children }) {
     setCartItems(cartItems.filter((item) => item.id !== productId));
   };
 
+  const clearCart = () => {
+    setCartItems([]);
+  };
+
+  const getItemDetils = (productsServer, cartItems) => {
+    const cartItemDetails = cartItems.map((cartItem) => {
+      const product = productsServer.find(
+        (product) => product.id === cartItem.id
+      );
+      return {
+        ...product,
+        quantity: cartItem.quantity,
+      };
+    });
+
+    return cartItemDetails;
+  };
+
+  const calcDeliveryCost = (totalAmount) => {
+    let shippingCharge = 0; 
+    if (totalAmount <= 200) {
+      shippingCharge = 30;
+    } else if (totalAmount <= 400) {
+      shippingCharge = 25;
+    } else if (totalAmount > 400) {
+      shippingCharge = 20;
+    }
+    return shippingCharge;
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -50,6 +80,9 @@ export function CartProvider({ children }) {
         addToCart,
         decreaseQuantity,
         removeFromCart,
+        clearCart,
+        getItemDetils,
+        calcDeliveryCost,
       }}
     >
       {children}

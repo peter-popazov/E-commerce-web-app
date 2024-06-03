@@ -1,10 +1,9 @@
 package com.ecommerce.app.config;
 
-import com.ecommerce.app.user.AppUserDAO;
+import com.ecommerce.app.user.AppUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.lang.NonNullApi;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -20,11 +19,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
-    private final AppUserDAO appUserDAO;
+    private final AppUserRepository appUserRepository;
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> appUserDAO.findByUsernameIgnoreCase(username)
+        return username -> appUserRepository.findByUsernameIgnoreCase(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 

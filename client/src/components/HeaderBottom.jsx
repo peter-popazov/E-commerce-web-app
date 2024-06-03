@@ -50,6 +50,7 @@ function HeaderBottom({ categoriesServer }) {
           <div className="relative z-[9999] w-full lg:w-[600px] h-[50px] text-base text-primeColor bg-white dark:bg-gray-600 flex items-center gap-2 justify-between px-6 rounded-xl">
             <Link to="/products">
               <input
+                id="query"
                 className="flex-1 lg:w-96 md:w-64 w-38 h-full outline-none placeholder:text-[#C4C4C4] dark:text-gray-200 dark:bg-gray-600 placeholder:text-[14px]"
                 type="text"
                 onChange={handleSearch}

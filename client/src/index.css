@@ -18,7 +18,7 @@
   }
 
   .form-input {
-    @apply w-full h-10 rounded-xl border border-gray-300 
+    @apply w-full h-10 rounded-md border border-gray-300 
     dark:border-gray-800 dark:bg-gray-800 px-2 py-1 mb-4;
   }
 

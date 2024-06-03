@@ -14,6 +14,8 @@ import SearchProvider from "./components/providers/SearchProvider.jsx";
 import CartPage from "./pages/CartPage.jsx";
 import { CartProvider } from "./components/providers/CartProvider.jsx";
 // import { getDataFromServer } from "./utils/getDataFromServer.js";
+import CheckoutPage from "./pages/CheckoutPage.jsx";
+import Payment from "./components/Payement.jsx";
 
 const categoriesServer = [
   {
@@ -118,6 +120,16 @@ export function App() {
           element: React.createElement(CartPage, {
             productsServer,
           }),
+        },
+        {
+          path: "/checkout",
+          element: React.createElement(CheckoutPage, {
+            productsServer,
+          }),
+        },
+        {
+          path: "/payment",
+          element: React.createElement(Payment, {}),
         },
       ],
     },

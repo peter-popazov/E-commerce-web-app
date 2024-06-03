@@ -9,9 +9,9 @@ import com.ecommerce.app.handler.exceptions.WrongOldPasswordException;
 import com.ecommerce.app.security.JWTService;
 import com.ecommerce.app.user.AppUser;
 import com.ecommerce.app.model.Token;
-import com.ecommerce.app.user.AppUserDAO;
 import com.ecommerce.app.model.dao.RoleDAO;
 import com.ecommerce.app.model.dao.TokenDAO;
+import com.ecommerce.app.user.AppUserRepository;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,7 +30,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final AppUserDAO appUserDAO;
+    private final AppUserRepository appUserRepository;
     private final PasswordEncoder passwordEncoder;
     private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -55,7 +55,7 @@ public class AuthService {
                 .roles(List.of(userRole))
                 .build();
 
-        appUserDAO.save(appUser);
+        appUserRepository.save(appUser);
         sendValidationEmail(appUser);
 
         var jwtToken = jwtService.generateToken(appUser);
@@ -111,7 +111,7 @@ public class AuthService {
         );
 
         var claims = new HashMap<String, Object>();
-        var user = appUserDAO.findByUsernameIgnoreCase(loginBody.getUsername())
+        var user = appUserRepository.findByUsernameIgnoreCase(loginBody.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
 
         claims.put("username", user.getUsername());
@@ -131,11 +131,11 @@ public class AuthService {
             throw new InvalidTokenException("Activation token has expired. A new one has been sent, check your email");
         }
 
-        AppUser user = appUserDAO.findById(foundToken.getUser().getId())
+        AppUser user = appUserRepository.findById(foundToken.getUser().getId())
                 .orElseThrow(() -> new UsernameNotFoundException("User [%s] not found" + foundToken.getUser().getUsername()));
 
         user.setEnabled(true);
-        appUserDAO.save(user);
+        appUserRepository.save(user);
         foundToken.setValidatedAt(LocalDateTime.now());
         tokenDAO.save(foundToken);
     }
@@ -151,7 +151,7 @@ public class AuthService {
 
         user.setEnabled(false);
         user.setPassword(passwordEncoder.encode(changePasswordBody.getNewPassword()));
-        appUserDAO.save(user);
+        appUserRepository.save(user);
 
         sendValidationEmail(user);
     }

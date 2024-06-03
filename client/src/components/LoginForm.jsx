@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, FormProvider } from "react-hook-form";
 import { IoMdClose } from "react-icons/io";
+import { useAuth } from "./providers/AuthContext";
 import Input from "./shared/Input";
 import Button from "./shared/Button";
-import { sendDetailsToServer } from "../utils/sendDataToServer";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "./providers/AuthContext";
+import { authSendDetailsToServer } from "../utils/authSendDetailsToServer";
 
 const loginFormInputs = [
   {
@@ -62,18 +61,18 @@ function Form() {
     password: "",
   });
 
-  const payload = {
-    username: loginData.username,
-    password: loginData.password,
-  };
-
-  const redirectToHome = () => {
-    navigateTo("/");
-    login(true);
-  };
-
   const handleSubmitClick = () => {
-    sendDetailsToServer(payload, redirectToHome, setErrors, "/login");
+    const payload = {
+      username: loginData.username,
+      password: loginData.password,
+    };
+
+    const redirectBack = () => {
+      navigateTo(-1);
+      login(true);
+    };
+
+    authSendDetailsToServer(payload, redirectBack, setErrors, "/login");
   };
 
   return (
