@@ -1,6 +1,5 @@
 package com.ecommerce.app.product;
 
-import com.ecommerce.app.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -1,6 +1,6 @@
 package com.ecommerce.app;
 
-import com.ecommerce.app.model.dao.RoleDAO;
+import com.ecommerce.app.user.RoleDAO;
 import com.ecommerce.app.user.Role;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

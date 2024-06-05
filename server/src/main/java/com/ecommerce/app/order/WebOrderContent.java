@@ -1,6 +1,6 @@
 package com.ecommerce.app.order;
 
-import com.ecommerce.app.model.Product;
+import com.ecommerce.app.product.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

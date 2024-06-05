@@ -1,10 +1,17 @@
-package com.ecommerce.app.model;
+package com.ecommerce.app.inventory;
 
+import com.ecommerce.app.product.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "inventory")
 public class Inventory {

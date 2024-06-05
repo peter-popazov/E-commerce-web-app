@@ -1,13 +1,12 @@
 package com.ecommerce.app.order;
 
 import com.ecommerce.app.address.Address;
-import com.ecommerce.app.model.Product;
+import com.ecommerce.app.product.Product;
 import com.ecommerce.app.order.repos.AddressRepository;
 import com.ecommerce.app.order.repos.WebOrderContentRepository;
 import com.ecommerce.app.order.repos.WebOrderRepository;
 import com.ecommerce.app.product.ProductRepository;
 import com.ecommerce.app.user.AppUser;
-import com.ecommerce.app.user.AppUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,6 +1,5 @@
-package com.ecommerce.app.model;
+package com.ecommerce.app.user;
 
-import com.ecommerce.app.user.AppUser;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,5 @@
 package com.ecommerce.app.product;
 
-import com.ecommerce.app.model.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

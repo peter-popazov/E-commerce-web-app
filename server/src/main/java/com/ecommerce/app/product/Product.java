@@ -1,6 +1,7 @@
-package com.ecommerce.app.model;
+package com.ecommerce.app.product;
 
 import com.ecommerce.app.category.Category;
+import com.ecommerce.app.inventory.Inventory;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -25,6 +26,9 @@ public class Product {
 
     @Column(name = "long_description", nullable = false)
     private String longDescription;
+
+    @Column(name = "brand", nullable = false)
+    private String brand;
 
     @Column(name = "price", precision = 2, nullable = false)
     private Integer price;

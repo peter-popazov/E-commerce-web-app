@@ -25,11 +25,15 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> {
                     authorize
-                            .requestMatchers("/products/**",
+                            .requestMatchers(
+                                    "/products/**",
                                     "/register",
                                     "/login",
                                     "/activate-account",
                                     "/categories",
+                                    "/inventory",
+                                    "/inventory/**",
+
                                     "/v3/api-docs",
                                     "/v3/api-docs/**",
                                     "swagger-ui/**",
