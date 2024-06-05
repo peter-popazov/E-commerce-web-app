@@ -7,13 +7,17 @@ import { HiOutlineMenuAlt4 } from "react-icons/hi";
 import { FaSearch, FaUser, FaCaretDown, FaShoppingCart } from "react-icons/fa";
 import { BsSuitHeartFill } from "react-icons/bs";
 
+import { CartContext } from "../components/providers/CartProvider";
 import { SearchContext } from "./providers/SearchProvider";
 import { useAuth } from "./providers/AuthContext";
 
 function HeaderBottom({ categoriesServer }) {
   const [show, setShow] = useState(false);
   const [showUser, setShowUser] = useState(false);
+
   const { isLoggedIn, logout } = useAuth();
+
+  const { cartItems } = useContext(CartContext);
 
   const { searchQuery, setSearchQuery } = useContext(SearchContext);
 
@@ -65,6 +69,8 @@ function HeaderBottom({ categoriesServer }) {
               <FaUser />
               <FaCaretDown />
             </div>
+            <BsSuitHeartFill className="mr-1.5" />
+            <CartIcon cartItems={cartItems} />
             {showUser && (
               <motion.ul
                 initial={{ y: 30, opacity: 0 }}
@@ -104,13 +110,6 @@ function HeaderBottom({ categoriesServer }) {
                 )}
               </motion.ul>
             )}
-            <Link to="/cart">
-              <div className="relative mr-2">
-                <FaShoppingCart />
-                <span className="absolute font-titleFont top-3 -right-2 text-xs w-4 h-4 flex items-center justify-center rounded-full bg-primeColor text-white"></span>
-              </div>
-            </Link>
-            <BsSuitHeartFill />
           </div>
         </div>
       </div>
@@ -125,6 +124,25 @@ function CategoryLink({ category }) {
         {category.name}
       </li>
     </Link>
+  );
+}
+
+function CartIcon({ cartItems }) {
+  const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  return (
+    <div className="relative">
+      <Link to="/cart">
+        <FaShoppingCart />
+        {totalQuantity > 0 && (
+          <span
+            className="w-4 h-4 bg-red-500 text-white font-medium rounded-full
+          absolute top-0 left-5 flex items-center justify-center text-xs"
+          >
+            {totalQuantity}
+          </span>
+        )}
+      </Link>
+    </div>
   );
 }
 

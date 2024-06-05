@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import Button from "./shared/Button";
+import Button from "../components/shared/Button";
 
-function Payment() {
+function PaymentPage() {
   return (
     <div className="container mx-auto px-4 text-center">
       <div className="p-20">
@@ -28,4 +28,4 @@ function Payment() {
   );
 }
 
-export default Payment;
+export default PaymentPage;

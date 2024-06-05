@@ -8,86 +8,37 @@ import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm.jsx";
 import ProductsPage from "./pages/ProductsPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
+import CartPage from "./pages/CartPage.jsx";
 import MainLayout from "./components/shared/MainLayout.jsx";
+import CheckoutPage from "./pages/CheckoutPage.jsx";
+import PaymentPage from "./pages/PaymentPage.jsx";
+
 import AuthProvider from "./components/providers/AuthContext.jsx";
 import SearchProvider from "./components/providers/SearchProvider.jsx";
-import CartPage from "./pages/CartPage.jsx";
 import { CartProvider } from "./components/providers/CartProvider.jsx";
-// import { getDataFromServer } from "./utils/getDataFromServer.js";
-import CheckoutPage from "./pages/CheckoutPage.jsx";
-import Payment from "./components/Payement.jsx";
-
-const categoriesServer = [
-  {
-    id: 1,
-    name: "accessories",
-  },
-  {
-    id: 2,
-    name: "mobile phones",
-  },
-  {
-    id: 3,
-    name: "computer techs",
-  },
-];
+import noAuthDataFromServer from "./utils/noAuthDataFromServer.js";
 
 export function App() {
   const [productsServer, setProductsServer] = useState([]);
+  const [categoriesServer, setCategoriesServer] = useState([]);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await noAuthDataFromServer("/products");
+      setProductsServer(data);
+    };
+    fetchData();
+  }, []);
 
   useEffect(() => {
-    //   const fetchData = async () => {
-    //     const data = await getDataFromServer("/products");
-    //     setProductsServer(data);
-    //   };
-    setProductsServer([
-      {
-        id: 1,
-        name: "iPhone 15 256Gb",
-        filePath:
-          "https://i.citrus.world/imgcache/size_800/uploads/shop/1/6/1699447786-728975-1.webp",
-        shortDescription: "Apple iPhone 15 256Gb 5G",
-        longDescription: "Apple iPhone 15 256Gb 5G",
-        price: 789,
-        inventory: null,
-        category: {
-          id: 2,
-          name: "mobile phones",
-        },
-      },
-      {
-        id: 2,
-        name: "Dell Monitor - P2424HT",
-        filePath:
-          "https://i.dell.com/is/image/DellContent//content/dam/ss2/product-images/peripherals/output-devices/composite-franchise-imagery/monitor/monitor-ultrasharp-family-franchise-page-1.jpg?fmt=jpg&wid=552&hei=460",
-        shortDescription: "Dell 24 Monitor",
-        longDescription: "Dell 24 Touch USB-C Hub Monitor - P2424HT",
-        price: 189,
-        inventory: null,
-        category: {
-          id: 3,
-          name: "computer techs",
-        },
-      },
-      {
-        id: 3,
-        name: "Microsoft Surface Pro 4 Type Cover",
-        filePath:
-          "https://i5.walmartimages.com/asr/2a41f6f0-844e-4ace-b7e3-63faef991173_1.2179afeb48142c34d2c84adf91b42b02.jpeg?odnHeight=450&odnWidth=450&odnBg=FFFFFF",
-        shortDescription:
-          "Microsoft Surface Pro 4 Type Cover with Fingerprint ID",
-        longDescription:
-          "This keyboard is very easy to type on, but the fingerprint reader is the best feature. It is very accurate and simplifies login.",
-        price: 99,
-        inventory: null,
-        category: {
-          id: 1,
-          name: "accessories",
-        },
-      },
-    ]);
-    //   fetchData();
-  }, []);
+    setCategoriesServer(
+      Array.from(
+        new Set(
+          productsServer.map((product) => JSON.stringify(product.category))
+        )
+      ).map((category) => JSON.parse(category))
+    );
+  }, [productsServer]);
 
   const router = createBrowserRouter([
     {
@@ -113,12 +64,14 @@ export function App() {
           element: React.createElement(ProductsPage, {
             productsServer,
             categoriesServer,
+            setProductsServer,
           }),
         },
         {
           path: "/cart",
           element: React.createElement(CartPage, {
             productsServer,
+            setProductsServer,
           }),
         },
         {
@@ -129,7 +82,7 @@ export function App() {
         },
         {
           path: "/payment",
-          element: React.createElement(Payment, {}),
+          element: React.createElement(PaymentPage, {}),
         },
       ],
     },

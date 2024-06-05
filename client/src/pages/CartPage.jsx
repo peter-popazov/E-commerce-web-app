@@ -4,7 +4,7 @@ import Cart from "../components/Cart";
 import EmptyCart from "../components/EmptyCart";
 import { CartContext } from "../components/providers/CartProvider";
 
-function CartPage({ productsServer }) {
+function CartPage({ productsServer, setProductsServer }) {
   const { cartItems, clearCart, getItemDetils, calcDeliveryCost } =
     useContext(CartContext);
 
@@ -17,6 +17,8 @@ function CartPage({ productsServer }) {
           cartItemDetails={cartItemDetails}
           clearCart={clearCart}
           calcDeliveryCost={calcDeliveryCost}
+          productsServer={productsServer}
+          setProductsServer={setProductsServer}
         />
       ) : (
         <EmptyCart />

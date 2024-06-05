@@ -22,6 +22,7 @@ function EmptyCart() {
             bgColor={"bg-primary"}
             textColor={"text-white"}
             rounded={"rounded-xl"}
+            onButtonClick={() => {}}
           >
             Continue Shopping
           </Button>

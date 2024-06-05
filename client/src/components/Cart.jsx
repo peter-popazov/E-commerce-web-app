@@ -5,7 +5,13 @@ import Button from "../components/shared/Button";
 import { useState, useEffect } from "react";
 import { useAuth } from "./providers/AuthContext";
 
-function Cart({ cartItemDetails, clearCart, calcDeliveryCost }) {
+function Cart({
+  cartItemDetails,
+  clearCart,
+  calcDeliveryCost,
+  setProductsServer,
+  productsServer,
+}) {
   const { isLoggedIn } = useAuth();
   const [totalAmount, setTotalAmount] = useState(0);
   const [shippingCharge, setShippingCharge] = useState(0);
@@ -33,7 +39,11 @@ function Cart({ cartItemDetails, clearCart, calcDeliveryCost }) {
       <div className="mt-5">
         {cartItemDetails.map((item) => (
           <div key={item.id}>
-            <ItemCart item={item} />
+            <ItemCart
+              item={item}
+              productsServer={productsServer}
+              setProductsServer={setProductsServer}
+            />
           </div>
         ))}
       </div>
@@ -41,7 +51,7 @@ function Cart({ cartItemDetails, clearCart, calcDeliveryCost }) {
         bgColor={"bg-primary"}
         textColor={"text-white"}
         rounded={"rounded-md"}
-        onButtonClick={clearCart}
+        onButtonClick={() => clearCart(productsServer, setProductsServer)}
       >
         Clear Cart
       </Button>

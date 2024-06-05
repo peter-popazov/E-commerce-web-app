@@ -1,25 +1,32 @@
 /* eslint-disable react/prop-types */
 
 import Button from "./shared/Button";
-import { recommendedButtonsFilter } from "../constants/constants";
 
-function Recommended({ onButtonClick }) {
+function Recommended({ onButtonClick, brands }) {
   return (
     <>
-      <h2 className="text-3xl font-bold m-2">Recommended</h2>
+      <h2 className="text-3xl font-bold m-2">Recommended Filters</h2>
       <div className="flex gap-3 mb-5">
-        {recommendedButtonsFilter.map((brand) => (
+        {brands.map((brand) => (
           <Button
             key={brand}
             value={brand}
             onButtonClick={onButtonClick}
-            bgColor={"bg-secondary"}
+            bgColor={"bg-primaryLight"}
             textColor={"text-white"}
             rounded={"rounded-xl"}
           >
             {brand}
           </Button>
         ))}
+        <Button
+          onButtonClick={() => onButtonClick(null)}
+          bgColor={"bg-brandGreenLight"}
+          textColor={"text-white"}
+          rounded={"rounded-xl"}
+        >
+          Clear Filter
+        </Button>
       </div>
     </>
   );

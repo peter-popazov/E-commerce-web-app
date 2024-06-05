@@ -6,11 +6,15 @@ import Card from "../components/Card";
 import Recommended from "../components/Recommended";
 import { SearchContext } from "../components/providers/SearchProvider";
 
-function ProductsPage({ productsServer, categoriesServer }) {
+function ProductsPage({ productsServer, categoriesServer, setProductsServer }) {
   const { searchQuery } = useContext(SearchContext);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedPrices, setSelectedPrices] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState("");
+
+  const brands = Array.from(
+    new Set(productsServer.map((product) => product.brand))
+  );
 
   const handleFilterChange = (value, checked, type) => {
     if (type === "category") {
@@ -54,7 +58,7 @@ function ProductsPage({ productsServer, categoriesServer }) {
 
   const filterByBrand = (products, brand) => {
     if (!brand) return products;
-    return products.filter((product) => product.company === brand);
+    return products.filter((product) => product.brand === brand);
   };
 
   function filteredData(
@@ -86,19 +90,18 @@ function ProductsPage({ productsServer, categoriesServer }) {
       return [];
     }
 
-    return filteredProducts.map(
-      ({ id, filePath, name, star, reviews, price }) => (
-        <Card
-          key={id}
-          id={id}
-          img={filePath}
-          title={name}
-          star={star}
-          reviews={reviews}
-          price={price}
-        />
-      )
-    );
+    return filteredProducts.map(({ id, filePath, name, price, inventory }) => (
+      <Card
+        key={id}
+        id={id}
+        img={filePath}
+        title={name}
+        price={price}
+        inventoryQuantity={inventory.quantity}
+        productsServer={productsServer}
+        setProductsServer={setProductsServer}
+      />
+    ));
   }
 
   const result = filteredData(
@@ -110,17 +113,17 @@ function ProductsPage({ productsServer, categoriesServer }) {
   );
 
   return (
-    <div className="container mx-auto px-6">
-      <div className="w-full h-full flex pb-20 gap-10 mt-16">
-        <div className="w-[30%] lg:w-[20%] hidden sm:inline-flex h-full">
+    <div className="lg:mx-10 md:mx-4  flex justify-center lg:mt-16">
+      <div className="w-full h-full flex justify-center mb-20 gap-10">
+        <div className="w-[30%] lg:w-[20%] max-w-[300px] hidden sm:inline-flex h-full">
           <SideBar
             onFilterChange={handleFilterChange}
             categoriesServer={categoriesServer}
           />
         </div>
-        <div className="w-full md:w-[70%] items-center md:items-start lg:w-[80%] h-full flex flex-col gap-2">
-          <Recommended onButtonClick={handleClickButton} />
-          <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 md:gap-4 lg:gap-10 dark:bg-gray-900">
+        <div className="items-center md:items-start h-full flex flex-col gap-2">
+          <Recommended onButtonClick={handleClickButton} brands={brands} />
+          <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 justify-center gap-10 md:gap-4 lg:gap-10 dark:bg-gray-900">
             {result}
           </section>
         </div>

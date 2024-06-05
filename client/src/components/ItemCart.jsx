@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { CartContext } from "./providers/CartProvider";
 import { ImCross } from "react-icons/im";
 
-function ItemCart({ item }) {
+function ItemCart({ item, setProductsServer, productsServer }) {
   const { addToCart, decreaseQuantity, removeFromCart } =
     useContext(CartContext);
   return (
@@ -22,14 +22,18 @@ function ItemCart({ item }) {
         </div>
         <div className="w-1/3 flex items-center gap-6 text-lg">
           <span
-            onClick={() => decreaseQuantity(item.id)}
+            onClick={() =>
+              decreaseQuantity(item.id, productsServer, setProductsServer)
+            }
             className="w-6 h-6 bg-gray-100 text-2xl flex items-center justify-center hover:bg-gray-300 cursor-pointer duration-300 border-[1px] border-gray-300 hover:border-gray-300"
           >
             -
           </span>
           <p>{item.quantity}</p>
           <span
-            onClick={() => addToCart(item.id)}
+            onClick={() =>
+              addToCart(item.id, productsServer, setProductsServer)
+            }
             className="w-6 h-6 bg-gray-100 text-2xl flex items-center justify-center hover:bg-gray-300 cursor-pointer duration-300 border-[1px] border-gray-300 hover:border-gray-300"
           >
             +

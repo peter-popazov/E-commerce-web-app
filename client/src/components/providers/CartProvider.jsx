@@ -1,14 +1,34 @@
 /* eslint-disable react/prop-types */
 import { createContext, useState } from "react";
+import noAuthDataFromServer from "../../utils/noAuthDataFromServer";
 
 export const CartContext = createContext(null);
 
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
 
-  const addToCart = (productId) => {
+  const addToCart = (productId, productsServer, setProductsServer) => {
     const existingProduct = cartItems.find((item) => item.id === productId);
+    const productIndex = productsServer.findIndex(
+      (product) => product.id === productId
+    );
 
+    const product = productsServer[productIndex];
+    if (product.inventory.quantity <= 0) {
+      return;
+    }
+    
+    if (productIndex !== -1) {
+      const updatedProductsServer = [...productsServer];
+      updatedProductsServer[productIndex] = {
+        ...updatedProductsServer[productIndex],
+        inventory: {
+          ...updatedProductsServer[productIndex].inventory,
+          quantity: updatedProductsServer[productIndex].inventory.quantity - 1,
+        },
+      };
+      setProductsServer(updatedProductsServer);
+    }
     if (existingProduct) {
       setCartItems(
         cartItems.map((item) =>
@@ -22,9 +42,24 @@ export function CartProvider({ children }) {
     }
   };
 
-  const decreaseQuantity = (productId) => {
+  const decreaseQuantity = (productId, productsServer, setProductsServer) => {
     const existingProduct = cartItems.find((item) => item.id === productId);
 
+    const productIndex = productsServer.findIndex(
+      (product) => product.id === productId
+    );
+
+    if (productIndex !== -1) {
+      const updatedProductsServer = [...productsServer];
+      updatedProductsServer[productIndex] = {
+        ...updatedProductsServer[productIndex],
+        inventory: {
+          ...updatedProductsServer[productIndex].inventory,
+          quantity: updatedProductsServer[productIndex].inventory.quantity + 1,
+        },
+      };
+      setProductsServer(updatedProductsServer);
+    }
     if (existingProduct && existingProduct.quantity > 1) {
       setCartItems(
         cartItems.map((item) =>
@@ -42,11 +77,37 @@ export function CartProvider({ children }) {
     setCartItems(cartItems.filter((item) => item.id !== productId));
   };
 
-  const clearCart = () => {
+  const clearCart = async (productsServer, setProductsServer) => {
     setCartItems([]);
+
+    try {
+      const inventoryData = await noAuthDataFromServer("/inventory");
+
+      const updatedProducts = productsServer.map((product) => {
+        const inventoryItem = inventoryData.find(
+          (item) => item.productId === product.id
+        );
+        if (inventoryItem) {
+          return {
+            ...product,
+            inventory: {
+              ...product.inventory,
+              quantity: inventoryItem.quantity,
+            },
+          };
+        } else {
+          return product;
+        }
+      });
+
+      // Set the updated products array to state
+      setProductsServer(updatedProducts);
+    } catch (error) {
+      console.error("Error while fetching inventory data:", error);
+    }
   };
 
-  const getItemDetils = (productsServer, cartItems) => {
+  const getItemDetils = (productsServer) => {
     const cartItemDetails = cartItems.map((cartItem) => {
       const product = productsServer.find(
         (product) => product.id === cartItem.id
@@ -61,7 +122,7 @@ export function CartProvider({ children }) {
   };
 
   const calcDeliveryCost = (totalAmount) => {
-    let shippingCharge = 0; 
+    let shippingCharge = 0;
     if (totalAmount <= 200) {
       shippingCharge = 30;
     } else if (totalAmount <= 400) {
