@@ -32,4 +32,10 @@ public class InventoryController {
     public ResponseEntity<Inventory> getInventoryForProduct(@PathVariable Long productId) {
         return ResponseEntity.ok(inventoryService.getInventoryForProduct(productId));
     }
+
+    @PutMapping
+    public ResponseEntity<Void> updateProductQuantities(@Valid @RequestBody List<InventoryResponse> productUpdates) {
+        inventoryService.updateProductQuantities(productUpdates);
+        return ResponseEntity.ok().build();
+    }
 }

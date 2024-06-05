@@ -48,6 +48,12 @@ public class OrderService {
             Product product = productRepository.findById(orderContentDTO.getProductId())
                     .orElseThrow(() -> new RuntimeException("Product not found with id:" + orderContentDTO.getProductId()));
 
+            Integer initialQuantity = product.getInventory().getQuantity();
+            if (initialQuantity < orderContentDTO.getQuantity()) {
+                throw new RuntimeException("Not enough inventory");
+            }
+            product.getInventory().setQuantity(initialQuantity - orderContentDTO.getQuantity());
+
             WebOrderContent webOrderContent = WebOrderContent.builder()
                     .product(product)
                     .quantity(orderContentDTO.getQuantity())

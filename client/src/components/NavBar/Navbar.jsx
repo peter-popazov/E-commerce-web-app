@@ -15,7 +15,7 @@ function Navbar() {
         <div className="container flex justify-between items-center">
           <div className="flex items-center gap-4">
             <Logo />
-            <nav className="hidden md:block">
+            <nav>
               <ul className="flex items-center gap-4">
                 {links.map((data, i) => (
                   <NavLink key={i} info={data} />

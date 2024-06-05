@@ -19,14 +19,6 @@ function Recommended({ onButtonClick, brands }) {
             {brand}
           </Button>
         ))}
-        <Button
-          onButtonClick={() => onButtonClick(null)}
-          bgColor={"bg-brandGreenLight"}
-          textColor={"text-white"}
-          rounded={"rounded-xl"}
-        >
-          Clear Filter
-        </Button>
       </div>
     </>
   );

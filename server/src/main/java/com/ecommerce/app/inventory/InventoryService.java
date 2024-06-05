@@ -4,6 +4,7 @@ import com.ecommerce.app.product.Product;
 import com.ecommerce.app.product.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,23 +23,20 @@ public class InventoryService {
     public Inventory getInventoryForProduct(Long productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found with id: " + productId));
+
         return inventoryRepository.findByProduct(product)
                 .orElseThrow(() -> new RuntimeException("Inventory for product with id " + productId + " not found"));
     }
 
     public List<InventoryResponse> getAllInventory() {
-        // Fetch all inventory items from the repository
         List<Inventory> inventoryItems = inventoryRepository.findAll();
 
-        // Map each inventory item to an InventoryResponse object
-        List<InventoryResponse> inventoryResponses = inventoryItems.stream()
+        return inventoryItems.stream()
                 .map(item -> new InventoryResponse(item.getProduct().getId(), item.getQuantity()))
                 .toList();
-
-        return inventoryResponses;
-
     }
 
+    @Transactional
     public Inventory addInventory(InventoryDto inventoryDto) {
         Product product = productRepository.findById(inventoryDto.getProductId())
                 .orElseThrow(() -> new RuntimeException("Product not found with id: " + inventoryDto.getProductId()));
@@ -48,5 +46,18 @@ public class InventoryService {
                 .product(product)
                 .quantity(inventoryDto.getQuantity())
                 .build());
+    }
+
+    @Transactional
+    public void updateProductQuantities(List<InventoryResponse> productUpdates) {
+        for (InventoryResponse productUpdate : productUpdates) {
+            Product product = productRepository.findById(productUpdate.getProductId())
+                    .orElseThrow(() -> new RuntimeException("Product not found with id: " + productUpdate.getProductId()));
+            Inventory inventory = inventoryRepository.findByProduct(product)
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid product ID: " + productUpdate.getProductId()));
+
+            inventory.setQuantity(productUpdate.getQuantity());
+            inventoryRepository.save(inventory);
+        }
     }
 }

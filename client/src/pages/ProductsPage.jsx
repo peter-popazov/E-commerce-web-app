@@ -29,7 +29,11 @@ function ProductsPage({ productsServer, categoriesServer, setProductsServer }) {
   };
 
   const handleClickButton = (brand) => {
-    setSelectedBrand(brand);
+    if (selectedBrand === brand) {
+      setSelectedBrand(null);
+    } else {
+      setSelectedBrand(brand);
+    }
   };
 
   const filterByQuery = (products, query) => {
