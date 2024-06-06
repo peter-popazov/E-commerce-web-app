@@ -7,11 +7,11 @@ import com.ecommerce.app.handler.exceptions.InvalidTokenException;
 import com.ecommerce.app.handler.exceptions.NotMatchingPasswordsException;
 import com.ecommerce.app.handler.exceptions.WrongOldPasswordException;
 import com.ecommerce.app.security.JWTService;
-import com.ecommerce.app.user.AppUser;
-import com.ecommerce.app.user.Token;
-import com.ecommerce.app.user.RoleDAO;
-import com.ecommerce.app.user.TokenDAO;
-import com.ecommerce.app.user.AppUserRepository;
+import com.ecommerce.app.user.*;
+import com.ecommerce.app.user.utils.Role;
+import com.ecommerce.app.user.utils.RoleRepository;
+import com.ecommerce.app.user.utils.Token;
+import com.ecommerce.app.user.utils.TokenRepository;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,8 +34,8 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final RoleDAO roleDAO;
-    private final TokenDAO tokenDAO;
+    private final RoleRepository roleRepository;
+    private final TokenRepository tokenRepository;
     private final EmailService emailService;
 
     @Value("${mailing.url}")
@@ -45,8 +45,8 @@ public class AuthService {
     private int activationCodeLength;
 
     public RegisterResponse register(RegistrationBody registrationBody) throws MessagingException {
-        var userRole = roleDAO.findByName("USER")
-                .orElseThrow(() -> new IllegalStateException("Role [USER] not found"));
+        var userRole =  roleRepository.findByName(registrationBody.getRole())
+                .orElseGet(() -> roleRepository.save(Role.builder().name(registrationBody.getRole()).build()));
 
         var appUser = AppUser.builder()
                 .username(registrationBody.getUsername())
@@ -86,7 +86,7 @@ public class AuthService {
                 .user(appUser)
                 .build();
 
-        tokenDAO.save(token);
+        tokenRepository.save(token);
         return generatedToken;
     }
 
@@ -124,7 +124,7 @@ public class AuthService {
     }
 
     public void activateAccount(String token) throws MessagingException {
-        Token foundToken = tokenDAO.findByToken(token).orElseThrow(() -> new IllegalStateException("Token not found"));
+        Token foundToken = tokenRepository.findByToken(token).orElseThrow(() -> new IllegalStateException("Token not found"));
 
         if (LocalDateTime.now().isAfter(foundToken.getExpiresAt())) {
             sendValidationEmail(foundToken.getUser());
@@ -137,7 +137,7 @@ public class AuthService {
         user.setEnabled(true);
         appUserRepository.save(user);
         foundToken.setValidatedAt(LocalDateTime.now());
-        tokenDAO.save(foundToken);
+        tokenRepository.save(foundToken);
     }
 
     public void changePassword(AppUser user, ChangePasswordBody changePasswordBody) throws MessagingException {

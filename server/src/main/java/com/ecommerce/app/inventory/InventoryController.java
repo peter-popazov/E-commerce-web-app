@@ -3,12 +3,14 @@ package com.ecommerce.app.inventory;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/inventory")
+@PreAuthorize("hasRole('STAFF')")
 public class InventoryController {
 
     private final InventoryService inventoryService;
@@ -19,7 +21,7 @@ public class InventoryController {
     }
 
     @PostMapping
-    public ResponseEntity<Inventory> addInventory(@Valid @RequestBody InventoryDto inventoryDto) {
+    public ResponseEntity<Inventory> addInventory(@Valid @RequestBody InventoryBody inventoryDto) {
         return ResponseEntity.ok(inventoryService.addInventory(inventoryDto));
     }
 

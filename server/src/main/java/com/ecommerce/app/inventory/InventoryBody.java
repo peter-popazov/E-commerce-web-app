@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 @Data
-public class InventoryDto {
+public class InventoryBody {
 
     @NotEmpty
     private Long productId;

@@ -3,10 +3,16 @@ package com.ecommerce.app.product;
 import com.ecommerce.app.category.Category;
 import com.ecommerce.app.inventory.Inventory;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "product")
 public class Product {
 

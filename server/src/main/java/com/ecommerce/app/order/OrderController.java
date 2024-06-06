@@ -3,6 +3,7 @@ package com.ecommerce.app.order;
 import com.ecommerce.app.user.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/order")
+@PreAuthorize("hasAnyRole('USER', 'STAFF')")
 public class OrderController {
 
     private final OrderService orderService;

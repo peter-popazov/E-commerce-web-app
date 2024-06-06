@@ -37,14 +37,14 @@ public class InventoryService {
     }
 
     @Transactional
-    public Inventory addInventory(InventoryDto inventoryDto) {
-        Product product = productRepository.findById(inventoryDto.getProductId())
-                .orElseThrow(() -> new RuntimeException("Product not found with id: " + inventoryDto.getProductId()));
+    public Inventory addInventory(InventoryBody inventoryBody) {
+        Product product = productRepository.findById(inventoryBody.getProductId())
+                .orElseThrow(() -> new RuntimeException("Product not found with id: " + inventoryBody.getProductId()));
 
         return inventoryRepository.save(Inventory
                 .builder()
                 .product(product)
-                .quantity(inventoryDto.getQuantity())
+                .quantity(inventoryBody.getQuantity())
                 .build());
     }
 

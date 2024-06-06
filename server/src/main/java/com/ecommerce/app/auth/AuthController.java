@@ -17,6 +17,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegistrationBody registrationBody) throws MessagingException {
+        registrationBody.setRole("CUSTOMER");
         RegisterResponse response = authService.register(registrationBody);
         return ResponseEntity.ok().body(response);
     }

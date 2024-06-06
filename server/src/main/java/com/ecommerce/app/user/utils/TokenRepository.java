@@ -1,4 +1,4 @@
-package com.ecommerce.app.user;
+package com.ecommerce.app.user.utils;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface RoleDAO extends JpaRepository<Role, Long> {
+public interface TokenRepository extends JpaRepository<Token, Long> {
 
-    Optional<Role> findByName(String name);
+    Optional<Token> findByToken(String token);
 }

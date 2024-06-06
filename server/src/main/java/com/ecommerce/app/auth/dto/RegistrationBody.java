@@ -1,5 +1,6 @@
 package com.ecommerce.app.auth.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -25,10 +26,6 @@ public class RegistrationBody {
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")
     private String confirmPassword;
 
-//    @NotBlank(message = "Firstname field is mandatory")
-//    private String firstName;
-//
-//    @NotBlank(message = "Lastname field is mandatory")
-//    private String lastName;
-
+    @JsonIgnore
+    private String role;
 }

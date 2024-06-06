@@ -33,6 +33,7 @@ public class WebSecurityConfig {
                                     "/categories",
                                     "/inventory",
                                     "/inventory/**",
+                                    "/staff/register",
 
                                     "/v3/api-docs",
                                     "/v3/api-docs/**",
