@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Order Confirmation</title>
+    <style>
+        /* Define custom CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa; /* Light gray background */
+            color: #333; /* Dark gray text color */
+        }
+
+        .container {
+            margin: 20px;
+            background-color: #fff; /* White container background */
+            padding: 20px;
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+        }
+
+        h2 {
+            color: #007bff; /* Blue header color */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff; /* White table background */
+            border-radius: 5px; /* Rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2; /* Light gray header background */
+            color: #333; /* Dark gray header text color */
+        }
+
+        img {
+            max-width: 50px;
+            max-height: 50px;
+            border-radius: 5px; /* Rounded corners for images */
+        }
+
+        .bold {
+            font-weight: bold;
+            color: #28a745; /* Green text color */
+        }
+
+        .italic {
+            font-style: italic;
+            color: #dc3545; /* Red text color */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Hello, <span th:text="${username}">User</span>!</h2>
+    <p>Thank you for your order. Here are the details:</p>
+
+    <div class="table-responsive">
+        <table>
+            <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${orderItems}">
+                <td><img th:src="${item.image}" alt="product image"/></td>
+                <td th:text="${item.name}">Product Name</td>
+                <td th:text="${item.quantity}">0</td>
+                <td th:text="${item.price}">0.00</td>
+                <td th:text="${item.price}*${item.quantity}">0.00</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>Total Price: <span th:text="${totalPrice}">0.00</span></p>
+    <p>*The shipping is not included</p>
+
+    <p>We hope you enjoy your purchase!</p>
+
+    <p>Best regards,<br/>E-commerce Team</p>
+    <p class="bold italic">This email is only for educational purposes!</p>
+</div>
+</body>
+</html>

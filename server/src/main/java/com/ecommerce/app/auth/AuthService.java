@@ -65,7 +65,7 @@ public class AuthService {
     private void sendValidationEmail(AppUser appUser) throws MessagingException {
         var newToken = generateAndSaveActivationToken(appUser);
 
-        emailService.sendEmail(
+        emailService.sendActivationEmail(
                 appUser.getEmail(),
                 appUser.getUsername(),
                 EmailTemplateName.ACTIVATE_ACCOUNT,

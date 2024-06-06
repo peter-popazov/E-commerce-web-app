@@ -1,6 +1,7 @@
 package com.ecommerce.app.order;
 
 import com.ecommerce.app.user.AppUser;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,7 +34,7 @@ public class OrderController {
 
     @PostMapping("/{addressId}")
     public ResponseEntity<WebOrder> addOrder(@AuthenticationPrincipal AppUser appUser,
-                                             @RequestBody List<WebOrderContentDTO> dto, @PathVariable Long addressId) {
+                                             @RequestBody List<WebOrderContentDTO> dto, @PathVariable Long addressId) throws MessagingException {
         return ResponseEntity.ok(orderService.addOrder(appUser, dto, addressId));
     }
 
