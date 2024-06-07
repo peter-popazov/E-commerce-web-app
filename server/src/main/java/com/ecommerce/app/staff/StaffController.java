@@ -3,6 +3,7 @@ package com.ecommerce.app.staff;
 import com.ecommerce.app.auth.AuthService;
 import com.ecommerce.app.auth.dto.RegisterResponse;
 import com.ecommerce.app.auth.dto.RegistrationBody;
+import com.ecommerce.app.logging.LoggingController;
 import com.ecommerce.app.product.Product;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+@LoggingController
 @RestController
 @RequestMapping("/staff")
 public class StaffController {

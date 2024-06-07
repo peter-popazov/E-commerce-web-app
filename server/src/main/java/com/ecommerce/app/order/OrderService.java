@@ -4,6 +4,7 @@ import com.ecommerce.app.address.Address;
 import com.ecommerce.app.email.EmailService;
 import com.ecommerce.app.email.EmailTemplateName;
 import com.ecommerce.app.email.OrderItem;
+import com.ecommerce.app.logging.LoggingService;
 import com.ecommerce.app.product.Product;
 import com.ecommerce.app.order.repos.AddressRepository;
 import com.ecommerce.app.order.repos.WebOrderContentRepository;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+@LoggingService
 @Service
 @RequiredArgsConstructor
 public class OrderService {

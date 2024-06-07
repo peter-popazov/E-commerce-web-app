@@ -91,7 +91,7 @@ function Form() {
     };
 
     const redirectToHome = () => {
-      navigateTo(-1);
+      navigateTo("/home");
       login(true);
     };
 

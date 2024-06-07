@@ -1,6 +1,7 @@
 package com.ecommerce.app.auth;
 
 import com.ecommerce.app.auth.dto.*;
+import com.ecommerce.app.logging.LoggingController;
 import com.ecommerce.app.user.AppUser;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;

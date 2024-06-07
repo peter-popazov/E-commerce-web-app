@@ -1,5 +1,6 @@
 package com.ecommerce.app.inventory;
 
+import com.ecommerce.app.logging.LoggingController;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@LoggingController
 @RestController
 @RequestMapping("/inventory")
 @PreAuthorize("hasRole('STAFF')")

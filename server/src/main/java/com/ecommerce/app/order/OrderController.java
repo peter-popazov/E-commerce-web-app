@@ -1,5 +1,6 @@
 package com.ecommerce.app.order;
 
+import com.ecommerce.app.logging.LoggingService;
 import com.ecommerce.app.user.AppUser;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@LoggingService
 @RestController
 @RequestMapping("/order")
-@PreAuthorize("hasAnyRole('USER', 'STAFF')")
+@PreAuthorize("hasAnyRole('CUSTOMER', 'STAFF')")
 public class OrderController {
 
     private final OrderService orderService;

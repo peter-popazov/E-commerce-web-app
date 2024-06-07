@@ -4,13 +4,13 @@ import com.ecommerce.app.category.Category;
 import com.ecommerce.app.category.CategoryRepository;
 import com.ecommerce.app.inventory.Inventory;
 import com.ecommerce.app.inventory.InventoryRepository;
+import com.ecommerce.app.logging.LoggingService;
 import com.ecommerce.app.product.Product;
 import com.ecommerce.app.product.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
+@LoggingService
 @Service
 public class StaffService {
 

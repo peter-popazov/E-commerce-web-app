@@ -10,7 +10,7 @@ export const authSendDetailsToServer = (
   axios
     .post(API_BASE_URL + url, payload)
     .then((response) => {
-      if (response.status === 200) {
+      if (response.status === 200 && response.data.access_token) {
         localStorage.setItem(ACCESS_TOKEN_NAME, response.data.access_token);
         redirectToHome();
       } else {

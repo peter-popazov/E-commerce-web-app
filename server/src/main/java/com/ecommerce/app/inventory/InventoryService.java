@@ -1,5 +1,6 @@
 package com.ecommerce.app.inventory;
 
+import com.ecommerce.app.logging.LoggingService;
 import com.ecommerce.app.product.Product;
 import com.ecommerce.app.product.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@LoggingService
 @Service
 public class InventoryService {
 
