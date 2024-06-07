@@ -68,7 +68,7 @@ function Form() {
     };
 
     const redirectBack = () => {
-      navigateTo("/home");
+      navigateTo("/");
       login(true);
     };
 
