@@ -73,7 +73,7 @@ public class EmailService {
         messageHelper.setFrom("contact@ecommerce.com");
         messageHelper.setSubject(subject);
 
-        String html = templateEngine.process(String.valueOf(emailTemplateName), context);
+        String html = templateEngine.process(emailTemplateName.getName(), context);
         messageHelper.setText(html, true);
         mailSender.send(message);
     }
