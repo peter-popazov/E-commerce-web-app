@@ -50,11 +50,13 @@
 <body>
 <div class="container">
     <h2>Welcome to the Ecommerce Website!</h2>
-    <p>To activate your account, <span class="user-name" th:text="${username}"></span> , please click the button below:</p>
-    <p>Your activation code is <span class="code" th:text="${activationCode}"></span> </p>
-    <a th:href="@{http://localhost:8080/activate-account(token=${activationCode})}" class="button">Activate Account</a>
+    <p>To activate your account, <span class="user-name" th:text="${usernameReceiver}"></span> , please click the button
+        below:</p>
+    <p>Your activation code is <span class="code" th:text="${activationCode}"></span></p>
+    <a th:href="@{${confirmationUrl}(token=${activationCode})}" class="button">Activate Account</a>
     <p>If you're having trouble activating your account, please contact support.</p>
-    <p class="bold"><i> This email is only for educational purposes!</i></p>
+    <p class="bold"><i> This email was sent only for educational purposes by <span th:text="${usernameSender}"></span>!</i>
+    </p>
 </div>
 </body>
 </html>

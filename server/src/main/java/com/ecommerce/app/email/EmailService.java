@@ -39,7 +39,8 @@ public class EmailService {
         );
 
         Map<String, Object> model = new HashMap<>();
-        model.put(usernameSender, username);
+        model.put("usernameSender", usernameSender);
+        model.put("usernameReceiver", username);
         model.put("confirmationUrl", confirmationUrl);
         model.put("activationCode", activationCode);
 
