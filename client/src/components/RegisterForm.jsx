@@ -5,7 +5,8 @@ import { useForm, FormProvider } from "react-hook-form";
 import Input from "./shared/Input";
 import Button from "./shared/Button";
 import { useAuth } from "./providers/AuthContext";
-import { authSendDetailsToServer } from "../utils/authSendDetailsToServer";
+import axios from "axios";
+import { API_BASE_URL } from "../constants/constants";
 
 const registerFormInputs = [
   {
@@ -90,18 +91,25 @@ function Form() {
       confirmPassword: registerData.confirmPassword,
     };
 
-    const redirectToHome = () => {
-      navigateTo("/");
-      login(true);
-    };
+    try {
+      const response = await axios.post(`${API_BASE_URL}/register`, payload);
+      const tokenRecived = response.data.access_token;
 
-    await authSendDetailsToServer(
-      payload,
-      redirectToHome,
-      setErrors,
-      "/register",
-      setToken
-    );
+      if (response.status === 200 && tokenRecived) {
+        setToken(tokenRecived);
+        login();
+        navigateTo("/");
+      } else {
+        setErrors(["Token is missing from the server response"]);
+      }
+    } catch (error) {
+      if (error.response) {
+        setErrors(error.response.data.errors || ["An unknown error occurred"]);
+      } else {
+        setErrors(["An error occurred while communicating with the server"]);
+      }
+      console.error("Error:", error);
+    }
   };
 
   return (

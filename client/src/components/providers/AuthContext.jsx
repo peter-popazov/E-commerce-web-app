@@ -8,9 +8,7 @@ function AuthProvider({ children }) {
   const [token, setToken] = useState();
 
   const login = () => {
-    if (token) {
-      setIsLoggedIn(true);
-    }
+    setIsLoggedIn(true);
   };
 
   const logout = () => {
