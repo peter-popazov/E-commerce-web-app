@@ -1,14 +1,14 @@
 import axios from "axios";
 import { API_BASE_URL } from "../constants/constants";
 
-export const authSendDetailsToServer = async (
+export const authSendDetailsToServer = (
   payload,
   redirectToHome,
   setErrors,
   url
 ) => {
   try {
-    const response = await axios.post(API_BASE_URL + url, payload);
+    const response = axios.post(API_BASE_URL + url, payload);
     if (response.status === 200 && response.data.access_token) {
       redirectToHome();
       return response.data.access_token;
