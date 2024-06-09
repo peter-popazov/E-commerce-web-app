@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum EmailTemplateName {
 
     ACTIVATE_ACCOUNT("activate_account"),
-    ORDER_CONFIRMATION("order_confirmation");
+    ORDER_CONFIRMATION("order_confirmation"),
+    CTA_CONFIRMATION("cta_confirmation"),;
 
     private final String name;
 

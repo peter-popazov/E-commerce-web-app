@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Thank You for Contacting Us!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .container {
+            margin: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #007bff;
+        }
+
+        .message {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-left: 5px solid #007bff;
+            border-radius: 5px;
+        }
+
+        .bold {
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .italic {
+            font-style: italic;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <p>Thank you for reaching out to us!</p>
+
+    <div class="message">
+        <p><strong>Name:</strong> <span th:text="${firstName}">John</span></p>
+        <p><strong>Name:</strong> <span th:text="${lastName}">Doe</span></p>
+        <p><strong>Subject:</strong> <span th:text="${subject}">Subject of your message</span></p>
+        <p><strong>Message:</strong> <span>You got 20% off for you first order.</span></p>
+    </div>
+
+    <p>We appreciate your interest and will respond to your inquiry shortly.</p>
+
+    <p>Best regards,<br/>Customer Support Team</p>
+    <p class="bold italic">This email is automatically generated. Please do not reply.</p>
+    <p class="bold"><i> This email was sent only for educational!</i>
+</div>
+</body>
+</html>

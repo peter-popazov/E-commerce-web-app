@@ -65,6 +65,24 @@ public class EmailService {
         configureEmailContext(to, emailTemplateName, subject, message, messageHelper, model);
     }
 
+    @Async
+    public void sendCTAEmail(String to, EmailTemplateName emailTemplateName, String fistName, String lastName,
+                             String subject) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper messageHelper = new MimeMessageHelper(
+                message,
+                MimeMessageHelper.MULTIPART_MODE_MIXED,
+                StandardCharsets.UTF_8.name()
+        );
+
+        Map<String, Object> model = new HashMap<>();
+        model.put("firstName", fistName);
+        model.put("lastName", lastName);
+        model.put("subject", subject);
+
+        configureEmailContext(to, emailTemplateName, subject, message, messageHelper, model);
+    }
+
     private void configureEmailContext(String to, EmailTemplateName emailTemplateName, String subject, MimeMessage message,
                                        MimeMessageHelper messageHelper, Map<String, Object> model) throws MessagingException {
         Context context = new Context();
