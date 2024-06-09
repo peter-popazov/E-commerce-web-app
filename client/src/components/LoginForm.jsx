@@ -67,23 +67,20 @@ function Form() {
       password: loginData.password,
     };
 
-    const redirectBack = () => {
+    const redirectToHome = () => {
       navigateTo("/");
       login(true);
     };
 
-    try {
-      const token = await authSendDetailsToServer(
-        payload,
-        redirectBack,
-        setErrors,
-        "/login"
-      );
-      setToken(token); 
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
+    await authSendDetailsToServer(
+      payload,
+      redirectToHome,
+      setErrors,
+      "/login",
+      setToken
+    );
   };
+
   return (
     <>
       {errors && (

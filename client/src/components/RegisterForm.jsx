@@ -95,17 +95,13 @@ function Form() {
       login(true);
     };
 
-    try {
-      const token = await authSendDetailsToServer(
-        payload,
-        redirectToHome,
-        setErrors,
-        "/register"
-      );
-      setToken(token); // Set the token after it has been resolved
-    } catch (error) {
-      console.error("Error during registration:", error);
-    }
+    await authSendDetailsToServer(
+      payload,
+      redirectToHome,
+      setErrors,
+      "/register",
+      setToken
+    );
   };
 
   return (

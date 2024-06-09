@@ -8,11 +8,13 @@ function AuthProvider({ children }) {
   const [token, setToken] = useState();
 
   const login = () => {
-    setIsLoggedIn(true);
+    if (token) {
+      setIsLoggedIn(true);
+    }
   };
 
   const logout = () => {
-    localStorage.removeItem("access_token");
+    setToken();
     setIsLoggedIn(false);
   };
 
