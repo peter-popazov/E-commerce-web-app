@@ -54,8 +54,8 @@ public class ApplicationConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedOrigins(
-                                "https://e-commerce-webapp-five.vercel.app",
-                                "https://e-commerce-api-production-691a.up.railway.app")
+                                "https://e-commerce-webapp-five.vercel.app/",
+                                "https://e-commerce-api-production-691a.up.railway.app/")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
                         .allowCredentials(true).maxAge(3600);
             }
