@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { createContext, useState, useContext } from "react";
+import { useEffect } from "react";
 
 const AuthContext = createContext();
 
@@ -15,6 +16,18 @@ function AuthProvider({ children }) {
     setToken();
     setIsLoggedIn(false);
   };
+
+  useEffect(() => {
+    const setTokenInLocalStorage = (token) => {
+      if (token) {
+        localStorage.setItem("token", token);
+      } else {
+        localStorage.removeItem("token");
+      }
+    };
+
+    setTokenInLocalStorage(token);
+  }, [token]);
 
   return (
     <AuthContext.Provider

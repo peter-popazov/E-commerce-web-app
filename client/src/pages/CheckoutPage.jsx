@@ -4,10 +4,8 @@ import Button from "../components/shared/Button";
 import Input from "../components/shared/Input";
 import { useForm, FormProvider } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { sendDetailsToServer } from "../utils/sendDataToServer";
 import { CartContext } from "../components/providers/CartProvider";
 import CartInfoCheckout from "../components/CartInfoCheckout";
-import { useAuth } from "../components/providers/AuthContext";
 import axios from "axios";
 import { API_BASE_URL } from "../constants/constants";
 
@@ -54,7 +52,6 @@ function CheckoutPage({ productsServer }) {
   const { cartItems, clearCart } = useContext(CartContext);
   const navigateTo = useNavigate();
   const methods = useForm();
-  const { token } = useAuth();
 
   const [errors, setErrors] = useState("");
 
@@ -71,14 +68,14 @@ function CheckoutPage({ productsServer }) {
     handleSubmitClick();
   });
 
-  const sendDetailsToServer = async (
-    payload,
-    onSuccess,
-    setErrors,
-    url,
-    token
-  ) => {
+  const sendDetailsToServer = async (payload, onSuccess, setErrors, url) => {
     try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        throw new Error("Token not found in local storage");
+      }
+
       const response = await axios.post(url, payload, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -114,8 +111,7 @@ function CheckoutPage({ productsServer }) {
         payload,
         () => {},
         setErrors,
-        `${API_BASE_URL}/delivery`,
-        token
+        `${API_BASE_URL}/delivery`
       );
 
       if (response && response.id) {
@@ -143,8 +139,7 @@ function CheckoutPage({ productsServer }) {
           clearCart();
         },
         setErrors,
-        `${API_BASE_URL}/order/${addressId}`,
-        token
+        `${API_BASE_URL}/order/${addressId}`
       );
     } catch (error) {
       console.error("Error during server communication:", error);
