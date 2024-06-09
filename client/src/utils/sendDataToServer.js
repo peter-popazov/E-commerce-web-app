@@ -1,14 +1,14 @@
 import axios from "axios";
-import { API_BASE_URL, ACCESS_TOKEN_NAME } from "../constants/constants";
+import { API_BASE_URL } from "../constants/constants";
 
 export const sendDetailsToServer = async (
   payload,
   redirectToHome,
   setErrors,
-  url
+  url,
+  token
 ) => {
   try {
-    const token = localStorage.getItem(ACCESS_TOKEN_NAME);
     const response = await axios.post(API_BASE_URL + url, payload, {
       headers: {
         Authorization: `Bearer ${token}`,

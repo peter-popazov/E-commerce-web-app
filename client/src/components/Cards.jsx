@@ -6,6 +6,7 @@ import HomePod from "/img/cards/homePod.jpg";
 import MacBook from "/img/cards/macBook.jpg";
 import PS5 from "/img/cards/ps5.png";
 import ManAppleVisionPro from "/img/cards/manAppleVisionPro.jpg";
+import { Link } from "react-router-dom";
 
 const cardsDataRow1 = [
   {
@@ -120,7 +121,6 @@ function Card({ data }) {
       className={`${data.styling.gradient} ${data.styling.gridSpan} py-10 pl-5 text-white rounded-3xl 
     h-[320px] relative flex items-center justify-between`}
     >
-      {/* <div> */}
       <div className="mb-4">
         <p className={`mb-[2px] text-${data.styling.headingTextColor}`}>
           {data.heading}
@@ -129,13 +129,14 @@ function Card({ data }) {
         <p className="text-4xl xl:text-5xl font-bold opacity-30 mb-2">
           {data.product}
         </p>
-        <Button
-          bgColor={data.styling.buttonBgColor}
-          textColor={data.styling.buttonTextColor}
-        >
-          Buy Now
-        </Button>
-        {/* </div> */}
+        <Link to={"/products"}>
+          <Button
+            bgColor={data.styling.buttonBgColor}
+            textColor={data.styling.buttonTextColor}
+          >
+            Buy Now
+          </Button>
+        </Link>
       </div>
       <img
         src={data.img}

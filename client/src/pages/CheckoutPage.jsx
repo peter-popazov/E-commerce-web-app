@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { sendDetailsToServer } from "../utils/sendDataToServer";
 import { CartContext } from "../components/providers/CartProvider";
 import CartInfoCheckout from "../components/CartInfoCheckout";
+import { useAuth } from "../components/providers/AuthContext";
 
 const loginFormInputs = [
   {
@@ -51,6 +52,7 @@ function CheckoutPage({ productsServer }) {
   const { cartItems, clearCart } = useContext(CartContext);
   const navigateTo = useNavigate();
   const methods = useForm();
+  const { token } = useAuth();
 
   const [errors, setErrors] = useState("");
 
@@ -84,7 +86,8 @@ function CheckoutPage({ productsServer }) {
         payload,
         () => {},
         setErrors,
-        "/delivery"
+        "/delivery",
+        token
       );
     } catch (error) {
       console.error("Error during server communication:", error);
@@ -108,7 +111,8 @@ function CheckoutPage({ productsServer }) {
           clearCart();
         },
         setErrors,
-        `/order/${addressId}`
+        `/order/${addressId}`,
+        token
       );
     } catch (error) {
       console.error("Error during server communication:", error);

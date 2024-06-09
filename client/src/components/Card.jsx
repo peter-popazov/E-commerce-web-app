@@ -30,7 +30,7 @@ function Card({
         <img
           src={img}
           alt={title}
-          className={`h-full w-full object-cover ${
+          className={`h-full object-cover ${
             !isActive ? "grayscale" : ""
           }`}
         />
