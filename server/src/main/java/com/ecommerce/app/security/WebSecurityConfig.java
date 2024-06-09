@@ -30,6 +30,7 @@ public class WebSecurityConfig {
                                     "/register",
                                     "/login",
                                     "/activate-account",
+                                    "/activate_account",
                                     "/categories",
                                     "/inventory",
                                     "/inventory/**",
