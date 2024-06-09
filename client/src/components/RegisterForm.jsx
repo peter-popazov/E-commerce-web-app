@@ -66,7 +66,7 @@ function RegisterForm() {
 }
 
 function Form() {
-  const { login } = useAuth();
+  const { login, setToken } = useAuth();
   const navigateTo = useNavigate();
   const [errors, setErrors] = useState("");
 
@@ -95,7 +95,14 @@ function Form() {
       login(true);
     };
 
-    authSendDetailsToServer(payload, redirectToHome, setErrors, "/register");
+    const token = authSendDetailsToServer(
+      payload,
+      redirectToHome,
+      setErrors,
+      "/register"
+    );
+
+    setToken(token);
   };
 
   return (

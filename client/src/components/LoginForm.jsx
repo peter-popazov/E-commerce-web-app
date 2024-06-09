@@ -47,7 +47,7 @@ function LoginForm() {
 }
 
 function Form() {
-  const { login } = useAuth();
+  const { login, setToken } = useAuth();
   const [errors, setErrors] = useState("");
   const navigateTo = useNavigate();
 
@@ -72,7 +72,13 @@ function Form() {
       login(true);
     };
 
-    authSendDetailsToServer(payload, redirectBack, setErrors, "/login");
+    const token = authSendDetailsToServer(
+      payload,
+      redirectBack,
+      setErrors,
+      "/login"
+    );
+    setToken(token);
   };
 
   return (
