@@ -35,14 +35,14 @@ public class LoggingAspect {
         if (className.equals(AuthController.class.getName()) || className.equals(AuthService.class.getName())
                 || methodName.equals("registerStaff")) {
             logger.info("[{}]: method invoked: {}.{}", layer, className, methodName);
-            pjp.proceed(args);
+            Object result = pjp.proceed(args);
             logger.info("[{}]: method finished successfully: {}.{}", layer, className, methodName);
-            return pjp.getTarget();
+            return result;
         }
 
         logger.info("[{}]: method invoked: {}.{}({})", layer, className, methodName, mapper.writeValueAsString(args));
         Object result = pjp.proceed(args);
-        logger.info("[{}]: method result: {}.{}({})", layer, className, methodName, mapper.writeValueAsString(result));
+        logger.info("[{}]: method result: {}.{} = {}", layer, className, methodName, mapper.writeValueAsString(result));
         return result;
     }
 

@@ -45,6 +45,11 @@ public class AuthService {
     private int activationCodeLength;
 
     public RegisterResponse register(RegistrationBody registrationBody) throws MessagingException {
+
+        if (!registrationBody.getPassword().equals(registrationBody.getConfirmPassword())) {
+            throw new RuntimeException("Passwords do not match");
+        }
+
         var userRole =  roleRepository.findByName(registrationBody.getRole())
                 .orElseGet(() -> roleRepository.save(Role.builder().name(registrationBody.getRole()).build()));
 

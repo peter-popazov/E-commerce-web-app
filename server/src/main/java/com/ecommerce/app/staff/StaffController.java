@@ -28,7 +28,7 @@ public class StaffController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<RegisterResponse> registerStaff(RegistrationBody registrationBody) throws MessagingException {
+    public ResponseEntity<RegisterResponse> registerStaff(@Valid @RequestBody RegistrationBody registrationBody) throws MessagingException {
         registrationBody.setRole("STAFF");
         return ResponseEntity.ok(authService.register(registrationBody));
     }
