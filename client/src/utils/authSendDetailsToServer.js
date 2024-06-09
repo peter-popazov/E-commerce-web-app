@@ -11,7 +11,7 @@ export const authSendDetailsToServer = async (
   try {
     const response = await axios.post(API_BASE_URL + url, payload);
     if (response.status === 200 && response.data.access_token) {
-      setToken(response.data.access_token);
+      await setToken(response.data.access_token);
       redirectToHome();
     } else {
       console.log("Some error occurred");
