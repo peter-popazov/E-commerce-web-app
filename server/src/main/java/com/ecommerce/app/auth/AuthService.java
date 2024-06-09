@@ -51,13 +51,17 @@ public class AuthService {
         }
 
         var userRole =  roleRepository.findByName(registrationBody.getRole())
-                .orElseGet(() -> roleRepository.save(Role.builder().name(registrationBody.getRole()).build()));
+                .orElseGet(() -> roleRepository.save(Role.builder()
+                        .name(registrationBody.getRole())
+                        .createdDate(String.valueOf(LocalDateTime.now()))
+                        .build()));
 
         var appUser = AppUser.builder()
                 .username(registrationBody.getUsername())
                 .password(passwordEncoder.encode(registrationBody.getPassword()))
                 .email(registrationBody.getEmail())
                 .roles(List.of(userRole))
+                .createdDate(String.valueOf(LocalDateTime.now()))
                 .build();
 
         appUserRepository.save(appUser);
@@ -156,6 +160,7 @@ public class AuthService {
 
         user.setEnabled(false);
         user.setPassword(passwordEncoder.encode(changePasswordBody.getNewPassword()));
+        user.setLastModifiedDate(String.valueOf(LocalDateTime.now()));
         appUserRepository.save(user);
 
         sendValidationEmail(user);

@@ -14,7 +14,6 @@ import java.util.List;
 @LoggingService
 @RestController
 @RequestMapping("/order")
-@PreAuthorize("hasAnyRole('CUSTOMER', 'STAFF')")
 public class OrderController {
 
     private final OrderService orderService;
@@ -24,22 +23,26 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    @PreAuthorize("hasAnyRole('CUSTOMER', 'STAFF')")
     @GetMapping("/all")
     public ResponseEntity<List<WebOrder>> getOrders(@AuthenticationPrincipal AppUser appUser) {
         return ResponseEntity.ok(orderService.getOrders(appUser));
     }
 
+    @PreAuthorize("hasAnyRole('CUSTOMER', 'STAFF')")
     @GetMapping("/{orderId}")
     public ResponseEntity<WebOrder> getOrder(@PathVariable Long orderId) {
         return ResponseEntity.ok(orderService.getOrder(orderId));
     }
 
+    @PreAuthorize("hasAnyRole('CUSTOMER', 'STAFF')")
     @PostMapping("/{addressId}")
     public ResponseEntity<WebOrder> addOrder(@AuthenticationPrincipal AppUser appUser,
                                              @RequestBody List<WebOrderContentDTO> dto, @PathVariable Long addressId) throws MessagingException {
         return ResponseEntity.ok(orderService.addOrder(appUser, dto, addressId));
     }
 
+    @PreAuthorize("hasRole('STAFF')")
     @DeleteMapping("/{orderId}")
     public ResponseEntity<?> deleteOrder(@PathVariable Long orderId) {
         orderService.deleteOrder(orderId);

@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +49,7 @@ public class OrderService {
         WebOrder newWebOrder = WebOrder.builder()
                 .appUser(appUser)
                 .address(address)
+                .createdDate(String.valueOf(LocalDateTime.now()))
                 .build();
 
         WebOrder savedOrder = webOrderRepository.save(newWebOrder);

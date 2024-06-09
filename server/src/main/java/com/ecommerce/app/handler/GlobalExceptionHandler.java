@@ -119,16 +119,16 @@ public class GlobalExceptionHandler {
         return "Error occurred. Contact someone :)";
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ExceptionResponse> handleException(Exception e) {
-        return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ExceptionResponse.builder()
-                        .error(e.getMessage())
-                        .errorMessage("Internal error message. Contact someone :)")
-                        .timestamp(LocalDateTime.now())
-                        .build());
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<ExceptionResponse> handleException(Exception e) {
+//        return ResponseEntity
+//                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                .body(ExceptionResponse.builder()
+//                        .error(e.getMessage())
+//                        .errorMessage("Internal error message. Contact someone :)")
+//                        .timestamp(LocalDateTime.now())
+//                        .build());
+//    }
 
     @ExceptionHandler(NotMatchingPasswordsException.class)
     public ResponseEntity<ExceptionResponse> handleException(NotMatchingPasswordsException e) {

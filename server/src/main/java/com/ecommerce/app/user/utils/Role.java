@@ -11,7 +11,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -34,11 +33,9 @@ public class Role {
     @ManyToMany(mappedBy = "roles")
     private List<AppUser> users;
 
-    @CreatedDate
     @Column(name = "created_date", nullable = false, updatable = false)
-    private LocalDateTime createdDate;
+    private String createdDate;
 
-    @LastModifiedDate
     @Column(name = "updated_date", insertable = false)
-    private LocalDateTime lastModifiedDate;
+    private String lastModifiedDate;
 }

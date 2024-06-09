@@ -6,12 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,23 +34,23 @@ public class WebOrder {
     @OneToMany(mappedBy = "webOrder", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<WebOrderContent> contents;
 
-    @CreatedDate
     @Column(name = "created_date", updatable = false)
-    private LocalDateTime createdDate;
+    private String createdDate;
 
-    @LastModifiedDate
     @Column(name = "updated_date", insertable = false)
-    private LocalDateTime lastModifiedDate;
+    private String lastModifiedDate;
 
     public WebOrder() {
         this.contents = new ArrayList<>();
     }
 
     @Builder
-    public WebOrder(AppUser appUser, Address address) {
+    public WebOrder(AppUser appUser, Address address, String createdDate, String lastModifiedDate) {
         this.appUser = appUser;
         this.address = address;
         this.contents = new ArrayList<>();
+        this.createdDate = createdDate;
+        this.lastModifiedDate = lastModifiedDate;
     }
 
     @Override
