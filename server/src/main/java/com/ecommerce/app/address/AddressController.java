@@ -26,7 +26,7 @@ public class AddressController {
 
     @PostMapping
     @PreAuthorize("hasRole('CUSTOMER')")
-    public ResponseEntity<?> addUserDeliveryInfo(@AuthenticationPrincipal AppUser user,
+    public ResponseEntity<AddressResponse> addUserDeliveryInfo(@AuthenticationPrincipal AppUser user,
                                                  @Valid @RequestBody AddressDTO addressDTO) {
         return ResponseEntity.ok(addressService.saveAddress(user, addressDTO));
     }

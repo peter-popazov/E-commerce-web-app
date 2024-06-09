@@ -8,6 +8,8 @@ import { sendDetailsToServer } from "../utils/sendDataToServer";
 import { CartContext } from "../components/providers/CartProvider";
 import CartInfoCheckout from "../components/CartInfoCheckout";
 import { useAuth } from "../components/providers/AuthContext";
+import axios from "axios";
+import { API_BASE_URL } from "../constants/constants";
 
 const loginFormInputs = [
   {
@@ -69,7 +71,33 @@ function CheckoutPage({ productsServer }) {
     handleSubmitClick();
   });
 
-  // send delivery data, after success -> send cart items
+  const sendDetailsToServer = async (
+    payload,
+    onSuccess,
+    setErrors,
+    url,
+    token
+  ) => {
+    try {
+      const response = await axios.post(url, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      onSuccess();
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        setErrors(error.response.data.errors || ["An unknown error occurred"]);
+      } else {
+        setErrors(["An error occurred while communicating with the server"]);
+      }
+      console.error("Error:", error);
+    }
+  };
+
   let addressId;
   const handleSubmitClick = async () => {
     const payload = {
@@ -82,21 +110,25 @@ function CheckoutPage({ productsServer }) {
     };
 
     try {
-      addressId = await sendDetailsToServer(
+      const response = await sendDetailsToServer(
         payload,
         () => {},
         setErrors,
-        "/delivery",
+        `${API_BASE_URL}/delivery`,
         token
       );
+
+      if (response && response.id) {
+        addressId = response.id;
+        await successfullCheckOut();
+      } else {
+        setErrors(["Failed to retrieve address ID from the server"]);
+      }
     } catch (error) {
       console.error("Error during server communication:", error);
     }
-
-    successfullCheckOut();
   };
 
-  // send cart items
   const successfullCheckOut = async () => {
     const payload = cartItems.map((item) => ({
       productId: item.id,
@@ -111,7 +143,7 @@ function CheckoutPage({ productsServer }) {
           clearCart();
         },
         setErrors,
-        `/order/${addressId}`,
+        `${API_BASE_URL}/order/${addressId}`,
         token
       );
     } catch (error) {

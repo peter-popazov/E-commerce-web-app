@@ -22,7 +22,7 @@ public class AddressService {
     }
 
     @Transactional
-    public Long saveAddress(AppUser user, AddressDTO addressDTO) {
+    public AddressResponse saveAddress(AppUser user, AddressDTO addressDTO) {
 
         user.setFirstName(addressDTO.getFirstName());
         user.setLastName(addressDTO.getLastName());
@@ -36,7 +36,9 @@ public class AddressService {
                 .appUser(user)
                 .build();
 
-        return addressRepository.save(address).getId();
+        return AddressResponse.builder()
+                .id(addressRepository.save(address).getId())
+                .build();
     }
 
     @Transactional
