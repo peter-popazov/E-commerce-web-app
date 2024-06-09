@@ -67,7 +67,7 @@ function RegisterForm() {
 }
 
 function Form() {
-  const { login, setToken } = useAuth();
+  const { login } = useAuth();
   const navigateTo = useNavigate();
   const [errors, setErrors] = useState("");
 
@@ -96,7 +96,7 @@ function Form() {
       const tokenRecived = response.data.access_token;
 
       if (response.status === 200 && tokenRecived) {
-        setToken(tokenRecived);
+        localStorage.setItem("token", tokenRecived);
         login();
         navigateTo("/");
       } else {

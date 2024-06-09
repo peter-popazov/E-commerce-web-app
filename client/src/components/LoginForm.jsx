@@ -48,7 +48,7 @@ function LoginForm() {
 }
 
 function Form() {
-  const { login, setToken } = useAuth();
+  const { login } = useAuth();
   const [errors, setErrors] = useState("");
   const navigateTo = useNavigate();
 
@@ -70,10 +70,10 @@ function Form() {
 
     try {
       const response = await axios.post(`${API_BASE_URL}/login`, payload);
-      const tokenRecived = response.data.access_token;
+      const tokenReceived = response.data.access_token;
 
-      if (response.status === 200 && tokenRecived) {
-        setToken(tokenRecived);
+      if (response.status === 200 && tokenReceived) {
+        localStorage.setItem("token", tokenReceived);
         login();
         navigateTo("/");
       } else {
