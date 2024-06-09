@@ -61,7 +61,7 @@ function Form() {
     password: "",
   });
 
-  const handleSubmitClick = () => {
+  const handleSubmitClick = async () => {
     const payload = {
       username: loginData.username,
       password: loginData.password,
@@ -72,15 +72,18 @@ function Form() {
       login(true);
     };
 
-    const token = authSendDetailsToServer(
-      payload,
-      redirectBack,
-      setErrors,
-      "/login"
-    );
-    setToken(token);
+    try {
+      const token = await authSendDetailsToServer(
+        payload,
+        redirectBack,
+        setErrors,
+        "/login"
+      );
+      setToken(token); 
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
   };
-
   return (
     <>
       {errors && (

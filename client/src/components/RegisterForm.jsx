@@ -82,7 +82,7 @@ function Form() {
     confirmPassword: "",
   });
 
-  const handleSubmitClick = () => {
+  const handleSubmitClick = async () => {
     const payload = {
       email: registerData.userEmailRegister,
       username: registerData.username,
@@ -95,14 +95,17 @@ function Form() {
       login(true);
     };
 
-    const token = authSendDetailsToServer(
-      payload,
-      redirectToHome,
-      setErrors,
-      "/register"
-    );
-
-    setToken(token);
+    try {
+      const token = await authSendDetailsToServer(
+        payload,
+        redirectToHome,
+        setErrors,
+        "/register"
+      );
+      setToken(token); // Set the token after it has been resolved
+    } catch (error) {
+      console.error("Error during registration:", error);
+    }
   };
 
   return (
