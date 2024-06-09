@@ -33,7 +33,6 @@ public class WebSecurityConfig {
                                     "/categories",
                                     "/inventory",
                                     "/inventory/**",
-                                    "/staff/register",
                                     "/cta")
                             .permitAll()
                             .anyRequest()
