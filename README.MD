@@ -17,6 +17,7 @@
 - [ER-diagram](#er-diagram)
 - [Endpoints](#endpoints)
 - [Technologies Used](#technologies-used)
+- [Journaling using AOP](#journaling-using-aop)
 
 ## Overview
 An e-commerce web application was developed. Users can register and login (data validation is implemented). A clear and user-friendly interface is offered. Functionality for adding products to the cart, removing, increasing and decreasing their quantity, cleaning the cart has been developed on the client side. Users can enter shipping data, and in case of successful validation, the user receives a confirmation letter with the contents of the order. On the server side, all the necessary endpoints for the web application to work correctly have been implemented (some endpoints do not require auth). A service for sending letters has been developed. A global error handler is provided. Logging for system audit has been introduced.
@@ -124,3 +125,6 @@ Integration with Gmail SMTP for sending activation emails and order confirmation
 
 ## ER-diagram
 ![ER-diagram](screenshots/er.png)
+
+## Journaling using AOP
+![journaling.png](screenshots/journaling.png)
