@@ -1,11 +1,9 @@
 package com.ecommerce.app.config;
 
 import com.ecommerce.app.user.AppUserRepository;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.lang.NonNullApi;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -57,7 +55,9 @@ public class ApplicationConfig {
                                 "https://e-commerce-webapp-five.vercel.app",
                                 "https://e-commerce-webapp-git-master-peters-projects-162e5e2c.vercel.app",
                                 "https://e-commerce-webapp-2dvvjg7v0-peters-projects-162e5e2c.vercel.app",
-                                "https://e-commerce-api-production-691a.up.railway.app")
+                                "https://e-commerce-api-production-691a.up.railway.app"
+//                                "http://localhost:5173"
+                        )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
                         .allowCredentials(true).maxAge(3600);
             }

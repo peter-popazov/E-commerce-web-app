@@ -96,7 +96,7 @@ const cardsDataRow2 = [
 
 function Cards() {
   return (
-    <main className="py-8">
+    <main className="my-12">
       <div className="container px-4">
         <CardRow cardData={cardsDataRow1} />
         <CardRow cardData={cardsDataRow2} />
@@ -107,7 +107,7 @@ function Cards() {
 
 function CardRow({ cardData }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 pb-8">
+    <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8 mb-8">
       {cardData.map((data, i) => (
         <Card key={i} data={data} />
       ))}
@@ -125,8 +125,8 @@ function Card({ data }) {
         <p className={`mb-[2px] text-${data.styling.headingTextColor}`}>
           {data.heading}
         </p>
-        <p className="text-2xl font-semibold mb-[2px] z-0">{data.subHeading}</p>
-        <p className="text-4xl xl:text-5xl font-bold opacity-30 mb-2">
+        <p className="text-xl xl:text-2xl font-semibold mb-[2px] z-0">{data.subHeading}</p>
+        <p className="text-3xl xl:text-5xl font-bold opacity-30 mb-2">
           {data.product}
         </p>
         <Link to={"/products"}>

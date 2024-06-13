@@ -14,14 +14,15 @@ import CheckoutPage from "./pages/CheckoutPage.jsx";
 import PaymentPage from "./pages/PaymentPage.jsx";
 
 import AuthProvider from "./components/providers/AuthContext.jsx";
-import SearchProvider from "./components/providers/SearchProvider.jsx";
 import { CartProvider } from "./components/providers/CartProvider.jsx";
 import noAuthDataFromServer from "./utils/noAuthDataFromServer.js";
 
 export function App() {
   const [productsServer, setProductsServer] = useState([]);
   const [categoriesServer, setCategoriesServer] = useState([]);
-  
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // get data from server
   useEffect(() => {
     const fetchData = async () => {
       const data = await noAuthDataFromServer("/products");
@@ -30,6 +31,7 @@ export function App() {
     fetchData();
   }, []);
 
+  // extract categories
   useEffect(() => {
     setCategoriesServer(
       Array.from(
@@ -45,6 +47,8 @@ export function App() {
       path: "/",
       element: React.createElement(MainLayout, {
         categoriesServer,
+        searchQuery,
+        setSearchQuery,
       }),
       children: [
         {
@@ -65,6 +69,7 @@ export function App() {
             productsServer,
             categoriesServer,
             setProductsServer,
+            searchQuery,
           }),
         },
         {
@@ -99,9 +104,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <CartProvider>
       <AuthProvider>
-        <SearchProvider>
-          <App />
-        </SearchProvider>
+        <App />
       </AuthProvider>
     </CartProvider>
   </React.StrictMode>

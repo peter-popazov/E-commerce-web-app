@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 import { useForm, FormProvider } from "react-hook-form";
 import Input from "./shared/Input";
 import Button from "./shared/Button";
-import { useAuth } from "./providers/AuthContext";
+import { AuthContext } from "./providers/AuthContext";
 import axios from "axios";
 import { API_BASE_URL } from "../constants/constants";
 
@@ -67,7 +67,7 @@ function RegisterForm() {
 }
 
 function Form() {
-  const { login } = useAuth();
+  const { login } = useContext(AuthContext);
   const navigateTo = useNavigate();
   const [errors, setErrors] = useState("");
 

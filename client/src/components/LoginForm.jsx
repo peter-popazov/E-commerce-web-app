@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, FormProvider } from "react-hook-form";
 import { IoMdClose } from "react-icons/io";
-import { useAuth } from "./providers/AuthContext";
+import { AuthContext } from "./providers/AuthContext";
 import Input from "./shared/Input";
 import Button from "./shared/Button";
 import axios from "axios";
@@ -48,7 +48,7 @@ function LoginForm() {
 }
 
 function Form() {
-  const { login } = useAuth();
+  const { login } = useContext(AuthContext);
   const [errors, setErrors] = useState("");
   const navigateTo = useNavigate();
 

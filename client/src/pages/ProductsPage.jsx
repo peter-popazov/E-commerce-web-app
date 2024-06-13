@@ -1,13 +1,16 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-undef */
-import { useState, useContext } from "react";
+import { useState } from "react";
 import SideBar from "../components/SideBar/SideBar";
 import Card from "../components/Card";
 import Recommended from "../components/Recommended";
-import { SearchContext } from "../components/providers/SearchProvider";
 
-function ProductsPage({ productsServer, categoriesServer, setProductsServer }) {
-  const { searchQuery } = useContext(SearchContext);
+function ProductsPage({
+  productsServer,
+  categoriesServer,
+  setProductsServer,
+  searchQuery,
+}) {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedPrices, setSelectedPrices] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState("");
@@ -128,7 +131,15 @@ function ProductsPage({ productsServer, categoriesServer, setProductsServer }) {
         <div className="items-center md:items-start h-full flex flex-col gap-2">
           <Recommended onButtonClick={handleClickButton} brands={brands} />
           <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 justify-center gap-10 md:gap-4 lg:gap-10 dark:bg-gray-900">
-            {result}
+            {result.length > 0 ? (
+              result
+            ) : (
+              <div className="flex justify-center items-center h-full w-full">
+                <p className="w-inherit m-2 text-center text-gray-700">
+                  No products found.
+                </p>
+              </div>
+            )}
           </section>
         </div>
       </div>

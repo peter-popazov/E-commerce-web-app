@@ -8,25 +8,21 @@ import { FaSearch, FaUser, FaCaretDown, FaShoppingCart } from "react-icons/fa";
 import { BsSuitHeartFill } from "react-icons/bs";
 
 import { CartContext } from "../components/providers/CartProvider";
-import { SearchContext } from "./providers/SearchProvider";
-import { useAuth } from "./providers/AuthContext";
+import { AuthContext } from "./providers/AuthContext";
 
-function HeaderBottom({ categoriesServer }) {
+function HeaderBottom({ categoriesServer, searchQuery, onQueryChange }) {
   const [show, setShow] = useState(false);
   const [showUser, setShowUser] = useState(false);
 
-  const { isLoggedIn, logout } = useAuth();
-
+  const { isLoggedIn, logout } = useContext(AuthContext);
   const { cartItems } = useContext(CartContext);
 
-  const { searchQuery, setSearchQuery } = useContext(SearchContext);
-
   const handleSearch = (e) => {
-    setSearchQuery(e.target.value);
+    onQueryChange(e.target.value);
   };
 
   return (
-    <div className="w-full bg-gray-200 dark:bg-gray-800 relative mb-10">
+    <div className="w-full bg-gray-200 dark:bg-gray-800 relative mb-12">
       <div className="max-w-container mx-auto">
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between w-full px-4 pb-4 lg:pb-0 h-full lg:h-24">
           <div
@@ -41,7 +37,7 @@ function HeaderBottom({ categoriesServer }) {
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5 }}
-                className="absolute top-36 z-100 bg-primeColor w-auto text-gray-80 h-auto p-4 pb-6 bg-white z-[9999] dark:bg-gray-900 dark:text-gray-300"
+                className="absolute top-36 z-100 bg-primeColor w-auto text-gray-80 h-auto p-4 pb-6 bg-white z-[10] dark:bg-gray-900 dark:text-gray-300"
               >
                 <ul>
                   {categoriesServer.map((category) => (
@@ -51,11 +47,11 @@ function HeaderBottom({ categoriesServer }) {
               </motion.ul>
             )}
           </div>
-          <div className="relative z-[9999] w-full lg:w-[600px] h-[50px] text-base text-primeColor bg-white dark:bg-gray-600 flex items-center gap-2 justify-between px-6 rounded-xl">
+          <div className="relative z-[10] w-full lg:w-[600px] h-[50px] text-base text-primeColor bg-white dark:bg-gray-600 flex items-center gap-2 justify-between px-6 rounded-xl">
             <Link to="/products">
               <input
                 id="query"
-                className="flex-1 lg:w-96 md:w-64 w-38 h-full outline-none placeholder:text-[#C4C4C4] dark:text-gray-200 dark:bg-gray-600 placeholder:text-[14px]"
+                className="flex-1 lg:w-[450px] md:w-[600px] w-[200px] h-full outline-none placeholder:text-[#C4C4C4] dark:text-gray-200 dark:bg-gray-600 placeholder:text-[14px]"
                 type="text"
                 onChange={handleSearch}
                 value={searchQuery}
@@ -76,7 +72,7 @@ function HeaderBottom({ categoriesServer }) {
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5 }}
-                className="absolute top-6 left-0 z-50 bg-primeColor w-44 text-gray-800 h-auto p-4 pb-6"
+                className="absolute top-2 sm:top-10 left-0 z-50 w-44 text-gray-800 h-auto p-4 pb-6"
               >
                 {!isLoggedIn ? (
                   <>

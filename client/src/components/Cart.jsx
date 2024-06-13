@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
+import { useContext } from "react";
 import ItemCart from "../components/ItemCart";
 import { Link } from "react-router-dom";
 import Button from "../components/shared/Button";
 import { useState, useEffect } from "react";
-import { useAuth } from "./providers/AuthContext";
+import { AuthContext } from "./providers/AuthContext";
 
 function Cart({
   cartItemDetails,
@@ -12,7 +13,7 @@ function Cart({
   setProductsServer,
   productsServer,
 }) {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn } = useContext(AuthContext);
   const [totalAmount, setTotalAmount] = useState(0);
   const [shippingCharge, setShippingCharge] = useState(0);
 

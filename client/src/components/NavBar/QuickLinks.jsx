@@ -2,7 +2,7 @@
 import { FaCaretDown } from "react-icons/fa";
 import { quickLinks } from "../../constants/links";
 
-export function DropDownMenu() {
+export function QuickLinks() {
   return (
     <li className="relative cursor-pointer group">
       <a
@@ -18,7 +18,7 @@ export function DropDownMenu() {
         className="absolute z-[9999] hidden group-hover:block w-[200px] 
       rounded-md bg-white shadow-md dark:bg-gray-900 p-2 dark:text-white "
       >
-        <ul className="space-y-2">
+        <ul className="space-y-2 z-[9999]">
           {quickLinks.map((data, i) => (
             <DropDownMenuLinks data={data} key={i} />
           ))}
@@ -33,7 +33,7 @@ function DropDownMenuLinks({ data }) {
     <li>
       <a
         className="text-gray-500 hover:text-black dark:hover:text-white transition-all 
-        duration-200 p-2 inline-block w-full hover:bg-primary/20"
+        duration-200 p-2 inline-block w-full hover:bg-primary/20 z-[9999]"
         href={data.link}
       >
         {data.name}
@@ -42,4 +42,4 @@ function DropDownMenuLinks({ data }) {
   );
 }
 
-export default DropDownMenu;
+export default QuickLinks;

@@ -47,7 +47,7 @@ const loginFormInputs = [
     placeholder: "Required",
   },
 ];
-
+ 
 function CheckoutPage({ productsServer }) {
   const { cartItems, clearCart } = useContext(CartContext);
   const navigateTo = useNavigate();

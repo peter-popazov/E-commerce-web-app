@@ -17,7 +17,7 @@ export function CartProvider({ children }) {
     if (product.inventory.quantity <= 0) {
       return;
     }
-    
+
     if (productIndex !== -1) {
       const updatedProductsServer = [...productsServer];
       updatedProductsServer[productIndex] = {

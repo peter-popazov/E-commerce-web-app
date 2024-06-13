@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import DarkMode from "./DarkMode";
-import DropDownMenu from "./DropDownMenu";
+import QuickLinks from "./QuickLinks";
 import { links } from "../../constants/links";
 import Logo from "../shared/Logo";
 
@@ -20,7 +20,7 @@ function Navbar() {
                 {links.map((data, i) => (
                   <NavLink key={i} info={data} />
                 ))}
-                <DropDownMenu />
+                <QuickLinks />
               </ul>
             </nav>
           </div>

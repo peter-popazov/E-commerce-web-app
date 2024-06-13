@@ -93,7 +93,7 @@ function Slide({ product }) {
             src={product.img}
             alt=""
             className="w-[300px] sm:w-[300px] h-[300px] sm:h-[450px] children
-            sm:scale-105 lg:scale-110 object-contain mx-auto 
+            sm:scale-105 lg:scale-110 object-contain mx-auto pt-6
             drop-shadow-[-8px_4px_6px_rgba(0,0,0,0.4)] relative z-40"
           />
         </div>
