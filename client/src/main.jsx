@@ -15,7 +15,9 @@ import PaymentPage from "./pages/PaymentPage.jsx";
 
 import AuthProvider from "./components/providers/AuthContext.jsx";
 import { CartProvider } from "./components/providers/CartProvider.jsx";
+import { FavoriteProvider } from "./components/providers/FavouriteProvider.jsx";
 import noAuthDataFromServer from "./utils/noAuthDataFromServer.js";
+import FavouritePage from "./pages/FavouritePage.jsx";
 
 export function App() {
   const [productsServer, setProductsServer] = useState([]);
@@ -71,8 +73,8 @@ export function App() {
           path: "/products",
           element: React.createElement(ProductsPage, {
             productsServer,
-            categoriesServer,
             setProductsServer,
+            categoriesServer,
             searchQuery,
           }),
         },
@@ -94,6 +96,13 @@ export function App() {
           path: "/payment",
           element: React.createElement(PaymentPage, {}),
         },
+        {
+          path: "/wishlist",
+          element: React.createElement(FavouritePage, {
+            productsServer,
+            setProductsServer,
+          }),
+        },
       ],
     },
     {
@@ -109,7 +118,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <CartProvider>
       <AuthProvider>
-        <App />
+        <FavoriteProvider>
+          <App />
+        </FavoriteProvider>
       </AuthProvider>
     </CartProvider>
   </React.StrictMode>

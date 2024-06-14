@@ -1,8 +1,10 @@
 /* eslint-disable react/prop-types */
-import { AiFillStar } from "react-icons/ai";
-import { Link } from "react-router-dom";
 import { useContext } from "react";
+import { Link } from "react-router-dom";
+import { IoMdHeart } from "react-icons/io";
+import { AiFillStar } from "react-icons/ai";
 import { CartContext } from "./providers/CartProvider";
+import { FavoriteContext } from "./providers/FavouriteProvider";
 
 function Card({
   id,
@@ -14,6 +16,7 @@ function Card({
   setProductsServer,
 }) {
   const { addToCart } = useContext(CartContext);
+  const { toggleFavs, favItems } = useContext(FavoriteContext);
   const isActive = inventoryQuantity > 0;
 
   return (
@@ -30,9 +33,7 @@ function Card({
         <img
           src={img}
           alt={title}
-          className={`h-full object-cover ${
-            !isActive ? "grayscale" : ""
-          }`}
+          className={`h-full object-cover ${!isActive ? "grayscale" : ""}`}
         />
       </Link>
       <div className="flex flex-col flex-grow p-5">
@@ -41,7 +42,7 @@ function Card({
             {title}
           </h5>
         </Link>
-        <div className="flex items-center mt-2.5 mb-5">
+        <div className="flex items-center justify-between mt-2.5 mb-5">
           <div className="flex items-center space-x-1 rtl:space-x-reverse">
             {[...Array(5)].map((_, index) => (
               <AiFillStar key={index} className="text-yellow-400" />
@@ -50,9 +51,17 @@ function Card({
               Q:{inventoryQuantity}
             </span>
           </div>
+          <IoMdHeart
+            className={`text-xl duration-200 ${
+              favItems.includes(id)
+                ? "text-primary"
+                : "text-gray-800 hover:text-primary"
+            }`}
+            onClick={() => toggleFavs(id)}
+          />
         </div>
         <div className="flex items-center justify-between mt-auto">
-          <span className="text-3xl font-bold text-gray-900 dark:text-white">
+          <span className="text-3xl font-bold text-gray-800 dark:text-white">
             ${price}
           </span>
           <button
@@ -64,7 +73,6 @@ function Card({
         </div>
       </div>
     </div>
-    // </div>
   );
 }
 

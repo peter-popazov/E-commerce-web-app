@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useContext } from "react";
 import Cart from "../components/Cart";
-import EmptyCart from "../components/EmptyCart";
+import Warn from "../components/Warn";
 import { CartContext } from "../components/providers/CartProvider";
 
 function CartPage({ productsServer, setProductsServer }) {
@@ -21,7 +21,7 @@ function CartPage({ productsServer, setProductsServer }) {
           setProductsServer={setProductsServer}
         />
       ) : (
-        <EmptyCart />
+        <Warn>You do not have any items in your cart yet!</Warn>
       )}
     </div>
   );

@@ -9,6 +9,7 @@ import { BsSuitHeartFill } from "react-icons/bs";
 
 import { CartContext } from "../components/providers/CartProvider";
 import { AuthContext } from "./providers/AuthContext";
+import { FavoriteContext } from "./providers/FavouriteProvider";
 
 function HeaderBottom({ categoriesServer, searchQuery, onQueryChange }) {
   const [show, setShow] = useState(false);
@@ -16,6 +17,7 @@ function HeaderBottom({ categoriesServer, searchQuery, onQueryChange }) {
 
   const { isLoggedIn, logout } = useContext(AuthContext);
   const { cartItems } = useContext(CartContext);
+  const { favItems } = useContext(FavoriteContext);
 
   const handleSearch = (e) => {
     onQueryChange(e.target.value);
@@ -60,12 +62,18 @@ function HeaderBottom({ categoriesServer, searchQuery, onQueryChange }) {
             </Link>
             <FaSearch className="w-5 h-5 dark:text-gray-200" />
           </div>
-          <div className="flex gap-4 mt-4 lg:mt-0 items-center pr-6 cursor-pointer relative dark:text-gray-200">
+          <div className="flex gap-4 mt-4 lg:mt-0 items-center pr-6 cursor-pointer relative dark:text-gray-200 text-gray-800">
             <div onClick={() => setShowUser(!showUser)} className="flex">
               <FaUser />
               <FaCaretDown />
             </div>
-            <BsSuitHeartFill className="mr-1.5" />
+            <Link to="/wishlist">
+              <BsSuitHeartFill
+                className={`mr-1.5 ${
+                  favItems.length > 0 ? "text-primary" : ""
+                }`}
+              />
+            </Link>
             <CartIcon cartItems={cartItems} />
             {showUser && (
               <motion.ul
