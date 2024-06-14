@@ -33,5 +33,4 @@ build/
 .vscode/
 
 # Docker
-docker-compose.yml
-Dockerfile
+docker
