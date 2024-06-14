@@ -33,7 +33,9 @@ public class WebSecurityConfig {
                                     "/categories",
                                     "/inventory",
                                     "/inventory/**",
-                                    "/cta")
+                                    "/cta"
+//                                    "/staff/register"
+                            )
                             .permitAll()
                             .anyRequest()
                             .authenticated();

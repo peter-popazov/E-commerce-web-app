@@ -6,8 +6,8 @@ import { useForm, FormProvider } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../components/providers/CartProvider";
 import CartInfoCheckout from "../components/CartInfoCheckout";
-import axios from "axios";
-import { API_BASE_URL } from "../constants/constants";
+import { authRequest } from "../utils/authRequest";
+import { AuthContext } from "../components/providers/AuthContext";
 
 const loginFormInputs = [
   {
@@ -47,14 +47,15 @@ const loginFormInputs = [
     placeholder: "Required",
   },
 ];
- 
-function CheckoutPage({ productsServer }) {
+
+function CheckoutPage({ productsServer, setProductsServer }) {
   const { cartItems, clearCart } = useContext(CartContext);
+  const { token } = useContext(AuthContext);
+
   const navigateTo = useNavigate();
   const methods = useForm();
 
   const [errors, setErrors] = useState("");
-
   const [deliveryData, setDeliveryData] = useState({
     firstName: "",
     lastName: "",
@@ -68,33 +69,7 @@ function CheckoutPage({ productsServer }) {
     handleSubmitClick();
   });
 
-  const sendDetailsToServer = async (payload, onSuccess, setErrors, url) => {
-    try {
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        throw new Error("Token not found in local storage");
-      }
-
-      const response = await axios.post(url, payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      onSuccess();
-      return response.data;
-    } catch (error) {
-      if (error.response) {
-        setErrors(error.response.data.errors || ["An unknown error occurred"]);
-      } else {
-        setErrors(["An error occurred while communicating with the server"]);
-      }
-      console.error("Error:", error);
-    }
-  };
-
+  // submit address data and get address ID
   let addressId;
   const handleSubmitClick = async () => {
     const payload = {
@@ -107,11 +82,12 @@ function CheckoutPage({ productsServer }) {
     };
 
     try {
-      const response = await sendDetailsToServer(
+      const response = await authRequest(
+        "/delivery",
         payload,
         () => {},
         setErrors,
-        `${API_BASE_URL}/delivery`
+        token
       );
 
       if (response && response.id) {
@@ -125,6 +101,7 @@ function CheckoutPage({ productsServer }) {
     }
   };
 
+  // submit order with address ID
   const successfullCheckOut = async () => {
     const payload = cartItems.map((item) => ({
       productId: item.id,
@@ -132,14 +109,15 @@ function CheckoutPage({ productsServer }) {
     }));
 
     try {
-      await sendDetailsToServer(
+      await authRequest(
+        `/order/${addressId}`,
         payload,
         () => {
           navigateTo("/payment");
-          clearCart();
+          clearCart(productsServer, setProductsServer);
         },
         setErrors,
-        `${API_BASE_URL}/order/${addressId}`
+        token
       );
     } catch (error) {
       console.error("Error during server communication:", error);

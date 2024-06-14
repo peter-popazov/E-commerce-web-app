@@ -5,8 +5,7 @@ import { IoMdClose } from "react-icons/io";
 import { AuthContext } from "./providers/AuthContext";
 import Input from "./shared/Input";
 import Button from "./shared/Button";
-import axios from "axios";
-import { API_BASE_URL } from "../constants/constants";
+import { authenticateUser } from "../utils/authenticateUser";
 
 const loginFormInputs = [
   {
@@ -48,18 +47,20 @@ function LoginForm() {
 }
 
 function Form() {
-  const { login } = useContext(AuthContext);
+  const { login, setToken } = useContext(AuthContext);
+
   const [errors, setErrors] = useState("");
+
+  const [loginData, setLoginData] = useState({
+    username: "",
+    password: "",
+  });
+
   const navigateTo = useNavigate();
 
   const methods = useForm();
   const onSubmit = methods.handleSubmit(() => {
     handleSubmitClick();
-  });
-
-  const [loginData, setLoginData] = useState({
-    username: "",
-    password: "",
   });
 
   const handleSubmitClick = async () => {
@@ -68,25 +69,18 @@ function Form() {
       password: loginData.password,
     };
 
-    try {
-      const response = await axios.post(`${API_BASE_URL}/login`, payload);
-      const tokenReceived = response.data.access_token;
+    const successfullLogin = () => {
+      login();
+      navigateTo("/");
+    };
 
-      if (response.status === 200 && tokenReceived) {
-        localStorage.setItem("token", tokenReceived);
-        login();
-        navigateTo("/");
-      } else {
-        setErrors(["Token is missing from the server response"]);
-      }
-    } catch (error) {
-      if (error.response) {
-        setErrors(error.response.data.errors || ["An unknown error occurred"]);
-      } else {
-        setErrors(["An error occurred while communicating with the server"]);
-      }
-      console.error("Error:", error);
-    }
+    await authenticateUser(
+      payload,
+      successfullLogin,
+      setErrors,
+      "/login",
+      setToken
+    );
   };
 
   return (

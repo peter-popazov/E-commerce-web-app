@@ -27,6 +27,7 @@ public class StaffController {
         this.authService = authService;
     }
 
+    @PreAuthorize("hasRole('STAFF')")
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> registerStaff(@Valid @RequestBody RegistrationBody registrationBody) throws MessagingException {
         registrationBody.setRole("STAFF");

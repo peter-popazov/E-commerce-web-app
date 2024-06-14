@@ -80,6 +80,11 @@ export function CartProvider({ children }) {
   const clearCart = async (productsServer, setProductsServer) => {
     setCartItems([]);
 
+    if (!productsServer) {
+      console.error("productsServer is undefined");
+      return;
+    }
+
     try {
       const inventoryData = await noAuthDataFromServer("/inventory");
 

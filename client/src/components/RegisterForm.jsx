@@ -5,8 +5,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import Input from "./shared/Input";
 import Button from "./shared/Button";
 import { AuthContext } from "./providers/AuthContext";
-import axios from "axios";
-import { API_BASE_URL } from "../constants/constants";
+import { authenticateUser } from "../utils/authenticateUser";
 
 const registerFormInputs = [
   {
@@ -36,10 +35,10 @@ const registerFormInputs = [
 ];
 
 /* eslint-disable react/prop-types */
-function RegisterForm() {
+function RegisterForm({ setShowCheckEmailPopUp }) {
   return (
-    <div>
-      <div className="h-screen w-screen fixed top-0 left-0 bg-black/50 z-[9999] backdrop-blur-md">
+    <>
+      <div className="h-screen w-screen fixed top-0 left-0 bg-black/50 z-[8000] backdrop-blur-md">
         <div
           className="md:w-[600px] w-[350px] fixed top-1/2 -translate-x-1/2 -translate-y-1/2 left-1/2 py-10 px-8 shadow-md bg-white
         dark:bg-gray-900 dark:text-white duration-300 rounded-lg"
@@ -59,15 +58,15 @@ function RegisterForm() {
               </Link>
             </div>
           </div>
-          <Form />
+          <Form setShowCheckEmailPopUp={setShowCheckEmailPopUp} />
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
-function Form() {
-  const { login } = useContext(AuthContext);
+function Form({ setShowCheckEmailPopUp }) {
+  const { login, setToken } = useContext(AuthContext);
   const navigateTo = useNavigate();
   const [errors, setErrors] = useState("");
 
@@ -91,25 +90,19 @@ function Form() {
       confirmPassword: registerData.confirmPassword,
     };
 
-    try {
-      const response = await axios.post(`${API_BASE_URL}/register`, payload);
-      const tokenRecived = response.data.access_token;
+    const successfullRegister = () => {
+      setShowCheckEmailPopUp(true);
+      login();
+      navigateTo("/");
+    };
 
-      if (response.status === 200 && tokenRecived) {
-        localStorage.setItem("token", tokenRecived);
-        login();
-        navigateTo("/");
-      } else {
-        setErrors(["Token is missing from the server response"]);
-      }
-    } catch (error) {
-      if (error.response) {
-        setErrors(error.response.data.errors || ["An unknown error occurred"]);
-      } else {
-        setErrors(["An error occurred while communicating with the server"]);
-      }
-      console.error("Error:", error);
-    }
+    await authenticateUser(
+      payload,
+      successfullRegister,
+      setErrors,
+      "/register",
+      setToken
+    );
   };
 
   return (

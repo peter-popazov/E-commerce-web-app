@@ -21,6 +21,7 @@ export function App() {
   const [productsServer, setProductsServer] = useState([]);
   const [categoriesServer, setCategoriesServer] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [showCheckEmailPopUp, setShowCheckEmailPopUp] = useState(false);
 
   // get data from server
   useEffect(() => {
@@ -49,6 +50,7 @@ export function App() {
         categoriesServer,
         searchQuery,
         setSearchQuery,
+        showCheckEmailPopUp,
       }),
       children: [
         {
@@ -61,7 +63,9 @@ export function App() {
         },
         {
           path: "/register",
-          element: <RegisterForm />,
+          element: React.createElement(RegisterForm, {
+            setShowCheckEmailPopUp,
+          }),
         },
         {
           path: "/products",
@@ -83,6 +87,7 @@ export function App() {
           path: "/checkout",
           element: React.createElement(CheckoutPage, {
             productsServer,
+            setProductsServer,
           }),
         },
         {
