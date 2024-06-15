@@ -1,7 +1,7 @@
 package com.ecommerce.app.staff;
 
 import com.ecommerce.app.auth.AuthService;
-import com.ecommerce.app.auth.dto.RegisterResponse;
+import com.ecommerce.app.auth.dto.AuthResponse;
 import com.ecommerce.app.auth.dto.RegistrationBody;
 import com.ecommerce.app.logging.LoggingController;
 import com.ecommerce.app.product.Product;
@@ -29,7 +29,7 @@ public class StaffController {
 
     @PreAuthorize("hasRole('STAFF')")
     @PostMapping("/register")
-    public ResponseEntity<RegisterResponse> registerStaff(@Valid @RequestBody RegistrationBody registrationBody) throws MessagingException {
+    public ResponseEntity<AuthResponse> registerStaff(@Valid @RequestBody RegistrationBody registrationBody) throws MessagingException {
         registrationBody.setRole("STAFF");
         return ResponseEntity.ok(authService.register(registrationBody));
     }

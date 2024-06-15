@@ -33,7 +33,8 @@ public class WebSecurityConfig {
                                     "/categories",
                                     "/inventory",
                                     "/inventory/**",
-                                    "/cta"
+                                    "/cta",
+                                    "/refresh-token"
 //                                    "/staff/register"
                             )
                             .permitAll()

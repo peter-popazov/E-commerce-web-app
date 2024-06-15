@@ -12,15 +12,21 @@ import com.ecommerce.app.user.utils.Role;
 import com.ecommerce.app.user.utils.RoleRepository;
 import com.ecommerce.app.user.utils.Token;
 import com.ecommerce.app.user.utils.TokenRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -37,6 +43,7 @@ public class AuthService {
     private final RoleRepository roleRepository;
     private final TokenRepository tokenRepository;
     private final EmailService emailService;
+    private final UserDetailsService userDetailsService;
 
     @Value("${mailing.url}")
     private String activationUrl;
@@ -44,7 +51,7 @@ public class AuthService {
     @Value("${activation-code-length}")
     private int activationCodeLength;
 
-    public RegisterResponse register(RegistrationBody registrationBody) throws MessagingException {
+    public AuthResponse register(RegistrationBody registrationBody) throws MessagingException {
 
         if (!registrationBody.getPassword().equals(registrationBody.getConfirmPassword())) {
             throw new RuntimeException("Passwords do not match");
@@ -68,7 +75,12 @@ public class AuthService {
         sendValidationEmail(appUser);
 
         var jwtToken = jwtService.generateToken(appUser);
-        return RegisterResponse.builder().accessToken(jwtToken).build();
+        var refreshToken = jwtService.generateRefreshToken(appUser);
+        return AuthResponse
+                .builder()
+                .accessToken(jwtToken)
+                .refreshToken(refreshToken)
+                .build();
     }
 
     private void sendValidationEmail(AppUser appUser) throws MessagingException {
@@ -111,7 +123,7 @@ public class AuthService {
         return activationCode.toString();
     }
 
-    public LoginResponse authenticate(LoginBody loginBody) {
+    public AuthResponse authenticate(LoginBody loginBody) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginBody.getUsername(),
@@ -126,9 +138,10 @@ public class AuthService {
         claims.put("username", user.getUsername());
 
         var jwtToken = jwtService.generateToken(claims, user);
-//        var refreshToken = jwtService.generateRefreshToken(user);
-        return LoginResponse.builder()
+        var refreshToken = jwtService.generateRefreshToken(user);
+        return AuthResponse.builder()
                 .accessToken(jwtToken)
+                .refreshToken(refreshToken)
                 .build();
     }
 
@@ -164,5 +177,31 @@ public class AuthService {
         appUserRepository.save(user);
 
         sendValidationEmail(user);
+    }
+
+    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        final String authHeader = request.getHeader("Authorization");
+        final String refreshToken;
+        final String username;
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return;
+        }
+
+        refreshToken = authHeader.substring(7);
+        username = jwtService.getUsername(refreshToken);
+        if (username != null) {
+            UserDetails user = this.userDetailsService.loadUserByUsername(username);
+            if (jwtService.isTokenValid(refreshToken, user)) {
+                var accessToken =  jwtService.generateToken(user);
+                var authResponse = AuthResponse
+                        .builder()
+                        .accessToken(accessToken)
+                        .refreshToken(refreshToken)
+                        .build();
+
+                new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
+            }
+        }
     }
 }

@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Value;
 
 @Data
 @Builder
-public class RegisterResponse {
+public class AuthResponse {
 
     @JsonProperty("access_token")
     private String accessToken;
+
+    @JsonProperty("refresh_token")
+    private String refreshToken;
 
 }

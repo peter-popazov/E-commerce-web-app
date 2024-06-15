@@ -1,6 +1,5 @@
 package com.ecommerce.app.address;
 
-import com.ecommerce.app.logging.LoggingController;
 import com.ecommerce.app.user.AppUser;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
