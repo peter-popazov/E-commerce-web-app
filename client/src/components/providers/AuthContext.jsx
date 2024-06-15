@@ -6,6 +6,7 @@ export const AuthContext = createContext(null);
 function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState("");
+  const [refreshToken, setRefreshToken] = useState("");
 
   const login = () => {
     setIsLoggedIn(true);
@@ -15,6 +16,10 @@ function AuthProvider({ children }) {
     setToken(token);
   }, [token]);
 
+  useEffect(() => {
+    setRefreshToken(refreshToken);
+  }, [refreshToken]);
+
   const logout = () => {
     setToken("");
     setIsLoggedIn(false);
@@ -22,7 +27,15 @@ function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, login, logout, token, setToken }}
+      value={{
+        isLoggedIn,
+        login,
+        logout,
+        token,
+        setToken,
+        refreshToken,
+        setRefreshToken,
+      }}
     >
       {children}
     </AuthContext.Provider>

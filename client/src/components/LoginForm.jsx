@@ -47,7 +47,7 @@ function LoginForm() {
 }
 
 function Form() {
-  const { login, setToken } = useContext(AuthContext);
+  const { login, setToken, setRefreshToken } = useContext(AuthContext);
 
   const [errors, setErrors] = useState("");
 
@@ -79,7 +79,8 @@ function Form() {
       successfullLogin,
       setErrors,
       "/login",
-      setToken
+      setToken,
+      setRefreshToken
     );
   };
 

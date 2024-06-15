@@ -50,7 +50,7 @@ const loginFormInputs = [
 
 function CheckoutPage({ productsServer, setProductsServer }) {
   const { cartItems, clearCart } = useContext(CartContext);
-  const { token } = useContext(AuthContext);
+  const { token, setToken, refreshToken } = useContext(AuthContext);
 
   const navigateTo = useNavigate();
   const methods = useForm();
@@ -87,7 +87,9 @@ function CheckoutPage({ productsServer, setProductsServer }) {
         payload,
         () => {},
         setErrors,
-        token
+        token,
+        refreshToken,
+        setToken
       );
 
       if (response && response.id) {
@@ -117,7 +119,9 @@ function CheckoutPage({ productsServer, setProductsServer }) {
           clearCart(productsServer, setProductsServer);
         },
         setErrors,
-        token
+        token,
+        refreshToken,
+        setToken
       );
     } catch (error) {
       console.error("Error during server communication:", error);

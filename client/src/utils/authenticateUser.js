@@ -6,12 +6,14 @@ export const authenticateUser = async (
   redirectToHome,
   setErrors,
   url,
-  setToken
+  setToken,
+  setRefreshToken
 ) => {
   try {
     const response = await axios.post(API_BASE_URL + url, payload);
     if (response.status === 200 && response.data.access_token) {
       setToken(response.data.access_token);
+      setRefreshToken(response.data.refresh_token);
       redirectToHome();
     } else {
       setErrors("No response received from the server");

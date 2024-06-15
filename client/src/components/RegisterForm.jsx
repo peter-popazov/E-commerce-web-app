@@ -66,7 +66,7 @@ function RegisterForm({ setShowCheckEmailPopUp }) {
 }
 
 function Form({ setShowCheckEmailPopUp }) {
-  const { login, setToken } = useContext(AuthContext);
+  const { login, setToken, setRefreshToken } = useContext(AuthContext);
   const navigateTo = useNavigate();
   const [errors, setErrors] = useState("");
 
@@ -101,7 +101,8 @@ function Form({ setShowCheckEmailPopUp }) {
       successfullRegister,
       setErrors,
       "/register",
-      setToken
+      setToken,
+      setRefreshToken
     );
   };
 
