@@ -66,13 +66,13 @@ function CTA() {
 
   return (
     <section className="container px-4 my-24">
-      <div className="text-white grid xl:grid-cols-2 grid-cols-1 justify-between sm:items-center gap-5 md:gap-2 rounded-3xl px-10 py-7 my-12 bg-brandBlue dark:bg-blue-950">
+      <div className="text-white grid xl:grid-cols-2 grid-cols-1 justify-between sm:items-center gap-5 md:gap-2 rounded-3xl sm:px-10 px-7 py-7 my-12 bg-brandBlue dark:bg-blue-950">
         <div>
-          <h3 className="lg:text-4xl text-3xl md:mb-0 mb-0 lg:leading-normal font-bold">
+          <h3 className="lg:text-4xl md:text-3xl text-2xl md:mb-0 mb-0 lg:leading-normal font-bold">
             Unlock exclusive discounts by signing up today and become part of
             our loyal customer community
           </h3>
-          <p className="mt-2 font-semibold">
+          <p className="mt-4 font-semibold">
             Subscribe to our blog and get discount on your first order up to
             <span className="font-semibold"> 20&#37;</span>.
           </p>
@@ -118,7 +118,7 @@ function Form({
 }) {
   return (
     <form
-      className="grid md:grid-cols-2 grid-cols-1 gap-4 p-4"
+      className="grid md:grid-cols-2 grid-cols-1 gap-4"
       onSubmit={handleSubmit}
     >
       <div className="flex flex-col gap-2 dark:text-gray-400">

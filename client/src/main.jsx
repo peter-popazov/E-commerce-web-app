@@ -17,7 +17,7 @@ import AuthProvider from "./components/providers/AuthContext.jsx";
 import { CartProvider } from "./components/providers/CartProvider.jsx";
 import { FavoriteProvider } from "./components/providers/FavouriteProvider.jsx";
 import noAuthDataFromServer from "./utils/noAuthDataFromServer.js";
-import FavouritePage from "./pages/FavouritePage.jsx";
+import WishlistPage from "./pages/WishlistPage.jsx";
 
 export function App() {
   const [productsServer, setProductsServer] = useState([]);
@@ -98,7 +98,7 @@ export function App() {
         },
         {
           path: "/wishlist",
-          element: React.createElement(FavouritePage, {
+          element: React.createElement(WishlistPage, {
             productsServer,
             setProductsServer,
           }),

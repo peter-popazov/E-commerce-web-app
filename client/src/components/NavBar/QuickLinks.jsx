@@ -4,7 +4,7 @@ import { quickLinks } from "../../constants/links";
 
 export function QuickLinks() {
   return (
-    <li className="relative cursor-pointer group">
+    <li className="relative hidden sm:block cursor-pointer group">
       <a
         href="#"
         className="flex items-center gap-[2px] font-semibold text-gray-500 dark:hover:text-white py-2"

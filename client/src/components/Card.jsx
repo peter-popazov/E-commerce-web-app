@@ -5,6 +5,7 @@ import { IoMdHeart } from "react-icons/io";
 import { AiFillStar } from "react-icons/ai";
 import { CartContext } from "./providers/CartProvider";
 import { FavoriteContext } from "./providers/FavouriteProvider";
+import Button from "./shared/Button";
 
 function Card({
   id,
@@ -64,12 +65,16 @@ function Card({
           <span className="text-3xl font-bold text-gray-800 dark:text-white">
             ${price}
           </span>
-          <button
-            className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            onClick={() => addToCart(id, productsServer, setProductsServer)}
+          <Button
+            textColor={"text-white dark:text-gray-600"}
+            bgColor={"bg-brandBlue hover:bg-blue-700"}
+            rounded={"rounded-2xl"}
+            onButtonClick={() =>
+              addToCart(id, productsServer, setProductsServer)
+            }
           >
-            Add to cart
-          </button>
+            Buy
+          </Button>
         </div>
       </div>
     </div>
