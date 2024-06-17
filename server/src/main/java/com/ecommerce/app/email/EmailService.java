@@ -58,7 +58,7 @@ public class EmailService {
         );
 
         Map<String, Object> model = new HashMap<>();
-        model.put(usernameSender, username);
+        model.put("usernameTo", username);
         model.put("orderItems", orderItems);
         model.put("totalPrice", totalPrice);
 
