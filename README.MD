@@ -1,5 +1,6 @@
 # Ecommerce Web Application
 
+**backend deployment stopped** 
 **Live demo version:** https://e-commerce-webapp-five.vercel.app/
 
 ## Table of Contents
