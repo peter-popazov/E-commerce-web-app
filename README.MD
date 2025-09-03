@@ -1,6 +1,6 @@
 # Ecommerce Web Application
 
-**Live demo version:** https://e-commerce-webapp-five.vercel.app/
+**Live demo version UI only:** https://e-commerce-webapp-five.vercel.app/
 
 ## Table of Contents
 - [Overview](#overview)
